@@ -1,2 +1,2 @@
-# multiplication-table
+# multiplication
 multiplication table learning
