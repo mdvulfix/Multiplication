@@ -19,36 +19,53 @@ namespace Framework.Core
         private ControlCamera   controlCamera;
         
         public ControlUpdate    ControlUpdate   {get => this.controlUpdate; set => this.controlUpdate = value;}
-        public ControlScene     ControlScene    {get => this.controlScene; set => this.ControlScene = value;}
-        public ControlInput     ControlInput    {get => this.controlInput; set => this.controlInput = value;}
+        public ControlScene     ControlScene    {get => this.controlScene;  set => this.ControlScene = value;}
+        public ControlInput     ControlInput    {get => this.controlInput;  set => this.controlInput = value;}
         public ControlCamera    ControlCamera   {get => this.controlCamera; set => this.controlCamera = value;}
-        
-        
-        
-        
-        
-        
         
         private void Awake() 
         {
             
+            SetControllers();
+            
             controlScene.OnAwake();
             controlCamera.OnAwake();
+            controlInput.OnAwake();
+            controlUpdate.OnAwake();
 
-
+            LoadMainMenu();
         
         }
 
         private void Update() 
         {
-            ControlUpdate.OnUpdate();
+            
         
         }
 
+#region private
+    
 
+
+        private void SetControllers()
+        {
+
+
+
+
+        }
+
+        private void LoadMainMenu()
+        {
+            var scene = controlScene.ActiveScene;
+            controlScene.EnterScene(scene++);
+
+        }
     
     
     }
+
+#endregion
 
 
 }

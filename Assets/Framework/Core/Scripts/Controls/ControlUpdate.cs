@@ -12,21 +12,18 @@ namespace Framework
         public override void OnAwake() 
         {
             
-            foreach (var instance in cache.Instances)
-            {
-                instance.OnAwake();
-            }
-        
-        
-        
+            
+
         }
 
         public override void OnUpdate() 
         {
+            /*
             foreach (var instance in cache.Instances)
             {
                 instance.OnUpdate();
             }
+            */
         
         }
 

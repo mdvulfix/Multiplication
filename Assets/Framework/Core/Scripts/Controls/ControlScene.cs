@@ -11,9 +11,10 @@ namespace Framework
     {
 
         public List<string> Scenes {get; private set;}  = new List<string>(5);     
+        public int ActiveScene {get; } 
         
         [SerializeField]
-        private int currentSceneid;
+        private int activeScene;
         
         public override void OnAwake() 
         {      
@@ -22,7 +23,7 @@ namespace Framework
             Scenes.Add("RunTime");
             Scenes.Add("Score");
         
-            SetCurrentScene(0);
+            SetActiveScene(0);
         
         }
 
@@ -34,16 +35,19 @@ namespace Framework
 
         public void NextScene()
         {
-            ExitScene(currentSceneid);
-            SetCurrentScene(currentSceneid++);
-            EnterScene(currentSceneid);
+            EnterScene(activeScene);
+            ExitScene(activeScene);
+            SetActiveScene(activeScene++);
+            
         }
 
         public void EnterScene(int sceneId)
         {
             
             SceneManager.LoadSceneAsync(sceneId);
-            SetCurrentScene(sceneId);
+            ExitScene(sceneId);
+            SetActiveScene(sceneId);
+            
         }
 
         public void ExitScene(int sceneId)
@@ -51,9 +55,9 @@ namespace Framework
             SceneManager.UnloadSceneAsync(sceneId);
         }
 
-        public void SetCurrentScene(int sceneId)
+        public void SetActiveScene(int sceneId)
         {
-            this.currentSceneid = sceneId;
+            this.activeScene = sceneId;
 
         }
 
