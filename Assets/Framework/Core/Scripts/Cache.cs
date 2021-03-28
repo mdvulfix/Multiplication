@@ -1,21 +1,27 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Framework.Core
 {
     [Serializable]
-    public class Cache<T> where T: ICacheable
+    public class Cache<T> where T: class, ICacheable
     { 
-        [SerializeField]
-        private List<T> instances;
-        [SerializeField]
-        private int id;
+        public Hashtable Storage {get; private set;}
+    
+        public void Add(T instance)
+        {
+            Storage.Add(typeof(T), instance);
 
-        public List<T> Instances {get => this.instances; set => this.instances = value;}
-    
-    
-    
+        }
+
+        public T Get<H>()
+        {
+            if(Storage.ContainsKey(typeof(T)))
+                return (T)Storage[typeof(T)];
+                
+            return null;
+        }
     
     
     
