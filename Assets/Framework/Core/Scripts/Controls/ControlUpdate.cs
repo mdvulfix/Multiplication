@@ -1,35 +1,32 @@
 using UnityEngine;
-using Framework.Core;
 
-namespace Framework 
+
+namespace Framework.Core
 {
-    [CreateAssetMenu(fileName = "Update(Default)", menuName = "Controls/Update", order = 2)]
-    public class ControlUpdate : AControl
+    /*
+    //[CreateAssetMenu(fileName = "Update(Default)", menuName = "Controls/Update", order = 2)]
+    public class ControlUpdate : Control
     {
 
-        private Cache<ICacheable> cache;
+        public override void OnEnable() 
+        {      
+        
+        }        
         
         public override void OnAwake() 
-        {
-            
-            
+        {               
 
         }
 
         public override void OnUpdate() 
         {
-            /*
-            foreach (var instance in cache.Instances)
-            {
-                instance.OnUpdate();
-            }
-            */
+
         
         }
 
 
 
     }
-
+    */
 
 }

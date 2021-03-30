@@ -3,43 +3,37 @@ using UnityEngine;
 
 namespace Framework.Core
 {
-    public interface IControl: ICacheable
+    public interface IControl
     {
-        
+        void OnInitialize();
+        void OnUpdate();
     
     }     
     
     [Serializable]
-    public abstract class AControl : ScriptableObject, IControl 
+    public abstract class Control : ScriptableObject, IControl 
     {
         [SerializeField]
         private bool debug;
         
-        
-        public abstract void OnAwake();
+        public abstract void OnInitialize();
         public abstract void OnUpdate();
-    
-    
-    
-    #region Public functions
-        
+            
    
         public void Log(string msg)
         {
-            if(debug)
                 Debug.Log(msg);
 
         }
 
         public void LogWarning(string msg)
         {
-            if(debug)
                 Debug.LogWarning(msg);
 
         }
     
     
-    #endregion
+
     
     
     

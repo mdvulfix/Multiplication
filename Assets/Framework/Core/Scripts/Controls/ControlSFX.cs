@@ -1,16 +1,21 @@
 using UnityEngine;
-using Framework.Core;
 
-namespace Framework 
+namespace Framework.Core
 {
-    [CreateAssetMenu(fileName = "SFX(Default)", menuName = "Controls/SFX", order = 5)]
-    public class ControlSFX : AControl
+    
+    /*
+    //[CreateAssetMenu(fileName = "SFX(Default)", menuName = "Controls/SFX", order = 5)]
+    public class ControlSFX : Control
     {
 
-        public override void OnAwake() 
+        public override void OnEnable() 
         {      
         
+        }        
         
+        public override void OnAwake() 
+        {               
+
         }
 
         public override void OnUpdate() 
@@ -22,6 +27,6 @@ namespace Framework
 
 
     }
-
+    */
 
 }

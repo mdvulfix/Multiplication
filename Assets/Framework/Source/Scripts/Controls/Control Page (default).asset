@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df490dea51e0abc4687f73fcced7adb2, type: 3}
-  m_Name: Camera(Default)
+  m_Script: {fileID: 11500000, guid: dd2cbc0cec8611e4b949e81d157e5bde, type: 3}
+  m_Name: Control Page (default)
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 101756103505705668, guid: 02f5a08e4e3f340439243bf4d525a35c, type: 3}
+  debug: 0

@@ -6,8 +6,9 @@ using Framework.Core;
 
 namespace Framework 
 {
-    [CreateAssetMenu(fileName = "Scene(Default)", menuName = "Controls/Scene", order = 0)]
-    public class ControlScene : AControl
+    /*
+    //[CreateAssetMenu(fileName = "Scene(Default)", menuName = "Controls/Scene", order = 0)]
+    public class ControlScene : Control
     {
 
         public List<string> Scenes {get; private set;}  = new List<string>(5);     
@@ -16,7 +17,7 @@ namespace Framework
         [SerializeField]
         private int activeScene;
         
-        public override void OnAwake() 
+        public override void OnEnable() 
         {      
             Scenes.Add("Core");
             Scenes.Add("MainMenu");
@@ -25,6 +26,11 @@ namespace Framework
         
             SetActiveScene(0);
         
+        }
+
+        public override void OnAwake() 
+        {               
+
         }
 
         public override void OnUpdate() 
@@ -64,5 +70,5 @@ namespace Framework
 
     }
 
-
+    */
 }

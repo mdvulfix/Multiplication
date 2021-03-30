@@ -6,7 +6,7 @@ namespace Framework.Core
     public interface ICacheable
     {
         void OnAwake();
-        void OnUpdate();
+        
     }
 
 }

@@ -1,18 +1,20 @@
 ﻿namespace Framework.Core
 {
-    public class PageLoading : APage
+    public class PageLoading : Page
     {
 
+        public override void OnAwake()
+        {
+            SetPage(this);
+        }
+        
+        
+        
+        
         public override void OnUpdate()
         {
 
 
-        }
-
-        protected override void Register()
-        {
-
-            
         }
 
     }

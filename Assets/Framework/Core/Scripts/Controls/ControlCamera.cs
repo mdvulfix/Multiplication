@@ -1,19 +1,24 @@
 using UnityEngine;
-using Framework.Core;
 
-namespace Framework 
+
+namespace Framework.Core
 {
+    /*
     [CreateAssetMenu(fileName = "Camera(Default)", menuName = "Controls/Camera", order = 1)]
-    public class ControlCamera : AControl
+    public class ControlCamera : Control
     {
         [SerializeField]
         private GameObject mainCamera;
                 
         
-        public override void OnAwake() 
+        public override void OnEnable() 
         {      
-            
-            
+        
+        }        
+        
+        public override void OnAwake() 
+        {               
+
         }
 
         public override void OnUpdate() 
@@ -22,15 +27,9 @@ namespace Framework
         
         }
 
-        public void SetMainCamera()
-        {
-            
-
-        }
-
 
 
     }
-
+    */
 
 }

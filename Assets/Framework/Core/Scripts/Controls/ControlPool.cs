@@ -2,17 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ControlPool : MonoBehaviour
+namespace Framework.Core
 {
-    // Start is called before the first frame update
-    void Start()
+    /*
+    //[CreateAssetMenu(fileName = "Camera(Default)", menuName = "Controls/Camera", order = 1)]
+    public class ControlPool : Control
     {
         
-    }
+        public override void Initialize() 
+        {      
+        
+        }        
 
-    // Update is called once per frame
-    void Update()
-    {
+        public override void OnUpdate() 
+        {
+
         
+        }
+
+
+
     }
+    */
+
 }

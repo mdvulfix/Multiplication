@@ -1,18 +1,23 @@
 ﻿namespace Framework.Core
 {
-    public class PageChooseNumber : APage
+    public class PageChooseNumber : Page
     {
+        
+        public override void OnAwake()
+        {
+            SetPage(this);
+        }
+        
+        
+        
+        
         public override void OnUpdate()
         {
 
 
         }
 
-        protected override void Register()
-        {
 
-            
-        }
 
 
     }

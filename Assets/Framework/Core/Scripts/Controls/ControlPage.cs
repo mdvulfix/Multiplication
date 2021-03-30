@@ -1,92 +1,48 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Framework.Core;
 
 namespace Framework 
-{
-    public enum PageType
+{    
+    [CreateAssetMenu(fileName = "Control Page (default)", menuName = "Controls/Page", order = 7)]
+    public class ControlPage : Control
     {
-        None,
-        Loading,
-        MainMenu,
-        Score,
-        Leaders
-    }
-    
-    [CreateAssetMenu(fileName = "Page(Default)", menuName = "Controls/Page", order = 7)]
-    public class ControlPage : AControl
-    {
+        private IPage initialPage;
 
-        private APage       initialPage;
-        private Hashtable   pagesCache;
+                
+        public override void OnInitialize() 
+        {                         
+            if(Page.GetAllPages().Length > 0)
+            {
+                Log("[ControlPage]: " + Page.GetAllPages().Length + "pages were stored in cache.");
+                foreach (var page in Page.GetAllPages())
+                {
+                    //TODO: Play animation
 
-
-
-
-#region Unity functions
-    
-        public override void OnAwake() 
-        {      
-            Configure();
-
-        
+                }
+            }
+            else
+                LogWarning("[ControlPage]: Pages haven't been found.");
+            
         }
+        
+
 
         public override void OnUpdate() 
         {
 
         
         }
-#endregion
 
-#region Public functions
-    
-    public void OnPageEnter(PageType _enterPage)
-    {
+        public void OnPageEnter(IPage page)
+        {
+
+        }
+
+        public void OnPageExit(IPage page)
+        {
+
+        }
+
 
     }
-
-    public void OnPageExit(PageType _exitPage)
-    {
-
-    }
-
-
-
-
-#endregion
-
-#region Private functions
-    private void Configure()
-    {
-        pagesCache = new Hashtable();
-        
-        RegisterAllPages();
-
-    }
-
-    private void RegisterAllPages()
-    {
-        foreach (var page in pages)
-            RegisterPage(page);
-
-    }
-
-    private void RegisterPage(IPage page)
-    {
-
-
-    
-    
-    
-    }
-
-    
-#endregion
-
-    }
-
-
 }

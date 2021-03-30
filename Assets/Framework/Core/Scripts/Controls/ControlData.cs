@@ -2,17 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ControlData : MonoBehaviour
+    
+namespace Framework.Core
 {
-    // Start is called before the first frame update
-    void Start()
+    /*
+    //[CreateAssetMenu(fileName = "Camera(Default)", menuName = "Controls/Camera", order = 1)]
+    public class ControlData : Control
     {
+        [SerializeField]
+        private GameObject mainCamera;
+                
         
+        public override void OnEnable() 
+        {      
+        
+        }        
+        
+        public override void OnAwake() 
+        {               
+
+        }
+
+        public override void OnUpdate() 
+        {
+
+        
+        }
+
+
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    */
 }

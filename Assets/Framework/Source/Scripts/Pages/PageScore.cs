@@ -1,17 +1,17 @@
 ﻿namespace Framework.Core
 {
-    public class PageScore : APage
+    public class PageScore : Page
     {
+        public override void OnAwake()
+        {
+            SetPage(this);
+        }
+        
+        
         public override void OnUpdate()
         {
 
 
-        }
-
-        protected override void Register()
-        {
-
-            
         }
 
 
