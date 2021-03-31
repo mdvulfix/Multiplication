@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Framework.Core
 {
-    public abstract class SceneObject : MonoBehaviour
+    public class SceneObject : MonoBehaviour
     {
         public GameObject ObjectOnScene {get; private set;}
         
@@ -12,12 +12,14 @@ namespace Framework.Core
             OnAwake();
         
         }
+        
+        public virtual void OnAwake()
+        {
 
-        public abstract void OnEnable();
-        
-        
-        public abstract void OnAwake();
-        
+
+        }
+
+
 
 
     }

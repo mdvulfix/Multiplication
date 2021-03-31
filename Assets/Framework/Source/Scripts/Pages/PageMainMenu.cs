@@ -1,4 +1,6 @@
-﻿namespace Framework.Core
+﻿using Framework.Core;
+
+namespace Framework
 {
     public class PageMainMenu : Page
     {
@@ -7,16 +9,6 @@
             SetPage(this);
         }
         
-        
-        
-        
-        public override void OnUpdate()
-        {
-
-
-        }
-
-
     }
 
 }

@@ -1,5 +1,7 @@
 ﻿namespace Framework.Core
 {
+    
+    /*
     public class PageLeadersTable : Page
     {
 
@@ -11,6 +13,12 @@
         
         
         
+        public override void OnInitialize()
+        {
+
+
+        }
+        
         public override void OnUpdate()
         {
 
@@ -18,5 +26,5 @@
         }
 
     }
-
+    */
 }

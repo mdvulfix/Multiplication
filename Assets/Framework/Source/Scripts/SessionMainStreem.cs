@@ -23,47 +23,8 @@ namespace Framework.Core
         
         public override void OnAwake() 
         {
-            //controller = transform.GetComponentInChildren<ControlPageAgent>();
+            ControlPage.Initialize();
             
-        
-        }
-
-        public override void OnEnable() 
-        {
-            
-            
-            ControlPage.OnInitialize();
-            //controller.OnPageEnter(null);
-            //controller.OnPageExit(null);
-            
-            //SetControllers();
-            
-            
-            //controlCamera.OnAwake();
-            //controlInput.OnAwake();
-            //controlUpdate.OnAwake();
-
-            //LoadMainMenu();  
-        
-        }
-
-        public void Start() 
-        {
-            
-
-            
-            
-            //controller.OnInitialize();
-
-            //controlPage.OnInitialize();
-            //SetControllers();
-            
-            
-            //controlCamera.OnAwake();
-            //controlInput.OnAwake();
-            //controlUpdate.OnAwake();
-
-            //LoadMainMenu();  
         
         }
     }

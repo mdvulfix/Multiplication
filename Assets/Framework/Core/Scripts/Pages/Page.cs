@@ -10,16 +10,9 @@ namespace Framework.Core
     public abstract class Page : SceneObject, IPage
     {
         private static ICache<IPage> Cache {get; } = new Cache<IPage>();
-    
-        public override void OnEnable()
-        {
-            //
-        }
+
+
         
-        public abstract void OnUpdate();
-
-
-
         public static void SetPage(IPage page)
         {
             Cache.Add(page);
@@ -52,7 +45,6 @@ namespace Framework.Core
             return pages;
 
         }
-
 
         protected static void Log(string message)
         {

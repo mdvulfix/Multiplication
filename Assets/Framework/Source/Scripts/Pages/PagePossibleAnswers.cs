@@ -1,5 +1,7 @@
 ﻿namespace Framework.Core
 {
+    
+    /*
     public class PagePossibleAnswers : Page
     {
         public override void OnAwake()
@@ -10,6 +12,12 @@
         
         
         
+        public override void OnInitialize()
+        {
+
+
+        }
+        
         public override void OnUpdate()
         {
 
@@ -17,5 +25,5 @@
         }
 
     }
-
+    */
 }

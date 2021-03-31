@@ -5,7 +5,7 @@ namespace Framework.Core
     
     public interface ISession: ICacheable
     {
-        void OnEnable();
+        
     }
     
     

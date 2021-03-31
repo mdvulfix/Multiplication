@@ -5,21 +5,18 @@ namespace Framework.Core
 {
     public interface IControl
     {
-        void OnInitialize();
-        void OnUpdate();
+        void Initialize();
     
     }     
     
     [Serializable]
-    public abstract class Control : ScriptableObject, IControl 
+    public abstract class Control : SceneObject, IControl 
     {
         [SerializeField]
         private bool debug;
         
-        public abstract void OnInitialize();
-        public abstract void OnUpdate();
-            
-   
+        public abstract void Initialize();
+
         public void Log(string msg)
         {
                 Debug.Log(msg);

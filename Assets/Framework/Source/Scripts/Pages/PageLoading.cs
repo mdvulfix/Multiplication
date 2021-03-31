@@ -1,4 +1,7 @@
-﻿namespace Framework.Core
+﻿using Framework.Core;
+
+
+namespace Framework
 {
     public class PageLoading : Page
     {
@@ -8,15 +11,6 @@
             SetPage(this);
         }
         
-        
-        
-        
-        public override void OnUpdate()
-        {
-
-
-        }
-
     }
 
 }

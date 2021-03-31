@@ -1,7 +1,6 @@
 using UnityEngine;
-using Framework.Core;
 
-namespace Framework 
+namespace Framework.Core
 {    
     [CreateAssetMenu(fileName = "Control Page (default)", menuName = "Controls/Page", order = 7)]
     public class ControlPage : Control
@@ -9,7 +8,7 @@ namespace Framework
         private IPage initialPage;
 
                 
-        public override void OnInitialize() 
+        public override void Initialize() 
         {                         
             if(Page.GetAllPages().Length > 0)
             {
@@ -25,14 +24,8 @@ namespace Framework
             
         }
         
-
-
-        public override void OnUpdate() 
-        {
-
         
-        }
-
+        
         public void OnPageEnter(IPage page)
         {
 

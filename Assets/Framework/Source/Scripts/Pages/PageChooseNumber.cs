@@ -1,5 +1,7 @@
 ﻿namespace Framework.Core
 {
+    
+    /*
     public class PageChooseNumber : Page
     {
         
@@ -9,18 +11,17 @@
         }
         
         
-        
-        
-        public override void OnUpdate()
+        public override void OnInitialize()
         {
 
 
         }
+        
 
 
 
 
     }
-
+    */
 }
 
