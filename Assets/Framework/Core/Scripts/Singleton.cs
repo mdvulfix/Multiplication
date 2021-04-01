@@ -24,8 +24,10 @@ namespace Framework.Core
             }
         }
 
-        public void Initialize()
+        public override void Initialize()
         {
+            base.Initialize();
+
             if (instance) 
                 return;
         

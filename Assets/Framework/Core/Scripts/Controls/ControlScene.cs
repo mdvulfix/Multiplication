@@ -2,73 +2,59 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Framework.Core;
 
-namespace Framework 
+
+namespace Framework.Core
 {
-    /*
-    //[CreateAssetMenu(fileName = "Scene(Default)", menuName = "Controls/Scene", order = 0)]
-    public class ControlScene : Control
+    public interface IControlScene: IControl
     {
 
-        public List<string> Scenes {get; private set;}  = new List<string>(5);     
-        public int ActiveScene {get; } 
+        HashSet<IScene> Scenes {get; }
         
+        void SetScenes(IFactoryScene factory);
+        void SetScenes(HashSet<IScene> scenes);
+        
+        void OnSceneEnter(IScene scene);
+        void OnSceneExit(IScene scene);
+
+    } 
+    
+    [Serializable]
+    public abstract class ControlScene: Control, IControlScene
+    {
         [SerializeField]
         private int activeScene;
         
-        public override void OnEnable() 
-        {      
-            Scenes.Add("Core");
-            Scenes.Add("MainMenu");
-            Scenes.Add("RunTime");
-            Scenes.Add("Score");
         
-            SetActiveScene(0);
+        private HashSet<IScene> scenes;
         
-        }
-
-        public override void OnAwake() 
-        {               
-
-        }
-
-        public override void OnUpdate() 
-        {
-
+        public HashSet<IScene> Scenes {get => scenes; private set => scenes = value; }
         
-        }
-
-        public void NextScene()
+        
+        
+        public void SetScenes(IFactoryScene factory)
         {
-            EnterScene(activeScene);
-            ExitScene(activeScene);
-            SetActiveScene(activeScene++);
-            
-        }
+            Scenes = factory.GetScenes();
 
-        public void EnterScene(int sceneId)
+        }
+        
+        public void SetScenes(HashSet<IScene> scenes)
         {
-            
-            SceneManager.LoadSceneAsync(sceneId);
-            ExitScene(sceneId);
-            SetActiveScene(sceneId);
-            
-        }
-
-        public void ExitScene(int sceneId)
-        {
-            SceneManager.UnloadSceneAsync(sceneId);
-        }
-
-        public void SetActiveScene(int sceneId)
-        {
-            this.activeScene = sceneId;
+            Scenes = scenes;
 
         }
-
-
+        
+        
+        public abstract void OnSceneEnter(IScene scene);
+        public abstract void OnSceneExit(IScene scene);
+    
+    
+    
+    
+    
+    
+    
+    
     }
 
-    */
 }

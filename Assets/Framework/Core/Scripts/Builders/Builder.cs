@@ -1,14 +1,25 @@
-﻿
+﻿using System.Collections.Generic;
+
 namespace Framework.Core
 {
-    public abstract class Builder : Singleton<Builder>
+    
+    public interface IBuilder
+    {
+        void Awake();        
+    }
+    
+    
+    public abstract class Builder : Singleton<Builder>, IBuilder
     {
 
-        public override void OnAwake()
-        {
-
-            
+        public void Awake()
+        { 
+            Initialize();
         }
     
+        
+        public abstract HashSet<IControl> GetControls();
+        public abstract HashSet<ISession> GetSessions();
+        public abstract void Configure();
     }
 }

@@ -3,9 +3,9 @@ using System;
 namespace Framework.Core 
 {
     
-    public interface ISession: ICacheable
+    public interface ISession
     {
-        
+        void Configure();
     }
     
     
@@ -13,8 +13,7 @@ namespace Framework.Core
     [Serializable]
     public abstract class Session : SceneObject, ISession
     {
-        
-
+        public abstract void Configure();
 
         
     }

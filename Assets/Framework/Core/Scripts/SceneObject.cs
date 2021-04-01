@@ -1,25 +1,17 @@
+using System;
 using UnityEngine;
 
 namespace Framework.Core
 {
-    public class SceneObject : MonoBehaviour
+    public abstract class SceneObject : MonoBehaviour
     {
         public GameObject ObjectOnScene {get; private set;}
-        
-        private void Awake() 
+       
+        public virtual void Initialize()
         {
             ObjectOnScene = gameObject;
-            OnAwake();
         
         }
-        
-        public virtual void OnAwake()
-        {
-
-
-        }
-
-
 
 
     }

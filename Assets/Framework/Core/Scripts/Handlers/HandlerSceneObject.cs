@@ -14,7 +14,6 @@ public static class HandlerSceneObject
         }
 
         return obj;
-
     }
 
 

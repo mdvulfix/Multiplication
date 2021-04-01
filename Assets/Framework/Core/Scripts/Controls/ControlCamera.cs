@@ -1,35 +1,18 @@
 using UnityEngine;
 
-
 namespace Framework.Core
 {
-    /*
-    [CreateAssetMenu(fileName = "Camera(Default)", menuName = "Controls/Camera", order = 1)]
-    public class ControlCamera : Control
+
+    public interface IControlCamera: IControl
     {
-        [SerializeField]
-        private GameObject mainCamera;
-                
+       
         
-        public override void OnEnable() 
-        {      
-        
-        }        
-        
-        public override void OnAwake() 
-        {               
+    } 
 
-        }
-
-        public override void OnUpdate() 
-        {
-
-        
-        }
-
+    public abstract class ControlCamera: Control, IControlCamera
+    {
 
 
     }
-    */
 
 }

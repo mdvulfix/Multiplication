@@ -5,7 +5,7 @@ namespace Framework.Core
 {
     public interface IControl
     {
-        void Initialize();
+        void Configure();
     
     }     
     
@@ -15,17 +15,21 @@ namespace Framework.Core
         [SerializeField]
         private bool debug;
         
-        public abstract void Initialize();
+        
+        
+        
+        public abstract void Configure();
 
-        public void Log(string msg)
+        
+        protected void Log(string msg)
         {
-                Debug.Log(msg);
+            Debug.Log(msg);
 
         }
 
-        public void LogWarning(string msg)
+        protected void LogWarning(string msg)
         {
-                Debug.LogWarning(msg);
+            Debug.LogWarning(msg);
 
         }
     

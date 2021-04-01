@@ -4,7 +4,7 @@ namespace Framework
 {
     public class PageLogin : Page
     {
-        public override void OnAwake()
+        public override void Register()
         {
             SetPage(this);
 

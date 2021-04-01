@@ -4,14 +4,14 @@ namespace Framework.Core
 {
     public interface IPage: ICacheable
     {
-        
+        void Register();
     }
     
     public abstract class Page : SceneObject, IPage
     {
         private static ICache<IPage> Cache {get; } = new Cache<IPage>();
 
-
+        public abstract void Register();
         
         public static void SetPage(IPage page)
         {
