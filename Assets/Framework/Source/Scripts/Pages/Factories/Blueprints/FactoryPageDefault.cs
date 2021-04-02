@@ -15,6 +15,7 @@ namespace Framework
                 Get<PageLogin>(),
                 Get<PageMainMenu>()
 
+
             };
 
             return pages;

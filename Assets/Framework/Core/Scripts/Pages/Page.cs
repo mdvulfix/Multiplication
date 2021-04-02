@@ -4,40 +4,50 @@ namespace Framework.Core
 {
     public interface IPage: ICacheable
     {
+        string  Name        {get; }
+        bool    IsLoading   {get; }
+        
         void Register();
+        void Activate(bool trueOrFalse);
     }
     
     public abstract class Page : SceneObject, IPage
     {
-        private static ICache<IPage> Cache {get; } = new Cache<IPage>();
+        
+        public string                   Name        {get; protected set;}
+        public bool                     IsLoading   {get; protected set;}
+        public static ICache<IPage>     Cache       {get; } = new Cache<IPage>();
+
 
         public abstract void Register();
-        
-        public static void SetPage(IPage page)
+        public abstract void Activate(bool trueOrFalse);
+
+
+        public void SetPageToCache(IPage page)
         {
             Cache.Add(page);
-            Log("[Page]: " + page.GetType().Name + " has been set to cache.");
+            Log(Name + " set to cache.");
 
         }
         
-        public static IPage GetPage()
+        public IPage GetPageFromCache()
         {
             IPage page = Cache.Get();
 
             if(page == null)
             {
-                LogWarning("[Page]: " + page.GetType().Name + "has't been found.");
+                LogWarning(Name + " not found.");
                 return null;
             }
             else
             {
-                Log("[Page]: " + page.GetType().Name + "has been got from cache.");
+                Log(Name + " got from cache.");
                 return page;
                 
             }
         }
 
-        public static IPage[] GetAllPages()
+        public IPage[] GetPagesFromCache()
         {
             var pages = new IPage[Cache.Storage.Count];
             Cache.Storage.Values.CopyTo(pages, 0);
@@ -46,15 +56,16 @@ namespace Framework.Core
 
         }
 
-        protected static void Log(string message)
+
+        protected void Log(string message)
         {
-            Debug.Log(message);
+            Debug.Log("[Page]: " + message);
 
         }
 
-        protected static void LogWarning(string message)
+        protected void LogWarning(string message)
         {
-            Debug.LogWarning(message);
+            Debug.LogWarning("[Page]: " + message);
             
         }
     

@@ -12,7 +12,9 @@ namespace Framework.Core
     public abstract class FactoryPage : Factory, IFactoryPage
     {
 
-        protected static readonly string PARENT_NAME = "Builder";
+        protected static readonly string PARENT_NAME = "Scene";
+        
+        public abstract HashSet<IPage> GetPages();
 
         public T Get<T>() where T: SceneObject, IPage
         {
@@ -22,7 +24,7 @@ namespace Framework.Core
             return instance as T;
         }
 
-        public abstract HashSet<IPage> GetPages();
+        
 
     }
 }

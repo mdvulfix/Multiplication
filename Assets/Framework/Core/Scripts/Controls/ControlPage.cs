@@ -10,8 +10,8 @@ namespace Framework.Core
         void SetPages(IFactoryPage factory);
         void SetPages(HashSet<IPage> pages); 
         
-        void OnPageEnter(IPage page);
-        void OnPageExit(IPage page);
+        void TurnPageOn(IPage page);
+        void TurnPageOff(IPage page);
     
     } 
     
@@ -21,7 +21,7 @@ namespace Framework.Core
    
         
         private HashSet<IPage> pages;
-        
+       
         public HashSet<IPage> Pages {get => pages; private set => pages = value; }
         
         
@@ -39,14 +39,23 @@ namespace Framework.Core
         }
         
         
+        public virtual void TurnPageOn(IPage page)
+        {
+            if(!Pages.Contains(page))
+            {
+                LogWarning("You are trying to turn a page on [" + page.Name + "] that has not been registered!");
+                return;
+            }
+
+            page.Activate(true);
+        }
         
         
-        
-        
-        
-        
-        public abstract void OnPageEnter(IPage page);
-        public abstract void OnPageExit(IPage page);
+        public virtual void TurnPageOff(IPage page)
+        {
+
+            
+        }
 
 
     }
