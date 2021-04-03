@@ -14,31 +14,9 @@ namespace Framework.Core
     {
         [SerializeField]
         private bool debug;
-        
-        
-        
-        
+         
         public abstract void Configure();
 
-        
-        protected void Log(string msg)
-        {
-            Debug.Log(msg);
-
-        }
-
-        protected void LogWarning(string msg)
-        {
-            Debug.LogWarning(msg);
-
-        }
-    
-    
-
-    
-    
-    
-    
     }
 
 }

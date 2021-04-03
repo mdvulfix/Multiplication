@@ -5,7 +5,7 @@ namespace Framework.Core
     
     public interface IBuilder
     {
-        void Awake();        
+        void OnAwake();        
     }
     
     
@@ -14,12 +14,13 @@ namespace Framework.Core
 
         public void Awake()
         { 
-            Initialize();
+            OnAwake();
         }
     
         
         public abstract HashSet<IControl> GetControls();
         public abstract HashSet<ISession> GetSessions();
+        public abstract void OnAwake();
         public abstract void Configure();
     }
 }

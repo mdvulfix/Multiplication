@@ -9,6 +9,8 @@ namespace Framework
     public class BuilderDefault : Builder
     {
        
+        private readonly string BUILDER_NAME = "Builder";
+
         [Header("Factories: Session")]
         [SerializeField] FactorySessions factorySessions; 
         
@@ -22,16 +24,12 @@ namespace Framework
         private HashSet<ISession> sessions = new HashSet<ISession>();
                 
         
-        public override void Initialize()
+        public override void OnAwake()
         {
-            
+            Initialize(BUILDER_NAME);
             SetSession();
             SetControls();
-            
             Configure();
-
-        
-            
         
         }
     

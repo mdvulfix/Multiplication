@@ -1,27 +1,59 @@
+using System.Collections;
 using UnityEngine;
 
 namespace Framework.Core
 {
-    public interface IPage: ICacheable
+    public interface IPage: ISceneObject, ICacheable
     {
-        string  Name        {get; }
-        bool    IsLoading   {get; }
+        bool    IsLoading       {get; }
+        bool    UseAnimation    {get; }
+        string  AnimationState  {get; }
         
         void Register();
-        void Activate(bool trueOrFalse);
+        void Animate(bool animate);
     }
     
     public abstract class Page : SceneObject, IPage
     {
         
-        public string                   Name        {get; protected set;}
-        public bool                     IsLoading   {get; protected set;}
-        public static ICache<IPage>     Cache       {get; } = new Cache<IPage>();
+        private readonly string ANIMATION_NONE = "None";
+        private readonly string ANIMATION_ON = "On";
+        private readonly string ANIMATION_OFF = "Off";
+        
+        
+        public bool     IsLoading       {get; protected set;}
+        public bool     UseAnimation    {get; protected set;}
+        public string   AnimationState  {get; protected set;}
+        
+        public static ICache<IPage> Cache {get; } = new Cache<IPage>();
 
 
         public abstract void Register();
-        public abstract void Activate(bool trueOrFalse);
 
+
+        public void Animate(bool animate)
+        {
+            if(!ActivateObject(animate))
+                return;
+            
+            if(UseAnimation)
+            {
+                StopCoroutine("AwaitAnimation");
+                StartCoroutine("AwaitAnimation", animate);
+                Log("Animation is enabled on page [ " + Name + " ]");
+            }
+            else
+            {
+                Log("Animation is disabled on page [ " + Name + " ]");
+            }
+        }
+
+        // TODO: check AwaitAnimation function;
+        protected IEnumerator AwaitAnimation (bool on)
+        {
+            AnimationState = on ? ANIMATION_ON : ANIMATION_OFF;
+            yield return null;
+        }
 
         public void SetPageToCache(IPage page)
         {

@@ -1,35 +1,28 @@
-﻿using Framework.Core;
-
+﻿using System.Collections;
+using Framework.Core;
 
 namespace Framework
 {
     public class PageLoading : Page
     {
+        private readonly string PAGE_NAME = "Page: Loading";
         
         public override void Register()
         {
-            Name = this.GetType().Name;
-            Initialize();
-            Activate(true);
+            Initialize(PAGE_NAME);
             SetPageToCache(this);
+            Animate(true);
             
         }
 
-        public override void Activate(bool trueOrFalse)
+
+
+
+        
+        protected override IEnumerator AwaitAnimation (bool on)
         {
-            ObjectOnScene.SetActive(trueOrFalse);
-            Animate(trueOrFalse);
-
+            yield return null;
         }
-
-        private void Animate(bool trueOrFalse)
-        {
-            if(trueOrFalse)
-                Log("Animation is enabled");
-            else
-                Log("Animation is disabled");
-        }
-
         
     }
 

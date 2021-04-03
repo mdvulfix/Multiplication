@@ -23,18 +23,5 @@ namespace Framework.Core
 
             }
         }
-
-        public override void Initialize()
-        {
-            base.Initialize();
-
-            if (instance) 
-                return;
-        
-            instance = this as T;
-        }
-
-
-
     }
 }

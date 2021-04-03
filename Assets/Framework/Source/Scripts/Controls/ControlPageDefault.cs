@@ -9,28 +9,16 @@ namespace Framework
         {                         
             if(Pages.Count > 0)
             {
-                Log("[ControlPage]: " + Pages.Count + "pages were stored in cache.");
+                Log(Pages.Count + "pages were stored in cache.");
                 foreach (var page in Pages)
                     page.Register();
             }
             else
-                LogWarning("[ControlPage]: Pages haven't been found.");
+                LogWarning("Pages haven't been found.");
 
 
         }
-        
-        public override void TurnPageOn(IPage page)
-        {
-
-        }
-
-        public override void TurnPageOff(IPage page)
-        {
-
-        }
-
-
-    
+           
     
     
     }
