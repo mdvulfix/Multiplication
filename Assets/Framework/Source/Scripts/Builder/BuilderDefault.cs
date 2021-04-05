@@ -19,7 +19,7 @@ namespace Framework
         [SerializeField] FactoryControlCamera   factoryControlCamera;
         [SerializeField] FactoryControlScene    factoryControlScene;
         [SerializeField] FactoryControlPage     factoryControlPage;              
-        
+        [SerializeField] FactoryControlInput    factoryControlInput;
         public override void OnAwake()
         {
             Initialize(BUILDER_NAME);
@@ -41,6 +41,7 @@ namespace Framework
             Controls.Add(typeof(ControlCameraDefault), AddControl<ControlCameraDefault>(factoryControlCamera));
             Controls.Add(typeof(ControlSceneDefault), AddControl<ControlSceneDefault>(factoryControlScene));
             Controls.Add(typeof(ControlPageDefault), AddControl<ControlPageDefault>(factoryControlPage));
+            Controls.Add(typeof(ControlInputDefault), AddControl<ControlInputDefault>(factoryControlInput));
         }
 
 

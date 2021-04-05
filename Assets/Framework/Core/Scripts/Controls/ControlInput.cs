@@ -3,30 +3,15 @@ using UnityEngine;
 
 namespace Framework.Core 
 {
-    /*
-    //[CreateAssetMenu(fileName = "Input(Default)", menuName = "Controls/Input", order = 3)]
-    public class ControlInput : Control
+    public abstract class ControlInput : Control
     {
-        public override void OnEnable() 
-        {      
-        
-        }        
-        
-        public override void OnAwake() 
-        {               
 
-        }
-
-        public override void OnUpdate() 
-        {
-
-        
-        }
-
-
-
-
+        public delegate void InputAction (KeyCode kode);
+    
+        public abstract void InputMethod_1(KeyCode kode);
+        public abstract void InputMethod_2(KeyCode kode);
+        public abstract void InputMethod_3(KeyCode kode);
+        public abstract void InputMethod_4(KeyCode kode);
+    
     }
-    */
 
-}
