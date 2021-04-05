@@ -18,11 +18,7 @@ namespace Framework
         [SerializeField] FactoryControlState    factoryControlState;
         [SerializeField] FactoryControlCamera   factoryControlCamera;
         [SerializeField] FactoryControlScene    factoryControlScene;
-        [SerializeField] FactoryControlPage     factoryControlPage;
-                
-        private HashSet<IControl> controls = new HashSet<IControl>();
-        private HashSet<ISession> sessions = new HashSet<ISession>();
-                
+        [SerializeField] FactoryControlPage     factoryControlPage;              
         
         public override void OnAwake()
         {
@@ -32,45 +28,31 @@ namespace Framework
             Configure();
         
         }
-    
-        public override HashSet<IControl> GetControls()
-        {
-            return controls;
-
-        }
-
-        public override HashSet<ISession> GetSessions()
-        {
-            return sessions;
-
-        }
-
-        
         
         private void SetSession()
         {          
-            sessions.Add(GetSession<SessionMainDefault>(factorySessions));
+            Sessions.Add(typeof(SessionMainDefault), AddSession<SessionMainDefault>(factorySessions));
 
         }
         
         private void SetControls()
         {          
-            controls.Add(GetControl<ControlStateDefault>(factoryControlState));
-            controls.Add(GetControl<ControlCameraDefault>(factoryControlCamera));
-            controls.Add(GetControl<ControlSceneDefault>(factoryControlScene));
-            controls.Add(GetControl<ControlPageDefault>(factoryControlPage));
+            Controls.Add(typeof(ControlStateDefault), AddControl<ControlStateDefault>(factoryControlState));
+            Controls.Add(typeof(ControlCameraDefault), AddControl<ControlCameraDefault>(factoryControlCamera));
+            Controls.Add(typeof(ControlSceneDefault), AddControl<ControlSceneDefault>(factoryControlScene));
+            Controls.Add(typeof(ControlPageDefault), AddControl<ControlPageDefault>(factoryControlPage));
         }
 
 
 
         public override void Configure()
         {          
-            foreach (var session in sessions)
+            foreach (var session in Sessions.Values)
             {
                 session.Configure();
             }
             
-            foreach (var control in controls)
+            foreach (var control in Controls.Values)
             {
                 control.Configure();
             }
@@ -78,12 +60,12 @@ namespace Framework
         }
 
 
-        private T GetSession<T>(IFactorySession factory) where T: SceneObject, ISession
+        private T AddSession<T>(IFactorySession factory) where T: SceneObject, ISession
         {
             return factory.Get<T>();
         }
     
-        private T GetControl<T>(IFactoryControl factory) where T: SceneObject, IControl
+        private T AddControl<T>(IFactoryControl factory) where T: SceneObject, IControl
         {
             return factory.Get<T>();
         }

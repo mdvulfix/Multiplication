@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -5,9 +6,8 @@ namespace Framework.Core
 {
     public interface IPage: ISceneObject, ICacheable
     {
-        bool    IsLoading       {get; }
-        bool    UseAnimation    {get; }
-        string  AnimationState  {get; }
+        bool            IsLoading       {get; }
+        IDataAnimation  DataAnimation   {get; set;}
         
         void Register();
         void Animate(bool animate);
@@ -15,31 +15,26 @@ namespace Framework.Core
     
     public abstract class Page : SceneObject, IPage
     {
-        
-        private readonly string ANIMATION_NONE = "None";
-        private readonly string ANIMATION_ON = "On";
-        private readonly string ANIMATION_OFF = "Off";
-        
-        
-        public bool     IsLoading       {get; protected set;}
-        public bool     UseAnimation    {get; protected set;}
-        public string   AnimationState  {get; protected set;}
+        public bool             IsLoading       {get; protected set;}
+        public IDataAnimation   DataAnimation   {get; set;}
         
         public static ICache<IPage> Cache {get; } = new Cache<IPage>();
 
 
         public abstract void Register();
 
-
         public void Animate(bool animate)
         {
+            if(DataAnimation.Animator == null)
+                DataAnimation.Animator = ObjectOnScene.AddComponent<Animator>();
+            
             if(!ActivateObject(animate))
                 return;
             
-            if(UseAnimation)
+            if(DataAnimation.UseAnimation)
             {
-                StopCoroutine("AwaitAnimation");
-                StartCoroutine("AwaitAnimation", animate);
+                StopCoroutine(AwaitAnimation(animate));
+                StartCoroutine(AwaitAnimation(animate));
                 Log("Animation is enabled on page [ " + Name + " ]");
             }
             else
@@ -51,29 +46,37 @@ namespace Framework.Core
         // TODO: check AwaitAnimation function;
         protected IEnumerator AwaitAnimation (bool on)
         {
-            AnimationState = on ? ANIMATION_ON : ANIMATION_OFF;
-            yield return null;
+            DataAnimation.CurrentState = on ? AnimationState.On : AnimationState.Off;
+
+            while (DataAnimation.Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationState.On.ToString()))
+               yield return null;
+
+            while (DataAnimation.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
+               yield return null; 
+
+            DataAnimation.CurrentState = AnimationState.None;
+            Log("[ " + Name +" ] finised transition to " + (on ? "On" : "Off") + "snimation state");      
         }
 
         public void SetPageToCache(IPage page)
         {
             Cache.Add(page);
-            Log(Name + " set to cache.");
+            Log("[ " + Name + " ] was set to cache.");
 
         }
         
-        public IPage GetPageFromCache()
+        public static IPage GetPageByType(Type type)
         {
-            IPage page = Cache.Get();
+            IPage page = Cache.Get(type);
 
             if(page == null)
             {
-                LogWarning(Name + " not found.");
+                LogWarning(page.GetType() + " not found.");
                 return null;
             }
             else
             {
-                Log(Name + " got from cache.");
+                Log(page.GetType() + " got from cache.");
                 return page;
                 
             }
@@ -89,13 +92,13 @@ namespace Framework.Core
         }
 
 
-        protected void Log(string message)
+        protected static void Log(string message)
         {
             Debug.Log("[Page]: " + message);
 
         }
 
-        protected void LogWarning(string message)
+        protected static void LogWarning(string message)
         {
             Debug.LogWarning("[Page]: " + message);
             

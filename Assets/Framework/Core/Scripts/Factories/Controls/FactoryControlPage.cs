@@ -5,7 +5,8 @@ namespace Framework.Core
 {   
     [Serializable]
     public abstract class FactoryControlPage : FactoryControl
-    {
+    {       
+        
         [SerializeField]        
         private FactoryPage factoryPage;
         

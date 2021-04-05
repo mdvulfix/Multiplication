@@ -52,32 +52,28 @@ namespace Framework.Core
 
             if(waitForExit)
             {
-                GetCoroutine(pageOff, pageOn);
+                Coroutine(pageOff, pageOn);
                 //Log("Animation is enabled on page [ " + Name + " ]");
             }
             else
                 TurnPageOn(pageOn);
         }
 
-        private void GetCoroutine(params IPage[] pages)
+        private void Coroutine(params IPage[] pages)
         {
             StopCoroutine(WaitForPageExit(pages));
             StartCoroutine(WaitForPageExit(pages));
         }
         
+
         private IEnumerator WaitForPageExit(params IPage[] pages)
         {
-            while (true)
+            while (pages[0].DataAnimation.TargetState != AnimationState.None)
             {
-                
+                yield return null;
             }
-            
-            
-            yield return null;
+            TurnPageOn(pages[1]);
         }
-
-
-
        
         public void SetPages(IFactoryPage factory)
         {

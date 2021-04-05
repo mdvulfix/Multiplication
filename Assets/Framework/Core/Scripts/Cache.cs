@@ -10,7 +10,7 @@ namespace Framework.Core
         Dictionary<Type, ICacheable> Storage {get; }
         
         void Add(T instance);
-        T Get();
+        T Get(Type type);
 
     }
     
@@ -26,13 +26,13 @@ namespace Framework.Core
             Storage.Add(instance.GetType(), instance);
         }
 
-        public T Get()
+        public T Get(Type type)
         {
             
             T instance = null; 
             
-            if(Storage.ContainsKey(typeof(T)))
-                instance = (T)Storage[typeof(T)];
+            if(Storage.ContainsKey(type))
+                instance = (T)Storage[type];
                 
             return null;
         }

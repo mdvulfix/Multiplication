@@ -23,6 +23,16 @@ namespace Framework.Core
             
             return instance as T;
         }
+        
+        public T Get<T>(out T value) where T: SceneObject, IPage
+        {
+            var obj = CreateSceneObject(typeof(T).Name, PARENT_NAME);
+            var instance = obj.AddComponent<T>();
+            value = instance;
+            
+            return instance as T;
+        }
+
 
         
 
