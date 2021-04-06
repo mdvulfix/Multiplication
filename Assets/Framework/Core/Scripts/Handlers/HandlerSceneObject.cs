@@ -3,9 +3,18 @@
 public static class HandlerSceneObject
 {
 
-    public static GameObject Create(string name, string parent = null)
+    public static GameObject Create(string name, string parent = null, GameObject prefab = null)
     {
-        var obj =  new GameObject(name);
+        
+        GameObject obj;
+        
+        if(prefab!=null)
+        {
+            obj =  GameObject.Instantiate(prefab);
+            obj.name = name;
+        }
+        else
+            obj =  new GameObject(name);
 
         if(parent!=null)
         {

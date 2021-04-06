@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Framework.Core
@@ -6,35 +7,19 @@ namespace Framework.Core
     public interface IFactoryPage: IFactory
     {
         HashSet<IPage> GetPages();
-        T Get<T>() where T: SceneObject, IPage;
+
     }
     
+    [Serializable]
     public abstract class FactoryPage : Factory, IFactoryPage
     {
-
-        protected static readonly string PARENT_NAME = "Scene";
+        [SerializeField]
+        protected GameObject prefab;
+        
+        protected static readonly string PARENT_SCENEOBJECT_NAME = "UI";
         
         public abstract HashSet<IPage> GetPages();
-
-        public T Get<T>() where T: SceneObject, IPage
-        {
-            var obj = CreateSceneObject(typeof(T).Name, PARENT_NAME);
-            var instance = obj.AddComponent<T>();
-            
-            return instance as T;
-        }
-        
-        public T Get<T>(out T value) where T: SceneObject, IPage
-        {
-            var obj = CreateSceneObject(typeof(T).Name, PARENT_NAME);
-            var instance = obj.AddComponent<T>();
-            value = instance;
-            
-            return instance as T;
-        }
-
-
-        
+       
 
     }
 }

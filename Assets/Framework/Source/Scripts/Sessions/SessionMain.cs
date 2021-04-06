@@ -4,7 +4,7 @@ using Framework.Core;
 namespace Framework 
 {
     [Serializable]
-    public class SessionMainDefault : Session
+    public class SessionMain : Session
     {
 
         private readonly string SESSION = "Session: Main";

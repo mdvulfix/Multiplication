@@ -5,6 +5,12 @@ namespace Framework
 {    
     public class ControlPageDefault : ControlPage
     {
+        
+        
+        public Page PageOn;
+        public Page PageOff;
+        
+        
         public override void Configure() 
         {                         
             if(Pages.Count > 0)
@@ -15,7 +21,6 @@ namespace Framework
             }
             else
                 LogWarning("Pages haven't been found.");
-
 
         }
            

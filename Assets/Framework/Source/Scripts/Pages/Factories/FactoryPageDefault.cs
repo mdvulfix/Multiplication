@@ -16,9 +16,9 @@ namespace Framework
             
             var pages = new HashSet<IPage>()
             {
-                SetDataAnimation(Get<PageLoading>()),
-                SetDataAnimation(Get<PageLogin>()),
-                SetDataAnimation(Get<PageMainMenu>())
+                SetDataAnimation(Get<PageLoading>("Page: Loading", PARENT_SCENEOBJECT_NAME, prefab)),
+                SetDataAnimation(Get<PageLogin>("Page: Login", PARENT_SCENEOBJECT_NAME, prefab)),
+                SetDataAnimation(Get<PageMainMenu>("Page: MainMenu", PARENT_SCENEOBJECT_NAME, prefab))
             };
 
             return pages;

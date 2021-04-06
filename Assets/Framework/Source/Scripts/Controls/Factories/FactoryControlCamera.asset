@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e4d231136dd9cf46829cbf5e1e7e635, type: 3}
+  m_Script: {fileID: 11500000, guid: 31f4ac2e19bac784fbfe75427017f638, type: 3}
   m_Name: FactoryControlCamera
   m_EditorClassIdentifier: 

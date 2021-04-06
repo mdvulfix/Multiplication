@@ -4,18 +4,13 @@ using Framework.Core;
 
 namespace Framework
 {
-    [CreateAssetMenu(fileName = "Factory Session (Main)", menuName = "Factories/Sessions/Main")]
-    public class FactorySessionDefault : FactorySessions
+    [CreateAssetMenu(fileName = "FactorySession", menuName = "Factories/Sessions/Default")]
+    public class FactorySessionDefault : FactorySession
     {
-        public override HashSet<ISession> GetSessions()
+        public override ISession GetSession()
         {
-            var session = new HashSet<ISession>()
-            {
-                new SessionMainDefault()
+            return Get<SessionMain>("Session: Main", PARENT_SCENEOBJECT_NAME);
 
-            };
-
-            return session;
         }
 
     }

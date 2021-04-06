@@ -12,7 +12,7 @@ namespace Framework
         {
             Initialize(PAGE_NAME);
             SetPageToCache(this);
-            Animate(true);
+            Animate(false);
 
         } 
 

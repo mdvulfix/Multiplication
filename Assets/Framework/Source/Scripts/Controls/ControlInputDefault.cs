@@ -6,16 +6,16 @@ namespace Framework
 {
     public class ControlInputDefault : ControlInput
     {
-        private readonly string PAGE_NAME = "Control: Input";
+        //private readonly string SCENEOBJECT_NAME = "Control: Input";
     
         public InputAction InputActionByTyping;
         
         public override void Configure()
         {
-            InputActionByTyping += InputMethod_1(KeyCode.F);
-            InputActionByTyping += InputMethod_2(KeyCode.F);
-            InputActionByTyping += InputMethod_3(KeyCode.F);
-            InputActionByTyping += InputMethod_4(KeyCode.F);
+            //InputActionByTyping += InputMethod_1(KeyCode.F);
+            //InputActionByTyping += InputMethod_2(KeyCode.F);
+            //InputActionByTyping += InputMethod_3(KeyCode.F);
+            //InputActionByTyping += InputMethod_4(KeyCode.F);
         
         }
 

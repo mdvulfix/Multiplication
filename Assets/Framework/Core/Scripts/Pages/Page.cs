@@ -13,6 +13,7 @@ namespace Framework.Core
         void Animate(bool animate);
     }
     
+    [Serializable]
     public abstract class Page : SceneObject, IPage
     {
         public bool             IsLoading       {get; protected set;}
@@ -25,8 +26,11 @@ namespace Framework.Core
 
         public void Animate(bool animate)
         {
+            
+            DataAnimation.Animator = ObjectOnScene.GetComponent<Animator>();
             if(DataAnimation.Animator == null)
                 DataAnimation.Animator = ObjectOnScene.AddComponent<Animator>();
+                
             
             if(!ActivateObject(animate))
                 return;

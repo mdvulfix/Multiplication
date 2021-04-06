@@ -5,18 +5,18 @@ namespace Framework.Core
 {
     public interface IFactoryControl: IFactory
     {
-        T Get<T>() where T: SceneObject, IControl;
+        IControl GetControl();
+
     }
     
 
+
     public abstract class FactoryControl : Factory, IFactoryControl
     {
+        protected readonly string PARENT_SCENEOBJECT_NAME = "Controls";
+        public abstract IControl GetControl();
+        
 
-        protected static readonly string PARENT_NAME = "Controls";
-        
-        public abstract T Get<T>() where T: SceneObject, IControl;
-            
-        
         
 
 

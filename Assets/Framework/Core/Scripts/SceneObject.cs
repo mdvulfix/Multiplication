@@ -9,9 +9,9 @@ namespace Framework.Core
         string       Name            {get; }
     }
     
-    
+    [Serializable]
     public abstract class SceneObject : MonoBehaviour
-    {
+    {       
         public GameObject   ObjectOnScene   {get; private set;}
         public string       Name            {get; protected set;}
        
@@ -26,8 +26,6 @@ namespace Framework.Core
             ObjectOnScene.SetActive(activate);
             return activate;
         }
-
-
     }
 
 }

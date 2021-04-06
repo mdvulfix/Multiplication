@@ -7,7 +7,8 @@ namespace Framework.Core
     
     public interface IControlPage: IControl
     {
-        HashSet<IPage> Pages {get; }
+        IPage           ActivePage      {get; set;}
+        HashSet<IPage>  Pages           {get; }
         
         void SetPages(IFactoryPage factory);
         void SetPages(HashSet<IPage> pages); 
@@ -20,33 +21,35 @@ namespace Framework.Core
     
     public abstract class ControlPage : Control, IControlPage
     {
+        private HashSet<IPage>  pages;
    
-        private HashSet<IPage> pages;
-       
-        public HashSet<IPage> Pages {get => pages; private set => pages = value; }
+        public  IPage           ActivePage  {get; set;}
+        public  HashSet<IPage>  Pages       {get => pages; private set => pages = value; }
         
          
         
         public virtual void TurnPageOn(IPage pageOn)
         {
+        
             if(!Pages.Contains(pageOn))
             {
                 LogWarning("You are trying to turn a page on [" + pageOn.Name + "] that has not been registered!");
                 return;
             }
-
+    
             pageOn.Animate(true);
             Log(pageOn.Name + "was animated");
         }
         
         public virtual void TurnPageOff(IPage pageOff, IPage pageOn = null, bool waitForExit = false)
         {
+        
             if(!Pages.Contains(pageOff))
             {
                 LogWarning("You are trying to turn a page off [" + pageOff.Name + "] that has not been registered!");
                 return;
             }
-
+    
             if(pageOff.ObjectOnScene.activeSelf)
                 pageOff.Animate(false);
 

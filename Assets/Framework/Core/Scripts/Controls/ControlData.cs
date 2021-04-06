@@ -1,37 +1,45 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
+using UnityEditor;
 
-    
 namespace Framework.Core
 {
-    /*
-    //[CreateAssetMenu(fileName = "Camera(Default)", menuName = "Controls/Camera", order = 1)]
-    public class ControlData : Control
+
+    public interface IControlData: IControl
     {
-        [SerializeField]
-        private GameObject mainCamera;
-                
+       
         
-        public override void OnEnable() 
-        {      
-        
-        }        
-        
-        public override void OnAwake() 
-        {               
+    } 
 
+    [Serializable]
+    public class ControlData: Control, IControlData
+    {
+        public static DataHash DataHash {get; set;}
+        
+        public Scene SceneCurrent;
+        
+        public void Start()
+        {   
+            
+            
+            Configure();
+            SceneCurrent = DataHash.Get<SceneMenu>();
+            SceneCurrent.IsActive = true;
         }
 
-        public override void OnUpdate() 
+        public override void Configure()
         {
+            DataHash = new DataHash();
+            
+            DataHash.Add<SceneCore>(new SceneCore());
+            DataHash.Add<SceneMenu>(new SceneMenu());
+            DataHash.Add<SceneRunTime>(new SceneRunTime());
 
-        
+
         }
+    
 
-
-
+    
     }
 
-    */
+
 }
