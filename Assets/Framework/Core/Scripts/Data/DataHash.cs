@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Framework.Core 
@@ -7,51 +7,64 @@ namespace Framework.Core
     
     public interface IDataHash : IData
     {
-        void Add<T>(T instance) where T: class;
-        T Get<T>() where T: class;
+        void Add(object instance);
+        object Get(int typeHashCode);
     }
     
-    public class DataHash : Data, IDataHash
+    public class DataHash : Data
     {
-        public Hashtable Storage {get; private set;}
+        public Dictionary<int, object> Storage {get; private set;}
 
         public DataHash()
         {
-            Storage = new Hashtable();
+            Storage = new Dictionary<int, object>();
         }
 
-        public void Add<T>(T instance) where T: class
+        public void Add(object instance)
         {
-            Storage.Add(instance.GetType(), instance);
+            Storage.Add(instance.GetType().GetHashCode(), instance);
 
         }
         
-        public T Get<T>() where T: class
+        public object Get(int typeHashCode)
         {
-         
-            if(Storage.ContainsKey(typeof(T)))
-            {
-                var instance = Storage[typeof(T)];
-                return instance as T;
-            }
-            return null;
+            object instance;
+            if(Storage.TryGetValue(typeHashCode, out instance))
+                return instance;
+            else
+                return null;
         }
 
-        public T Get<T>(int id) where T: class, IScene
+        public object GetNext(int typeHashCode)
         {
-            //var values = Storage.Values;
-            //var instance = from x in values where values[x]=id select x; 
-            
-            //T scene = Storage.Values.Cast<T>().Select(x => x.ID == id);
-            
-            var scene = from T s in Storage.Values
-                where  s.ID == id                
-                select Storage[ s ];
-            
-            //var scene = Storage.Cast<DictionaryEntry>().Where(instance => ((T)instance).ID == id) as T;
-            Debug.Log(scene.GetType().ToString());
-            
-            return scene as T;
+            if(Storage.ContainsKey(typeHashCode))
+            {           
+                List<int> lKeys = Storage.Keys.ToList();
+                int reqIndex = lKeys.IndexOf(typeHashCode) + 1;
+                typeHashCode = lKeys[reqIndex];
+                object instance;
+                Storage.TryGetValue(typeHashCode, out instance);
+                return instance;
+            }
+            else
+                return null;
+
+        }
+
+        public object GetPrev(int typeHashCode)
+        {
+            if(Storage.ContainsKey(typeHashCode))
+            {           
+                List<int> lKeys = Storage.Keys.ToList();
+                int reqIndex = lKeys.IndexOf(typeHashCode) - 1;
+                typeHashCode = lKeys[reqIndex];
+                object instance;
+                Storage.TryGetValue(typeHashCode, out instance);
+                return instance;
+            }
+            else
+                return null;
+
         }
 
     }

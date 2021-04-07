@@ -22,7 +22,7 @@ namespace Framework.Core
             
             
             Configure();
-            SceneCurrent = DataHash.Get<SceneMenu>();
+            SceneCurrent = (Scene)DataHash.Get(typeof(SceneMenu).GetHashCode());
             SceneCurrent.IsActive = true;
         }
 
@@ -30,9 +30,9 @@ namespace Framework.Core
         {
             DataHash = new DataHash();
             
-            DataHash.Add<SceneCore>(new SceneCore());
-            DataHash.Add<SceneMenu>(new SceneMenu());
-            DataHash.Add<SceneRunTime>(new SceneRunTime());
+            DataHash.Add(new SceneCore());
+            DataHash.Add(new SceneMenu());
+            DataHash.Add(new SceneRunTime());
 
 
         }

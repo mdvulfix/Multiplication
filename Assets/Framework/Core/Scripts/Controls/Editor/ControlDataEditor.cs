@@ -21,33 +21,35 @@ namespace Framework.Core
         public override void OnInspectorGUI()
         {
             DrawDefaultInspector();
-
+            var scene = instance.SceneCurrent;
+            
             GUILayout.BeginHorizontal();
             
             if(GUILayout.Button("Menu"))
             {
 
                 instance.SceneCurrent.IsActive = false;
-                instance.SceneCurrent = ControlData.DataHash.Get<SceneMenu>();
+                instance.SceneCurrent = (Scene)ControlData.DataHash.Get(typeof(SceneMenu).GetHashCode());
                 instance.SceneCurrent.IsActive = true;
                 
             }
             if(GUILayout.Button("<<"))
             {
                 instance.SceneCurrent.IsActive = false;
-                instance.SceneCurrent = ControlData.DataHash.Get<Scene>(instance.SceneCurrent.ID - 1);
+                instance.SceneCurrent = (Scene)ControlData.DataHash.GetPrev(instance.SceneCurrent.GetType().GetHashCode());
                 instance.SceneCurrent.IsActive = true;
             }
             if(GUILayout.Button(">>"))
             {
+                
                 instance.SceneCurrent.IsActive = false;
-                instance.SceneCurrent = ControlData.DataHash.Get<Scene>(instance.SceneCurrent.ID + 1);
+                instance.SceneCurrent = (Scene)ControlData.DataHash.GetNext(instance.SceneCurrent.GetType().GetHashCode());
                 instance.SceneCurrent.IsActive = true;
             }
             if(GUILayout.Button("RunTime"))
             {
                 instance.SceneCurrent.IsActive = false;
-                instance.SceneCurrent = ControlData.DataHash.Get<SceneRunTime>();
+                instance.SceneCurrent = (Scene)ControlData.DataHash.Get(typeof(SceneRunTime).GetHashCode());
                 instance.SceneCurrent.IsActive = true;
             }
             GUILayout.EndHorizontal();
