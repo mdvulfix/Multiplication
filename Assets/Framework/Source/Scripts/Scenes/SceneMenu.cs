@@ -2,7 +2,7 @@
 
 namespace Framework
 {
-    public class SceneMenu : Scene
+    public class SceneMenu : Scene<SceneMenu>
     {
         public SceneMenu(): base("MainMenu", 1)
         {

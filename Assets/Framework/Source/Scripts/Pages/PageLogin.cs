@@ -4,19 +4,15 @@ using Framework.Core;
 
 namespace Framework
 {
-    public class PageLogin : Page
+    public class PageLogin : Page<PageLogin>
     {
         private readonly string PAGE_NAME = "Page: Login";
         
         public override void Register()
         {
             Initialize(PAGE_NAME);
-            SetPageToCache(this);
-
-            Animate(false);
-            
-        }
-
+            SetToCache(this);
+            Activate(false);
+        } 
     }
-
 }

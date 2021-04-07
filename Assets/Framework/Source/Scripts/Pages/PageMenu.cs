@@ -4,16 +4,15 @@ using Framework.Core;
 
 namespace Framework
 {
-    public class PageMainMenu : Page
+    public class PageMenu : Page<PageMenu>
     {
-        private readonly string PAGE_NAME = "Page: Main menu";
+        private readonly string PAGE_NAME = "Page: Menu";
         
         public override void Register()
         {
             Initialize(PAGE_NAME);
-            SetPageToCache(this);
-
-            Animate(false);
+            SetToCache(this);
+            Activate(false);
         }
 
     }

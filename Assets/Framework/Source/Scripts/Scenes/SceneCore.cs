@@ -2,7 +2,7 @@
 
 namespace Framework
 {
-    public class SceneCore : Scene
+    public class SceneCore : Scene<SceneCore>
     {
         public SceneCore(): base("Core", 0)
         {

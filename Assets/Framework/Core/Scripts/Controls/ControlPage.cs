@@ -37,7 +37,7 @@ namespace Framework.Core
                 return;
             }
     
-            pageOn.Animate(true);
+            pageOn.Activate(true);
             Log(pageOn.Name + "was animated");
         }
         
@@ -51,7 +51,7 @@ namespace Framework.Core
             }
     
             if(pageOff.ObjectOnScene.activeSelf)
-                pageOff.Animate(false);
+                pageOff.Activate(false);
 
             if(waitForExit)
             {

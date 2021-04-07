@@ -18,7 +18,7 @@ namespace Framework
             {
                 SetDataAnimation(Get<PageLoading>("Page: Loading", PARENT_SCENEOBJECT_NAME, prefab)),
                 SetDataAnimation(Get<PageLogin>("Page: Login", PARENT_SCENEOBJECT_NAME, prefab)),
-                SetDataAnimation(Get<PageMainMenu>("Page: MainMenu", PARENT_SCENEOBJECT_NAME, prefab))
+                SetDataAnimation(Get<PageMenu>("Page: Menu", PARENT_SCENEOBJECT_NAME, prefab))
             };
 
             return pages;

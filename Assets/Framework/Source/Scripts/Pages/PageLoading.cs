@@ -4,21 +4,16 @@ using Framework.Core;
 
 namespace Framework
 {
-    public class PageLoading : Page
+    public class PageLoading : Page<PageLoading>
     {
         private readonly string PAGE_NAME = "Page: Loading";
         
         public override void Register()
         {
             Initialize(PAGE_NAME);
-            SetPageToCache(this);
-            Animate(false);
+            SetToCache(this);
+            Activate(false);
 
         } 
-
-
-
-
     }
-
 }

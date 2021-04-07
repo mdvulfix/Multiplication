@@ -10,41 +10,47 @@ namespace Framework.Core
         IDataAnimation  DataAnimation   {get; set;}
         
         void Register();
-        void Animate(bool animate);
+        void Activate(bool active);
     }
-    
-    [Serializable]
     public abstract class Page : SceneObject, IPage
     {
         public bool             IsLoading       {get; protected set;}
         public IDataAnimation   DataAnimation   {get; set;}
         
-        public static ICache<IPage> Cache {get; } = new Cache<IPage>();
-
-
         public abstract void Register();
+        public abstract void Activate(bool active);
 
-        public void Animate(bool animate)
+    }
+
+
+    [Serializable]
+    public abstract class Page<T> : Page where T: Page
+    {
+        
+        public static ICache<T> Cache {get; } = new Cache<T>();
+
+        public override void Activate(bool active)
         {
             
-            DataAnimation.Animator = ObjectOnScene.GetComponent<Animator>();
-            if(DataAnimation.Animator == null)
-                DataAnimation.Animator = ObjectOnScene.AddComponent<Animator>();
+            //DataAnimation.Animator = ObjectOnScene.GetComponent<Animator>();
+            //if(DataAnimation.Animator == null)
+            //    DataAnimation.Animator = ObjectOnScene.AddComponent<Animator>();
                 
             
-            if(!ActivateObject(animate))
+            if(!ActivateObject(active))
                 return;
-            
+            /*
             if(DataAnimation.UseAnimation)
             {
-                StopCoroutine(AwaitAnimation(animate));
-                StartCoroutine(AwaitAnimation(animate));
+                StopCoroutine(AwaitAnimation(active));
+                StartCoroutine(AwaitAnimation(active));
                 Log("Animation is enabled on page [ " + Name + " ]");
             }
             else
             {
                 Log("Animation is disabled on page [ " + Name + " ]");
             }
+            */
         }
 
         // TODO: check AwaitAnimation function;
@@ -62,47 +68,21 @@ namespace Framework.Core
             Log("[ " + Name +" ] finised transition to " + (on ? "On" : "Off") + "snimation state");      
         }
 
-        public void SetPageToCache(IPage page)
+        public void SetToCache(T page)
         {
             Cache.Add(page);
             Log("[ " + Name + " ] was set to cache.");
 
         }
         
-        public static IPage GetPageByType(Type type)
-        {
-            IPage page = Cache.Get(type);
-
-            if(page == null)
-            {
-                LogWarning(page.GetType() + " not found.");
-                return null;
-            }
-            else
-            {
-                Log(page.GetType() + " got from cache.");
-                return page;
-                
-            }
-        }
-
-        public IPage[] GetPagesFromCache()
-        {
-            var pages = new IPage[Cache.Storage.Count];
-            Cache.Storage.Values.CopyTo(pages, 0);
-            
-            return pages;
-
-        }
-
-
-        protected static void Log(string message)
+        
+        protected void Log(string message)
         {
             Debug.Log("[Page]: " + message);
 
         }
 
-        protected static void LogWarning(string message)
+        protected void LogWarning(string message)
         {
             Debug.LogWarning("[Page]: " + message);
             
@@ -110,5 +90,9 @@ namespace Framework.Core
     
     
     }
+
+    
+
+
 
 }

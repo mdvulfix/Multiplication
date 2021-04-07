@@ -2,7 +2,7 @@
 
 namespace Framework
 {
-    public class SceneRunTime : Scene
+    public class SceneRunTime : Scene<SceneRunTime>
     {
         public SceneRunTime(): base("RunTime", 2)
         {

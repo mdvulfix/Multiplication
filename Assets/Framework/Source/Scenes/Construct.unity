@@ -151,10 +151,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug: 0
-  SceneCurrent:
-    name: 
-    id: 0
-    isActive: 0
+  PageCurrent: {fileID: 0}
+  factoryPage: {fileID: 11400000, guid: d42a62a8b6070554abce82fc02e1bb3e, type: 2}
 --- !u!4 &1957450078
 Transform:
   m_ObjectHideFlags: 0

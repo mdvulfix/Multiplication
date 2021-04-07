@@ -5,12 +5,12 @@ namespace Framework.Core
     
     public interface IFactory
     {
-
+        T Get<T>(string name, string parent = null, GameObject prefab = null) where T: SceneObject;
     }
 
     public abstract class Factory: ScriptableObject, IFactory
     {       
-        protected virtual T Get<T>(string name, string parent, GameObject prefab = null) where T: SceneObject
+        public virtual T Get<T>(string name, string parent = null, GameObject prefab = null) where T: SceneObject
         {
 
             var obj = CreateSceneObject(name, parent, prefab);

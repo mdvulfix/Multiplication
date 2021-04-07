@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Framework.Core
 {
-    public interface IScene
+    public interface IScene: ICacheable
     {
         string   Name       {get; }
         int      ID         {get; }  
@@ -11,7 +11,7 @@ namespace Framework.Core
     }
     
     [Serializable]
-    public abstract class AScene:  IScene
+    public abstract class Scene:  IScene
     {
         [SerializeField] private string     name; 
         [SerializeField] private int        id;
@@ -21,5 +21,17 @@ namespace Framework.Core
         public int      ID          {get => id;         protected set => id = value;}
         public bool     IsActive    {get => isActive;   set => isActive = value;}
     
+    }
+
+    [Serializable]
+    public abstract class Scene<T> : Scene
+    {
+        public Scene(string name, int id)
+        {
+            Name = name;
+            ID = id;
+            
+
+        }   
     }
 }

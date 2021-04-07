@@ -10,7 +10,7 @@ namespace Framework.Core
     {
         
         ControlData instance;
-        DataHash DataHash {get; set;}
+        ICache<IScene> Cache {get; set;}
 
         private void OnEnable() 
         {
@@ -23,34 +23,54 @@ namespace Framework.Core
             DrawDefaultInspector();
             var scene = instance.SceneCurrent;
             
+            
             GUILayout.BeginHorizontal();
             
             if(GUILayout.Button("Menu"))
             {
-
-                instance.SceneCurrent.IsActive = false;
-                instance.SceneCurrent = (Scene)ControlData.DataHash.Get(typeof(SceneMenu).GetHashCode());
-                instance.SceneCurrent.IsActive = true;
-                
+                instance.SceneCurrent = (Scene)ControlData.CacheScene.Get(typeof(SceneMenu));
             }
             if(GUILayout.Button("<<"))
             {
-                instance.SceneCurrent.IsActive = false;
-                instance.SceneCurrent = (Scene)ControlData.DataHash.GetPrev(instance.SceneCurrent.GetType().GetHashCode());
-                instance.SceneCurrent.IsActive = true;
+                instance.SceneCurrent = (Scene)ControlData.CacheScene.GetPrev(instance.SceneCurrent.GetType());
             }
             if(GUILayout.Button(">>"))
             {
-                
-                instance.SceneCurrent.IsActive = false;
-                instance.SceneCurrent = (Scene)ControlData.DataHash.GetNext(instance.SceneCurrent.GetType().GetHashCode());
-                instance.SceneCurrent.IsActive = true;
+                instance.SceneCurrent = (Scene)ControlData.CacheScene.GetNext(instance.SceneCurrent.GetType());
             }
             if(GUILayout.Button("RunTime"))
             {
-                instance.SceneCurrent.IsActive = false;
-                instance.SceneCurrent = (Scene)ControlData.DataHash.Get(typeof(SceneRunTime).GetHashCode());
-                instance.SceneCurrent.IsActive = true;
+                instance.SceneCurrent = (Scene)ControlData.CacheScene.Get(typeof(SceneRunTime));
+            }
+            GUILayout.EndHorizontal();
+            GUILayout.Space(5);
+            var page = instance.PageCurrent;
+            GUILayout.BeginHorizontal();
+            
+            if(GUILayout.Button("Menu"))
+            {
+                instance.PageCurrent.Activate(false);
+                instance.PageCurrent = (Page)ControlData.CachePage.Get(typeof(PageLoading));
+                instance.PageCurrent.Activate(true);
+            }
+            if(GUILayout.Button("<<"))
+            {
+                instance.PageCurrent.Activate(false);
+                instance.PageCurrent = (Page)ControlData.CachePage.GetPrev(instance.PageCurrent.GetType());
+                instance.PageCurrent.Activate(true);
+            }
+            if(GUILayout.Button(">>"))
+            {
+                instance.PageCurrent.Activate(false);
+                instance.PageCurrent = (Page)ControlData.CachePage.GetNext(instance.PageCurrent.GetType());
+                instance.PageCurrent.Activate(true);
+            }
+            if(GUILayout.Button("RunTime"))
+            {
+                
+                instance.PageCurrent.Activate(false);
+                instance.PageCurrent = (Page)ControlData.CachePage.Get(typeof(PageMenu));
+                instance.PageCurrent.Activate(true);
             }
             GUILayout.EndHorizontal();
         }
