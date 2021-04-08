@@ -12,9 +12,8 @@ namespace Framework.Core
 
     public abstract class ControllerCamera: Controller, IControllerCamera
     {
+        protected readonly string SCENEOBJECT_NAME = "Controller: Camera";
 
-
-    
     
     }
 

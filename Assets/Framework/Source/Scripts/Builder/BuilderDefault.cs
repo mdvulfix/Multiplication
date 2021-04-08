@@ -8,9 +8,6 @@ namespace Framework
     [Serializable]
     public class BuilderDefault : Builder
     {
-       
-        private readonly string BUILDER_NAME = "Builder";
-
         [Header("Factories: Session")]
         [SerializeField] FactorySession         factorySessions; 
         
@@ -22,7 +19,7 @@ namespace Framework
         //[SerializeField] FactoryControlInput factoryControlInput;
         public override void OnAwake()
         {
-            //Initialize(BUILDER_NAME);
+            SetSceneObject(SCENEOBJECT_NAME);
             SetSession();
             SetControls();
             Configure();
@@ -50,12 +47,12 @@ namespace Framework
         {          
             foreach (var session in Sessions.Values)
             {
-                session.Configure();
+                session.Initialize();
             }
             
             foreach (var control in Controls.Values)
             {
-                control.Configure();
+                control.Initialize();
             }
 
         }

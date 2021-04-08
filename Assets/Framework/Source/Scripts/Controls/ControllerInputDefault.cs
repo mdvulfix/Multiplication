@@ -10,6 +10,14 @@ namespace Framework
     
         public InputAction InputActionByTyping;
         
+        public override void Initialize()
+        {
+            SetSceneObject(SCENEOBJECT_NAME);
+            Log(Label, "was sucsessfully initialized");
+
+        } 
+        
+        
         public override void Configure()
         {
             //InputActionByTyping += InputMethod_1(KeyCode.F);

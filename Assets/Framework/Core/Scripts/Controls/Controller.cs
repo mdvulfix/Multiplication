@@ -3,37 +3,42 @@ using UnityEngine;
 
 namespace Framework.Core
 {
-    public interface IController: ICacheable
+    public interface IController: ICacheable, IDebug
     {
+        void Initialize();
         void Configure();
-    
-        void Log(string controller, string message);
-        void LogWarning(string controller, string message);
     }     
     
     [Serializable]
     public abstract class Controller : SceneObject, IController
     {
-        [SerializeField]
-        private bool debug;
+        public bool UseDebug{get; set;} = true;
                 
         
  #region Configure
         
+        public abstract void Initialize();
         public abstract void Configure();
 
 #endregion   
     
-#region LogFunctions
+#region DebugFunctions
 
-        public virtual void Log(string controller, string message)
+        public virtual void Log(string instance, string message)
         {
-            Debug.Log("["+ controller +"]: " + message);
+            if(UseDebug)
+            {
+                Debug.Log("["+ instance +"]: " + message);
+            }
+                
         }
 
-        public virtual void LogWarning(string controller, string message)
+        public virtual void LogWarning(string instance, string message)
         {
-            Debug.LogWarning("["+ controller +"]: " + message);
+            if(UseDebug)
+            {
+                Debug.LogWarning("["+ instance +"]: " + message);
+            }
         }
 
 #endregion

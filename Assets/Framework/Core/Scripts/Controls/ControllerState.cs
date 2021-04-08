@@ -21,6 +21,8 @@ namespace Framework.Core
     public abstract class ControllerState : Controller, IControllerState
     {
         
+        protected readonly string SCENEOBJECT_NAME = "Controller: State";
+
         private HashSet<IState> states;
         
         public HashSet<IState> States {get => states; private set => states = value; }

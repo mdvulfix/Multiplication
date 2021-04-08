@@ -8,43 +8,49 @@ namespace Framework.Core
     
     public interface IControllerPage: IController
     {
-        IPage PageActive {get; set;}
+        ICache<IPage>   Cache       {get; }
+        IPage           PageActive  {get; }
         
-        void TurnPageOn<TPageNext>() where TPageNext: class, IPage;
-        void TurnPageOff<TPageNext>(bool waitForPageExit = false) where TPageNext: class, IPage;
+        //void TurnPageOn<TPageNext>() where TPageNext: class, IPage;
+        
+        IPage PageRegister(IPage page);
+        void  PageTurn<TPageNext>(bool waitForPageExit = false) where TPageNext: class, IPage;
     } 
     
     public abstract class ControllerPage : Controller, IControllerPage
     {
-        public static ICache<IPage> Cache {get; protected set;} = new Cache<IPage>();
-       
-        public  IPage PageActive {get => pageActive; set => pageActive = value; }       
+        
+        protected readonly string SCENEOBJECT_NAME = "Controller: Page";
+        
+        public ICache<IPage>    Cache       {get; protected set;} = new Cache<IPage>();
+        public IPage            PageActive  {get => pageActive; set => pageActive = value; }       
+
 
         private IPage pageActive;
         
 #region PageManagement
     
-        public virtual void TurnPageOn<TPageNext>() where TPageNext: class, IPage
+        public IPage PageRegister(IPage page)
         {
-            var pageNext = Cache.Get<TPageNext>();
-            
-            if(pageNext==null)
-            {
-                LogWarning(Name, "You are trying to turn a page on [" + pageNext.Name + "] that has not been registered!");
-                return;
-            }
-    
-            pageNext.Activate(true);
-            Log(Name, pageNext.Name + "was animated");
+            return Cache.Add(page);
         }
+
+        public void PageRegister(List<IPage> pages)
+        {
+            foreach (var page in pages)
+            {
+                PageRegister(page);
+            }
+        }
+
         
-        public virtual void TurnPageOff<TPageNext>(bool waitForPageExit = false) where TPageNext: class, IPage
+        public void PageTurn<TPageNext>(bool waitForPageExit = false) where TPageNext: class, IPage
         {
             var pageNext = Cache.Get<TPageNext>();
             
             if(pageActive == null)
             {
-                LogWarning(Name, "You are trying to turn a page off [" + pageActive.Name + "] that has not been registered!");
+                LogWarning(Label, "You are trying to turn a page [" + pageActive.Label + "] that has not been registered!");
                 return;
             }
     
@@ -59,9 +65,24 @@ namespace Framework.Core
                 //Log("Animation is enabled on page [ " + Name + " ]");
             }
             else
-                TurnPageOn<TPageNext>();
+                PageGetNext<TPageNext>();
         }
        
+        private void PageGetNext<TPageNext>() where TPageNext: class, IPage
+        {
+            var pageNext = Cache.Get<TPageNext>();
+            
+            if(pageNext==null)
+            {
+                LogWarning(Label, "You are trying to turn a page on [" + pageNext.Label + "] that has not been registered!");
+                return;
+            }
+    
+            pageNext.Activate(true);
+            pageActive = pageNext;
+            Log(Label, pageNext.Label + "was animated");
+        }  
+    
         private IEnumerator WaitForPageExit<TPageNext>() where TPageNext: class, IPage
         {
             while (pageActive.DataAnimation.TargetState != AnimationState.None)
@@ -69,12 +90,9 @@ namespace Framework.Core
                 yield return null;
             }
             
-            TurnPageOn<TPageNext>();
+            PageGetNext<TPageNext>();
         }
        
 #endregion
-
-
-   
     }
 }

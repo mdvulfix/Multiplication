@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Framework.Core
 {
     
-    public interface ICache<T> where T: class, ICacheable
+    public interface ICache<T>: ISimpleObject, IDebug where T: class, ICacheable
     {
         Dictionary<Type, T> Store {get; }
         
@@ -21,11 +22,15 @@ namespace Framework.Core
         T GetPrev();
         T GetPrev(Type type);
 
+        List<T> GetAll();
+
     }
 
     public class Cache<T> : ICache<T>  where T: class, ICacheable
     { 
-        public Dictionary<Type, T> Store {get; } = new Dictionary<Type, T>(100);
+        public string               Label       {get; }
+        public bool                 UseDebug    {get; set;} = true;
+        public Dictionary<Type, T>  Store       {get; } = new Dictionary<Type, T>(100);
     
         public T Add(T instance)
         {
@@ -61,8 +66,6 @@ namespace Framework.Core
             else     
                 return null;
         }
-
-
 
         public T GetNext()
         {
@@ -131,6 +134,41 @@ namespace Framework.Core
                 return null; 
 
         }
+
+        public List<T> GetAll()
+        {
+            
+            if(Store.Keys.Count > 0)
+            {
+                return new List<T>(Store.Values);
+            }
+            else
+            {
+                LogWarning(Label, "Cache " + typeof(T) + " is empty!");
+                return null;
+            }
+        }
+
+#region DebugFunctions
+
+        public virtual void Log(string instance, string message)
+        {
+            if(UseDebug)
+            {
+                Debug.Log("["+ instance +"]: " + message);
+            }
+                
+        }
+
+        public virtual void LogWarning(string instance, string message)
+        {
+            if(UseDebug)
+            {
+                Debug.LogWarning("["+ instance +"]: " + message);
+            }
+        }
+
+#endregion
     }
 
 

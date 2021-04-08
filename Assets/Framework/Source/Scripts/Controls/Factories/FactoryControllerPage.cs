@@ -12,8 +12,17 @@ namespace Framework
         
         public override IController GetControl()
         {
+            if(factoryPage == null)
+            {
+                LogWarning(Label, "Factory page not set!");
+                return null;
+
+            }
+            
             var instance = Get<ControllerPageDefault>("Controller: Page", PARENT_SCENEOBJECT_NAME);
-            //instance.SetPages(factoryPage);
+            var pages = factoryPage.GetPages();
+            instance.PageRegister(pages);
+            instance.Configure();
 
             return instance;
 

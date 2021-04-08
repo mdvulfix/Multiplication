@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Framework.Core
 {
-    public interface IPage: ISceneObject, ICacheable
+    public interface IPage: ISceneObject, ICacheable, IDebug
     {
         bool            IsLoading       {get; }
         IDataAnimation  DataAnimation   {get; set;}
@@ -16,6 +16,8 @@ namespace Framework.Core
     [Serializable]
     public abstract class Page : SceneObject, IPage
     {
+        public bool             UseDebug        {get; set;} = true;
+        
         public bool             IsLoading       {get; protected set;}
         public IDataAnimation   DataAnimation   {get; set;}
         
@@ -57,7 +59,7 @@ namespace Framework.Core
                yield return null; 
 
             DataAnimation.CurrentState = AnimationState.None;
-            Log(Name, "was finised transition to " + (on ? "On" : "Off") + "snimation state");      
+            Log(Label, "was finised transition to " + (on ? "On" : "Off") + "snimation state");      
         }
  
 
@@ -66,15 +68,23 @@ namespace Framework.Core
 
 #region LogFunctions
 
-        public virtual void Log(string page, string message)
+        public virtual void Log(string instance, string message)
         {
-            Debug.Log("["+ page +"]: " + message);
+            if(UseDebug)
+            {
+                Debug.Log("["+ instance +"]: " + message);
+            }
+                
         }
 
-        public virtual void LogWarning(string page, string message)
+        public virtual void LogWarning(string instance, string message)
         {
-            Debug.LogWarning("["+ page +"]: " + message);
+            if(UseDebug)
+            {
+                Debug.LogWarning("["+ instance +"]: " + message);
+            }
         }
+
 
 #endregion
     }

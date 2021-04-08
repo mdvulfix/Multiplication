@@ -8,20 +8,18 @@ namespace Framework
     public class FactoryPageDefault : FactoryPage
     {
 
-        [SerializeField]        
-        private FactoryData factoryData;  
+        [SerializeField]
+        private FactoryData factoryData;
         
-        public override HashSet<IPage> GetPages()
+        public override List<IPage> GetPages()
         {
+            var cache = new List<IPage>();
             
-            var pages = new HashSet<IPage>()
-            {
-                SetDataAnimation(Get<PageLoading>("Page: Loading", PARENT_SCENEOBJECT_NAME, prefab)),
-                SetDataAnimation(Get<PageLogin>("Page: Login", PARENT_SCENEOBJECT_NAME, prefab)),
-                SetDataAnimation(Get<PageMenu>("Page: Menu", PARENT_SCENEOBJECT_NAME, prefab))
-            };
-
-            return pages;
+            cache.Add(SetDataAnimation(Get<PageLoading>("Page: Loading", PARENT_SCENEOBJECT_NAME, prefab)));
+            cache.Add(SetDataAnimation(Get<PageLogin>("Page: Login", PARENT_SCENEOBJECT_NAME, prefab)));
+            cache.Add(SetDataAnimation(Get<PageMenu>("Page: Menu", PARENT_SCENEOBJECT_NAME, prefab)));
+            
+            return cache;
         }
 
         public IPage SetDataAnimation(IPage page)

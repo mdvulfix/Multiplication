@@ -22,6 +22,8 @@ namespace Framework.Core
     [Serializable]
     public abstract class ControllerScene: Controller, IControllerScene
     {
+        protected readonly string SCENEOBJECT_NAME = "Controller: Scene";
+        
         [SerializeField]
         private int activeScene;
         

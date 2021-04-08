@@ -6,14 +6,14 @@ namespace Framework
 {
     public class PageLogin : Page
     {
-        private readonly string PAGE_NAME = "Page: Login";
+        private readonly string SCENEOBJECT_NAME = "Page: Login";
         
         public override void Initialize()
         {
-            SetSceneObject(PAGE_NAME);
+            SetSceneObject(SCENEOBJECT_NAME);
             Activate(false);
 
-            Log(Name, "was initialized");
+            Log(Label, "was sucsessfully initialized");
         } 
     }
 }

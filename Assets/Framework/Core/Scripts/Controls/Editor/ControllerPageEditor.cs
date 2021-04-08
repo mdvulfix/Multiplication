@@ -26,7 +26,7 @@ namespace Framework.Core
             
             if(GUILayout.Button("Loading"))
             {
-                TurnPage<PageLoading>();
+                PageTurn<PageLoading>();
             }
             if(GUILayout.Button("<<"))
             {
@@ -38,34 +38,28 @@ namespace Framework.Core
             }
             if(GUILayout.Button("Menu"))
             {
-                TurnPage<PageMenu>();
+                PageTurn<PageMenu>();
             }
             GUILayout.EndHorizontal();
 
         
         }
         
-        private void TurnPage<TPage>() where TPage: class, IPage
+        private void PageTurn<TPage>() where TPage: class, IPage
         {
-            instance.PageActive.Activate(false);
-            instance.PageActive = (Page)ControllerPageDefault.Cache.Get<TPage>();
-            instance.PageActive.Activate(true);
+            instance.PageTurn<TPage>();
 
         }
 
         private void NextPage()
         {
-            instance.PageActive.Activate(false);
-            instance.PageActive = (Page)ControllerPageDefault.Cache.GetNext(instance.PageActive.GetType());
-            instance.PageActive.Activate(true);
+            instance.PageActive = instance.Cache.GetNext(instance.PageActive.GetType());
 
         }
 
         private void PrevPage()
         {
-            instance.PageActive.Activate(false);
-            instance.PageActive = (Page)ControllerPageDefault.Cache.GetPrev(instance.PageActive.GetType());
-            instance.PageActive.Activate(true);
+            instance.PageActive = instance.Cache.GetPrev(instance.PageActive.GetType());
 
         }
     }

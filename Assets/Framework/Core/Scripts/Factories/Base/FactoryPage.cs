@@ -6,7 +6,7 @@ namespace Framework.Core
 {
     public interface IFactoryPage: IFactory
     {
-        HashSet<IPage> GetPages();
+        List<IPage> GetPages();
 
     }
     
@@ -18,7 +18,7 @@ namespace Framework.Core
         
         protected static readonly string PARENT_SCENEOBJECT_NAME = "UI";
         
-        public abstract HashSet<IPage> GetPages();
+        public abstract List<IPage> GetPages();
        
 
     }

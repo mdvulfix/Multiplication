@@ -6,14 +6,14 @@ namespace Framework
 {
     public class PageMenu : Page
     {
-        private readonly string PAGE_NAME = "Page: Menu";
+        private readonly string SCENEOBJECT_NAME = "Page: Menu";
         
         public override void Initialize()
         {
-            SetSceneObject(PAGE_NAME);
+            SetSceneObject(SCENEOBJECT_NAME);
             Activate(false);
         
-            Log(Name, "was initialized");
+            Log(Label, "was sucsessfully initialized");
         } 
     }
 

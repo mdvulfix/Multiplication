@@ -11,7 +11,7 @@ namespace Framework.Core
     } 
 
     [Serializable]
-    public class ControllerData: Controller, IControllerData
+    public abstract class ControllerData: Controller, IControllerData
     {
         public static ICache<IScene>    CacheScene  {get; } = new Cache<IScene>();
         

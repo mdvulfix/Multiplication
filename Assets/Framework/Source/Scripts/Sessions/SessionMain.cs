@@ -7,12 +7,14 @@ namespace Framework
     public class SessionMain : Session
     {
 
-        private readonly string SESSION = "Session: Main";
+        protected readonly string SCENEOBJECT_NAME = "Session: Main";
 
-        public override void Configure() 
+        public override void Initialize() 
         {
-            //Initialize(SESSION);
-            
+            SetSceneObject(SCENEOBJECT_NAME);
+            Log(Label, "was configured.");
+        
+        
         
         }
     }
