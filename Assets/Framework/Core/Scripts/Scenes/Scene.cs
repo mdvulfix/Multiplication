@@ -8,10 +8,12 @@ namespace Framework.Core
         string   Name       {get; }
         int      ID         {get; }  
         bool     IsActive   {get; set;}  
+    
+        void Configure(string name, int id);
     }
     
     [Serializable]
-    public abstract class Scene:  IScene
+    public abstract class Scene: IScene
     {
         [SerializeField] private string     name; 
         [SerializeField] private int        id;
@@ -20,18 +22,26 @@ namespace Framework.Core
         public string   Name        {get => name;       protected set => name = value;}
         public int      ID          {get => id;         protected set => id = value;}
         public bool     IsActive    {get => isActive;   set => isActive = value;}
+       
+        public abstract void Configure(string name, int id);
     
     }
-
-    [Serializable]
-    public abstract class Scene<T> : Scene
+    
+    public class Scene<T>: Scene where T: class, IScene
     {
-        public Scene(string name, int id)
+        public static ICache<T> Cache {get; private set;}
+
+        public override void Configure(string name, int id)
         {
             Name = name;
             ID = id;
-            
-
-        }   
+            Cache = new Cache<T>();
+        } 
+    
+    
     }
+
+
+
+
 }

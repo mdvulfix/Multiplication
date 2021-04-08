@@ -9,6 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31f4ac2e19bac784fbfe75427017f638, type: 3}
-  m_Name: FactoryControlCamera
+  m_Script: {fileID: 11500000, guid: dfc338cb653ef844e9b5bfd62c5a5f55, type: 3}
+  m_Name: FactoryControllerScene
   m_EditorClassIdentifier: 
+  factoryScene: {fileID: 11400000, guid: e2e9a3304d69efa4a823b93cc42d14a5, type: 2}

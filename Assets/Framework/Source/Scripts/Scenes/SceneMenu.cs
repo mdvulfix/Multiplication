@@ -4,10 +4,9 @@ namespace Framework
 {
     public class SceneMenu : Scene<SceneMenu>
     {
-        public SceneMenu(): base("MainMenu", 1)
+        public SceneMenu()
         {
-            
+            Configure("MainMenu", 1);
         }
-
     }
 }

@@ -4,9 +4,9 @@ namespace Framework
 {
     public class SceneRunTime : Scene<SceneRunTime>
     {
-        public SceneRunTime(): base("RunTime", 2)
+        public SceneRunTime() 
         {
-            
+            Configure("RunTime", 2);
         }
 
 

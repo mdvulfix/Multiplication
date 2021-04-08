@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Framework.Core 
 {
-    public abstract class ControlInput : Control
+    public abstract class ControllerInput : Controller
     {
 
         public delegate void InputAction (KeyCode kode);

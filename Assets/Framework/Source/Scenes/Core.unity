@@ -257,7 +257,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1684353717}
   m_Layer: 0
-  m_Name: Controls
+  m_Name: Controllers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -323,13 +323,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   factorySessions: {fileID: 11400000, guid: 3a91dc32e4cda1044a62bc56d6228bc9, type: 2}
-  factoryControlState: {fileID: 11400000, guid: e14c1363ba117a141afcbd1b3e8c3144,
+  factoryControlState: {fileID: 11400000, guid: 76a8279f39b611846b7d04f954e3d1a7,
     type: 2}
-  factoryControlCamera: {fileID: 11400000, guid: d3ac370585fe9ce4fa6192cf46dac467,
+  factoryControlCamera: {fileID: 11400000, guid: bd8567cdf831ba04facc427c2f835c58,
     type: 2}
-  factoryControlScene: {fileID: 11400000, guid: 8dc59323ba118454b8d4de69daeb3a04,
+  factoryControlScene: {fileID: 11400000, guid: 67d36a1e1ab4a1347b9660e03463e1d4,
     type: 2}
-  factoryControlPage: {fileID: 11400000, guid: bff7fb2fa4dfc9745b8595657a4d631b, type: 2}
+  factoryControlPage: {fileID: 11400000, guid: 229642ab260942247852cf3c4a7c9f0d, type: 2}
 --- !u!1 &1882391633
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,7 +4,7 @@ using Framework.Core;
 
 namespace Framework
 {
-    public class ControlInputDefault : ControlInput
+    public class ControllerInputDefault : ControllerInput
     {
         //private readonly string SCENEOBJECT_NAME = "Control: Input";
     

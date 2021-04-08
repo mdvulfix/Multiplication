@@ -9,27 +9,19 @@ namespace Framework.Core
         bool            IsLoading       {get; }
         IDataAnimation  DataAnimation   {get; set;}
         
-        void Register();
+        void Initialize();
         void Activate(bool active);
     }
+
+    [Serializable]
     public abstract class Page : SceneObject, IPage
     {
         public bool             IsLoading       {get; protected set;}
         public IDataAnimation   DataAnimation   {get; set;}
         
-        public abstract void Register();
-        public abstract void Activate(bool active);
+        public abstract void Initialize();
 
-    }
-
-
-    [Serializable]
-    public abstract class Page<T> : Page where T: Page
-    {
-        
-        public static ICache<T> Cache {get; } = new Cache<T>();
-
-        public override void Activate(bool active)
+        public void Activate(bool active)
         {
             
             //DataAnimation.Animator = ObjectOnScene.GetComponent<Animator>();
@@ -65,34 +57,26 @@ namespace Framework.Core
                yield return null; 
 
             DataAnimation.CurrentState = AnimationState.None;
-            Log("[ " + Name +" ] finised transition to " + (on ? "On" : "Off") + "snimation state");      
+            Log(Name, "was finised transition to " + (on ? "On" : "Off") + "snimation state");      
         }
+ 
 
-        public void SetToCache(T page)
+
+
+
+#region LogFunctions
+
+        public virtual void Log(string page, string message)
         {
-            Cache.Add(page);
-            Log("[ " + Name + " ] was set to cache.");
-
+            Debug.Log("["+ page +"]: " + message);
         }
-        
-        
-        protected void Log(string message)
+
+        public virtual void LogWarning(string page, string message)
         {
-            Debug.Log("[Page]: " + message);
-
+            Debug.LogWarning("["+ page +"]: " + message);
         }
 
-        protected void LogWarning(string message)
-        {
-            Debug.LogWarning("[Page]: " + message);
-            
-        }
-    
-    
+#endregion
     }
-
-    
-
-
 
 }

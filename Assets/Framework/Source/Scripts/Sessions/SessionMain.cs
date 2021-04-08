@@ -11,7 +11,7 @@ namespace Framework
 
         public override void Configure() 
         {
-            Initialize(SESSION);
+            //Initialize(SESSION);
             
         
         }

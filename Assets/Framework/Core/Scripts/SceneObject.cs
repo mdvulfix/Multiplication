@@ -7,6 +7,8 @@ namespace Framework.Core
     {   
         GameObject   ObjectOnScene   {get; }
         string       Name            {get; }
+    
+        void SetSceneObject(string name);
     }
     
     [Serializable]
@@ -15,7 +17,7 @@ namespace Framework.Core
         public GameObject   ObjectOnScene   {get; private set;}
         public string       Name            {get; protected set;}
        
-        public virtual void Initialize(string name)
+        public virtual void SetSceneObject(string name)
         {
             ObjectOnScene = gameObject;
             Name = name;

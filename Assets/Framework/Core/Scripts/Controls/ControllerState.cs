@@ -3,7 +3,7 @@
 namespace Framework.Core
 {    
 
-    public interface IControlState: IControl
+    public interface IControllerState: IController
     {
         HashSet<IState> States {get; }
         
@@ -18,7 +18,7 @@ namespace Framework.Core
     
     
     
-    public abstract class ControlState : Control, IControlState
+    public abstract class ControllerState : Controller, IControllerState
     {
         
         private HashSet<IState> states;

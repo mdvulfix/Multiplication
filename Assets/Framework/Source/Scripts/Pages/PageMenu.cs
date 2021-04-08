@@ -4,17 +4,17 @@ using Framework.Core;
 
 namespace Framework
 {
-    public class PageMenu : Page<PageMenu>
+    public class PageMenu : Page
     {
         private readonly string PAGE_NAME = "Page: Menu";
         
-        public override void Register()
+        public override void Initialize()
         {
-            Initialize(PAGE_NAME);
-            SetToCache(this);
+            SetSceneObject(PAGE_NAME);
             Activate(false);
-        }
-
+        
+            Log(Name, "was initialized");
+        } 
     }
 
 }

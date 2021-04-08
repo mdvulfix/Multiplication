@@ -4,7 +4,7 @@ namespace Framework.Core
 
     public interface ICacheable
     {
-        //ICache<T> Cache {get; }
+        //ICache<ICacheable> Cache {get; }
         
     }
 

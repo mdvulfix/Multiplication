@@ -5,7 +5,7 @@ using Framework.Core;
 
 namespace Framework
 {
-    public class ControlSceneDefault : ControlScene
+    public class ControllerSceneDefault : ControllerScene
     {
         
         public override void Configure() 

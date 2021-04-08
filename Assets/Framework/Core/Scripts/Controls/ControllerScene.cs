@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 namespace Framework.Core
 {
-    public interface IControlScene: IControl
+    public interface IControllerScene: IController
     {
 
         HashSet<IScene> Scenes {get; }
@@ -20,7 +20,7 @@ namespace Framework.Core
     } 
     
     [Serializable]
-    public abstract class ControlScene: Control, IControlScene
+    public abstract class ControllerScene: Controller, IControllerScene
     {
         [SerializeField]
         private int activeScene;

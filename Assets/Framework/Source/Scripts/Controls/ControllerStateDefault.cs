@@ -3,7 +3,7 @@ using Framework.Core;
 
 namespace Framework
 {   
-    public class ControlStateDefault : ControlState, IControlState
+    public class ControllerStateDefault : ControllerState, IControllerState
     {
         
       

@@ -7,7 +7,7 @@ namespace Framework.Core
     
     public interface IBuilder
     {
-        Dictionary<Type, IControl> Controls {get; }
+        Dictionary<Type, IController> Controls {get; }
         Dictionary<Type, ISession> Sessions {get; }
         
         void OnAwake();        
@@ -16,12 +16,12 @@ namespace Framework.Core
     
     public abstract class Builder : Singleton<Builder>, IBuilder
     {
-        public Dictionary<Type, IControl> Controls {get; private set;}
+        public Dictionary<Type, IController> Controls {get; private set;}
         public Dictionary<Type, ISession> Sessions {get; private set;}
         
         public void Awake()
         { 
-            Controls = new Dictionary<Type, IControl>(15);
+            Controls = new Dictionary<Type, IController>(15);
             Sessions = new Dictionary<Type, ISession>(1);
             
             OnAwake();

@@ -15,14 +15,14 @@ namespace Framework
         [SerializeField] FactorySession         factorySessions; 
         
         [Header("Factories: Controls")]
-        [SerializeField] FactoryControlState    factoryControlState;
-        [SerializeField] FactoryControlCamera   factoryControlCamera;
-        [SerializeField] FactoryControlScene    factoryControlScene;
-        [SerializeField] FactoryControlPage     factoryControlPage;              
+        [SerializeField] FactoryControllerState    factoryControlState;
+        [SerializeField] FactoryControllerCamera   factoryControlCamera;
+        [SerializeField] FactoryControllerScene    factoryControlScene;
+        [SerializeField] FactoryControllerPage     factoryControlPage;              
         //[SerializeField] FactoryControlInput factoryControlInput;
         public override void OnAwake()
         {
-            Initialize(BUILDER_NAME);
+            //Initialize(BUILDER_NAME);
             SetSession();
             SetControls();
             Configure();
@@ -37,10 +37,10 @@ namespace Framework
         
         private void SetControls()
         {          
-            Controls.Add(typeof(ControlStateDefault), AddControl<ControlStateDefault>(factoryControlState));
-            Controls.Add(typeof(ControlCameraDefault), AddControl<ControlCameraDefault>(factoryControlCamera));
-            Controls.Add(typeof(ControlSceneDefault), AddControl<ControlSceneDefault>(factoryControlScene));
-            Controls.Add(typeof(ControlPageDefault), AddControl<ControlPageDefault>(factoryControlPage));
+            Controls.Add(typeof(ControllerStateDefault), AddControl<ControllerStateDefault>(factoryControlState));
+            Controls.Add(typeof(ControllerCameraDefault), AddControl<ControllerCameraDefault>(factoryControlCamera));
+            Controls.Add(typeof(ControllerSceneDefault), AddControl<ControllerSceneDefault>(factoryControlScene));
+            Controls.Add(typeof(ControllerPageDefault), AddControl<ControllerPageDefault>(factoryControlPage));
             //Controls.Add(typeof(ControlInputDefault), AddControl<ControlInputDefault>(factoryControlInput));
         }
 
@@ -66,7 +66,7 @@ namespace Framework
             return factory.GetSession() as T;
         }
     
-        private T AddControl<T>(IFactoryControl factory) where T: SceneObject, IControl
+        private T AddControl<T>(IFactoryController factory) where T: SceneObject, IController
         {
             return factory.GetControl() as T;
         }
