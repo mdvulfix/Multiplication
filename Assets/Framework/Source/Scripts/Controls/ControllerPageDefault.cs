@@ -5,31 +5,38 @@ namespace Framework
 {    
     public class ControllerPageDefault : ControllerPage
     {       
-                
-        
-        
-        public override void Initialize()
+        // Initialize in factory        
+        public override IController Initialize()
         {
-            SetSceneObject(SCENEOBJECT_NAME);
+            SetSceneObject(ControllerPage.OBJECT_NAME);
             Log(Label, "was sucsessfully initialized");
-
+            return this;
         } 
         
-        
-        public override void Configure() 
+        // Initialize in builder 
+        public override IController Configure() 
         {                                     
+            InitializePages();
+            SetActivePage<PageLoading>();
+            Log(Label, "was successfully configured.");
+            return this;
+        }
 
-            
-            
-            
-            
+        private void InitializePages() 
+        {
             foreach (var page in Cache.Store.Values)
             {
                 page.Initialize();
+            
             }
-
-            PageActive = Cache.Get<PageLoading>();
-            Log(Label, "was successfully configured.");
+            
         }
+
+        private void SetActivePage<T>() where T: class, IPage
+        {
+            PageActive = Cache.Get<T>();
+        }
+
+
     }
 }

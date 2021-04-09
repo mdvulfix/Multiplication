@@ -1,24 +1,25 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Framework.Core
 {
     public interface IController: ICacheable, IDebug
     {
-        void Initialize();
-        void Configure();
+
     }     
     
     [Serializable]
     public abstract class Controller : SceneObject, IController
-    {
-        public bool UseDebug{get; set;} = true;
+    {        
+        public bool         UseDebug    {get; set;} = true;
+        public IDataStats   DataStats   {get; }
                 
         
  #region Configure
         
-        public abstract void Initialize();
-        public abstract void Configure();
+        public abstract ICacheable Initialize();
+        public abstract ICacheable Configure();
 
 #endregion   
     

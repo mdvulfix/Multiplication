@@ -3,45 +3,43 @@ using UnityEngine;
 
 namespace Framework.Core
 {
-    public interface IScene: ICacheable
+    public interface IScene: ICacheable, ISimpleObject, IDebug
     {
-        string   Name       {get; }
-        int      ID         {get; }  
-        bool     IsActive   {get; set;}  
-    
-        void Configure(string name, int id);
+
     }
     
     [Serializable]
-    public abstract class Scene: IScene
+    public abstract class Scene: SimpleObject, IScene
     {
-        [SerializeField] private string     name; 
-        [SerializeField] private int        id;
-        [SerializeField] private bool       isActive;
+        
+        public bool         UseDebug    {get; set;} = true;
+        public IDataStats   DataStats   {get; set;}
 
-        public string   Name        {get => name;       protected set => name = value;}
-        public int      ID          {get => id;         protected set => id = value;}
-        public bool     IsActive    {get => isActive;   set => isActive = value;}
-       
-        public abstract void Configure(string name, int id);
+        public abstract ICacheable Initialize();
+        public abstract ICacheable Configure();
+            
     
-    }
     
-    public class Scene<T>: Scene where T: class, IScene
-    {
-        public static ICache<T> Cache {get; private set;}
+#region LogFunctions
 
-        public override void Configure(string name, int id)
+        public void Log(string instance, string message)
         {
-            Name = name;
-            ID = id;
-            Cache = new Cache<T>();
-        } 
-    
+            if(UseDebug)
+            {
+                Debug.Log("["+ instance +"]: " + message);
+            }
+        }
+
+        
+        public void LogWarning(string instance, string message)
+        {
+            if(UseDebug)
+            {
+                Debug.LogWarning("["+ instance +"]: " + message);
+            }
+        }
+
+#endregion
     
     }
-
-
-
-
 }

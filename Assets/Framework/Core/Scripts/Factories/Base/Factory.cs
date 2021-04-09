@@ -5,7 +5,7 @@ namespace Framework.Core
     
     public interface IFactory: IScriptableObject, IDebug
     {
-        T Get<T>(string name, string parent = null, GameObject prefab = null) where T: SceneObject;
+        T GetInstanceOf<T>(string name, string parent = null, GameObject prefab = null) where T: SceneObject;
     }
 
     public abstract class Factory: ScriptableObject, IFactory
@@ -13,7 +13,7 @@ namespace Framework.Core
         public string   Label       {get; set;} 
         public bool     UseDebug    {get; set;} = true;      
         
-        public virtual T Get<T>(string name, string parent = null, GameObject prefab = null) where T: SceneObject
+        public virtual T GetInstanceOf<T>(string name, string parent = null, GameObject prefab = null) where T: SceneObject
         {
 
             var obj = CreateSceneObject(name, parent, prefab);

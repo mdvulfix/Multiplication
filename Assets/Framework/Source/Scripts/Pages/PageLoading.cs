@@ -6,15 +6,22 @@ namespace Framework
 {
     public class PageLoading : Page
     {
-        private readonly string SCENEOBJECT_NAME = "Page: Loading";
+        protected static readonly string OBJECT_NAME = "Page: Loading";
         
-        public override void Initialize()
+        public override ICacheable Initialize()
         {
-            SetSceneObject(SCENEOBJECT_NAME);
+            SetSceneObject(OBJECT_NAME);
             Activate(false);
 
             Log(Label, "was sucsessfully initialized");
+            return this;
 
-        } 
+        }
+
+        public override ICacheable Configure()
+        {
+            Log(Label, "was sucsessfully configured");
+            return this;
+        }
     }
 }

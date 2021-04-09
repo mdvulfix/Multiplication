@@ -21,9 +21,9 @@ namespace Framework.Core
         public override void OnInspectorGUI()
         {
             DrawDefaultInspector();
-            var scene = instance.SceneCurrent;
+            //var scene = instance.
             
-            
+            /*
             GUILayout.BeginHorizontal();
             
             if(GUILayout.Button("Menu"))
@@ -44,6 +44,7 @@ namespace Framework.Core
             }
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
+            */
         }
     }
 }

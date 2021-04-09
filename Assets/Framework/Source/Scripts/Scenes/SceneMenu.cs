@@ -2,11 +2,26 @@
 
 namespace Framework
 {
-    public class SceneMenu : Scene<SceneMenu>
+    public class SceneMenu : Scene
     {
+        protected static readonly string OBJECT_NAME = "Scene: Menu";
+        
         public SceneMenu()
         {
-            Configure("MainMenu", 1);
+            Initialize();
+        }
+
+        public override ICacheable Initialize()
+        {
+            Label = OBJECT_NAME;
+            Log(Label, "was sucsessfully initialized");
+            return this;
+        }
+
+        public override ICacheable Configure()
+        {
+            Log(Label, "was sucsessfully configured");
+            return this;
         }
     }
 }

@@ -43,31 +43,31 @@ namespace Framework
 
 
 
+        protected static readonly string OBJECT_NAME_BUILDER = "Builder";
+        protected static readonly string OBJECT_NAME_CONTROLLERS = "Controllers";
+        protected static readonly string OBJECT_NAME_SESSIONS = "Sessions";
+        protected static readonly string OBJECT_NAME_SCENE = "Scene";
+        protected static readonly string OBJECT_NAME_UI = "UI";
+        
+        
+        
+        
+        
+        
+        
         public override void Configure()
         {          
-            foreach (var session in Sessions.Values)
+            foreach (var instance in Cache.Store.Values)
             {
-                session.Initialize();
-            }
-            
-            foreach (var control in Controls.Values)
-            {
-                control.Initialize();
-            }
-
+                instance.Configure();
+            }            
         }
 
 
-        private T AddSession<T>(IFactorySession factory) where T: SceneObject, ISession
+        private T Add<T>(IFactory factory) where T: SceneObject, ICacheable
         {
-            return factory.GetSession() as T;
+            return factory.GetInstanceOf<T>() as T;
         }
-    
-        private T AddControl<T>(IFactoryController factory) where T: SceneObject, IController
-        {
-            return factory.GetControl() as T;
-        }
-    
     
     }
 }

@@ -6,29 +6,19 @@ namespace Framework
     public class ControllerStateDefault : ControllerState, IControllerState
     {
         
-        public override void Initialize()
+        public override IController Initialize()
         {
             SetSceneObject(SCENEOBJECT_NAME);
             Log(Label, "was sucsessfully initialized");
-
+            return this;
         } 
         
-        public override void Configure() 
+        public override IController Configure() 
         {                         
 
             Log(Label, "was successfully configured.");
+            return this;
         }
     
-        public override void OnStateEnter(IState state)
-        {
-
-        }
-
-        public override void OnStateExit(IState state)
-        {
-
-        }
-
-
     }
 }

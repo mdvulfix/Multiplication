@@ -4,24 +4,23 @@ using UnityEngine;
 
 namespace Framework.Core
 {
-    public interface IPage: ISceneObject, ICacheable, IDebug
+    public interface IPage: ICacheable, ISceneObject, IDebug
     {
-        bool            IsLoading       {get; }
         IDataAnimation  DataAnimation   {get; set;}
-        
-        void Initialize();
+    
         void Activate(bool active);
     }
 
     [Serializable]
     public abstract class Page : SceneObject, IPage
-    {
-        public bool             UseDebug        {get; set;} = true;
+    {       
         
-        public bool             IsLoading       {get; protected set;}
+        public bool             UseDebug        {get; set;} = true;
+        public IDataStats       DataStats       {get; set;}
         public IDataAnimation   DataAnimation   {get; set;}
         
-        public abstract void Initialize();
+        public abstract ICacheable Initialize();
+        public abstract ICacheable Configure();
 
         public void Activate(bool active)
         {
@@ -63,9 +62,6 @@ namespace Framework.Core
         }
  
 
-
-
-
 #region LogFunctions
 
         public virtual void Log(string instance, string message)
@@ -74,7 +70,6 @@ namespace Framework.Core
             {
                 Debug.Log("["+ instance +"]: " + message);
             }
-                
         }
 
         public virtual void LogWarning(string instance, string message)
@@ -84,7 +79,6 @@ namespace Framework.Core
                 Debug.LogWarning("["+ instance +"]: " + message);
             }
         }
-
 
 #endregion
     }

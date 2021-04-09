@@ -6,37 +6,59 @@ using UnityEngine;
 namespace Framework.Core
 {
     
-    public interface IBuilder: IDebug
+    public interface IBuilder: IDebug, IHasCache<ICacheable>, ICacheable
     {
-        Dictionary<Type, IController> Controls {get; }
-        Dictionary<Type, ISession> Sessions {get; }
         
-        void OnAwake();        
+        void OnAwake();  
     }
-    
     
     public abstract class Builder : Singleton<Builder>, IBuilder
     {
+        protected static readonly string OBJECT_NAME_BUILDER = "Builder";
+        protected static readonly string OBJECT_NAME_CONTROLLERS = "Controllers";
+        protected static readonly string OBJECT_NAME_SESSIONS = "Sessions";
+        protected static readonly string OBJECT_NAME_SCENE = "Scene";
+        protected static readonly string OBJECT_NAME_UI = "UI";
         
-        public bool UseDebug {get; set;} = true;
+        public bool                 UseDebug    {get; set;} = true;
+        public IDataStats           DataStats   {get; }
         
-        protected readonly string SCENEOBJECT_NAME = "Builder";
-        
-        public Dictionary<Type, IController> Controls {get; private set;}
-        public Dictionary<Type, ISession> Sessions {get; private set;}
+        public ICache<ICacheable>   Cache       {get; protected set;} = new Cache<ICacheable>();       
         
         public void Awake()
-        { 
-            Controls = new Dictionary<Type, IController>(15);
-            Sessions = new Dictionary<Type, ISession>(1);
-            
+        {            
             OnAwake();
         }
     
-        public abstract void OnAwake();
-        public abstract void Configure();
+        public virtual void OnAwake()
+        {
+            Initialize();
 
 
+        }
+        
+        public abstract ICacheable Initialize();
+        public abstract ICacheable Configure();
+
+#region SetToCache
+
+        public ICacheable SetToCache(ICacheable instance)
+        {
+            Cache.Add(instance);
+            return instance;
+        
+        }   
+
+        public void SetToCache(List<ICacheable> instances)
+        {
+            foreach (var instance in instances)
+            {
+                SetToCache(instance);
+            }
+        }
+
+#endregion
+ 
 #region DebugFunctions
 
         public virtual void Log(string instance, string message)

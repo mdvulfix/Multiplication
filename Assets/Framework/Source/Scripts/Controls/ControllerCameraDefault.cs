@@ -9,14 +9,14 @@ namespace Framework
         private Camera cameraMain;
         
         
-        public override void Initialize()
+        public override IController Initialize()
         {
-            SetSceneObject(SCENEOBJECT_NAME);
+            SetSceneObject(ControllerCamera.OBJECT_NAME);
             Log(Label, "was sucsessfully initialized");
-
+            return this;
         } 
          
-        public override void Configure()
+        public override IController Configure()
         {
             
             cameraMain = ObjectOnScene.AddComponent<Camera>();
@@ -25,6 +25,7 @@ namespace Framework
             cameraMain.orthographic = true;
 
             Log(Label, "was successfully configured.");
+            return this;
         
         }
     }

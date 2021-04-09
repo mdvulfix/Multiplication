@@ -8,9 +8,9 @@ namespace Framework
     public class FactoryControllerCamera : FactoryController
     {
 
-        public override IController GetControl()
+        public override IController Get()
         {
-            return Get<ControllerCameraDefault>("Controller: Camera", PARENT_SCENEOBJECT_NAME);
+            return GetInstanceOf<ControllerCameraDefault>("Controller: Camera", Controller.PARENT_OBJECT_NAME).Initialize() as ControllerCamera;
 
         }
 

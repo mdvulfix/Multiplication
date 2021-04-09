@@ -6,14 +6,11 @@ using UnityEngine.SceneManagement;
 
 namespace Framework.Core
 {
-    public interface IControllerScene: IController
+    public interface IControllerScene: IController, IHasCache<IScene>
     {
 
-        HashSet<IScene> Scenes {get; }
-        
-        void SetScenes(IFactoryScene factory);
-        void SetScenes(HashSet<IScene> scenes);
-        
+        IScene SceneActive {get; }
+    
         void OnSceneEnter(IScene scene);
         void OnSceneExit(IScene scene);
 
@@ -24,37 +21,39 @@ namespace Framework.Core
     {
         protected readonly string SCENEOBJECT_NAME = "Controller: Scene";
         
-        [SerializeField]
-        private int activeScene;
-        
-        
-        private HashSet<IScene> scenes;
-        
-        public HashSet<IScene> Scenes {get => scenes; private set => scenes = value; }
-        
-        
-        
-        public void SetScenes(IFactoryScene factory)
-        {
-            Scenes = factory.GetScenes();
+        public ICache<IScene>    Cache        {get; protected set;} = new Cache<IScene>();
+        public IScene            SceneActive  {get => sceneActive; set => sceneActive = value; }       
 
-        }
+        private IScene sceneActive;
         
-        public void SetScenes(HashSet<IScene> scenes)
-        {
-            Scenes = scenes;
+        
 
+#region RegisterToCache
+
+        public IScene SetToCache(IScene instance)
+        {
+            Cache.Add(instance as IScene);
+            return instance;
         }
-        
-        
+
+        public void SetToCache(List<IScene> instances)
+        {
+            foreach (var instance in instances)
+            {
+                SetToCache(instance);
+            }
+        }
+
+#endregion
+
+
+
+#region SceneManagement
+            
         public abstract void OnSceneEnter(IScene scene);
         public abstract void OnSceneExit(IScene scene);
-    
-    
-    
-    
-    
-    
+
+#endregion
     
     
     }

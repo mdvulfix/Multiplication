@@ -4,9 +4,9 @@ using UnityEngine;
 namespace Framework.Core 
 {
     
-    public interface ISession: IDebug
+    public interface ISession: ICacheable, IDebug
     {
-        void Initialize();
+
     }
     
     
@@ -14,11 +14,12 @@ namespace Framework.Core
     [Serializable]
     public abstract class Session : SceneObject, ISession
     {
+        public bool         UseDebug  {get; set;} = true;        
+        public IDataStats   DataStats {get; }
+
         
-        
-        public bool UseDebug {get; set;} = true;
-        
-        public abstract void Initialize();
+        public abstract ICacheable Initialize();
+        public abstract ICacheable Configure();
 
         
 #region DebugFunctions

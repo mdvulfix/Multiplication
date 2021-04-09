@@ -6,14 +6,22 @@ namespace Framework
 {
     public class PageLogin : Page
     {
-        private readonly string SCENEOBJECT_NAME = "Page: Login";
+        protected static readonly string OBJECT_NAME = "Page: Login";
         
-        public override void Initialize()
+        public override ICacheable Initialize()
         {
-            SetSceneObject(SCENEOBJECT_NAME);
+            SetSceneObject(OBJECT_NAME);
             Activate(false);
 
             Log(Label, "was sucsessfully initialized");
-        } 
-    }
+            return this;
+
+        }
+
+        public override ICacheable Configure()
+        {
+            Log(Label, "was sucsessfully configured");
+            return this;
+        }
+    } 
 }

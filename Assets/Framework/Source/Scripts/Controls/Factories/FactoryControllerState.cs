@@ -10,10 +10,10 @@ namespace Framework
         [SerializeField]        
         private FactoryState factoryState;
 
-        public override IController GetControl()
+        public override IController Get()
         {
-            var instance = Get<ControllerStateDefault>("Controller: State", PARENT_SCENEOBJECT_NAME);
-            instance.SetStates(factoryState);
+            var instance = GetInstanceOf<ControllerStateDefault>("Controller: State", Controller.PARENT_OBJECT_NAME).Initialize() as ControllerState;
+            //instance.SetStates(factoryState);
 
             return instance;
 

@@ -2,12 +2,26 @@
 
 namespace Framework
 {
-    public class SceneCore : Scene<SceneCore>
+    public class SceneCore : Scene
     {
+        protected static readonly string OBJECT_NAME = "Scene: Core";
+        
         public SceneCore()
         {
-            Configure("Core", 0);
+            Initialize();
         }
 
+        public override ICacheable Initialize()
+        {
+            Label = OBJECT_NAME;
+            Log(Label, "was sucsessfully initialized");
+            return this;
+        }
+
+        public override ICacheable Configure()
+        {
+            Log(Label, "was sucsessfully configured");
+            return this;
+        }
     }
 }

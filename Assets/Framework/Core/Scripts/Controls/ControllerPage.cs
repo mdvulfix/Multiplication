@@ -6,44 +6,53 @@ using UnityEngine;
 namespace Framework.Core
 {    
     
-    public interface IControllerPage: IController
+    public interface IControllerPage: IController, IHasCache<IPage>
     {
-        ICache<IPage>   Cache       {get; }
-        IPage           PageActive  {get; }
+        IPage PageActive  {get; }
         
         //void TurnPageOn<TPageNext>() where TPageNext: class, IPage;
         
-        IPage PageRegister(IPage page);
         void  PageTurn<TPageNext>(bool waitForPageExit = false) where TPageNext: class, IPage;
+    
+    
+    
     } 
     
     public abstract class ControllerPage : Controller, IControllerPage
     {
-        
-        protected readonly string SCENEOBJECT_NAME = "Controller: Page";
+        protected static readonly string OBJECT_NAME = "Controller: Page";
         
         public ICache<IPage>    Cache       {get; protected set;} = new Cache<IPage>();
         public IPage            PageActive  {get => pageActive; set => pageActive = value; }       
 
-
         private IPage pageActive;
+
+#region Configure
         
-#region PageManagement
-    
-        public IPage PageRegister(IPage page)
+
+
+#endregion 
+
+#region SetToCache
+
+        public IPage SetToCache(IPage instance)
         {
-            return Cache.Add(page);
+            Cache.Add(instance as IPage);
+            return instance;
         }
 
-        public void PageRegister(List<IPage> pages)
+        public void SetToCache(List<IPage> instances)
         {
-            foreach (var page in pages)
+            foreach (var instance in instances)
             {
-                PageRegister(page);
+                SetToCache(instance);
             }
         }
 
-        
+#endregion 
+
+#region PageManagement
+    
         public void PageTurn<TPageNext>(bool waitForPageExit = false) where TPageNext: class, IPage
         {
             var pageNext = Cache.Get<TPageNext>();

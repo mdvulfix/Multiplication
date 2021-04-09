@@ -15,9 +15,9 @@ namespace Framework
         {
             var cache = new List<IPage>();
             
-            cache.Add(SetDataAnimation(Get<PageLoading>("Page: Loading", PARENT_SCENEOBJECT_NAME, prefab)));
-            cache.Add(SetDataAnimation(Get<PageLogin>("Page: Login", PARENT_SCENEOBJECT_NAME, prefab)));
-            cache.Add(SetDataAnimation(Get<PageMenu>("Page: Menu", PARENT_SCENEOBJECT_NAME, prefab)));
+            cache.Add(SetDataAnimation(GetInstanceOf<PageLoading>("Page: Loading", PARENT_OBJECT_NAME, prefab)));
+            cache.Add(SetDataAnimation(GetInstanceOf<PageLogin>("Page: Login", PARENT_OBJECT_NAME, prefab)));
+            cache.Add(SetDataAnimation(GetInstanceOf<PageMenu>("Page: Menu", PARENT_OBJECT_NAME, prefab)));
             
             return cache;
         }

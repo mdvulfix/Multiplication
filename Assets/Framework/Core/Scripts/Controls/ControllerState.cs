@@ -40,9 +40,15 @@ namespace Framework.Core
 
         }
 
+        public void OnStateEnter(IState state)
+        {
 
-        public abstract void OnStateEnter(IState state);
-        public abstract void OnStateExit(IState state);
+        }
+
+        public void OnStateExit(IState state)
+        {
+            
+        }
 
 
 

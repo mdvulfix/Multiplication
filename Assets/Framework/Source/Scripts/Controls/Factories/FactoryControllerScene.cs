@@ -10,12 +10,25 @@ namespace Framework
         [SerializeField]        
         private FactoryScene factoryScene;
         
-        public override IController GetControl()
+        public override IController Get()
         {
-            var instance = Get<ControllerSceneDefault>("Controller: Scene", PARENT_SCENEOBJECT_NAME);
-            instance.SetScenes(factoryScene);
-
+            if(factoryScene == null)
+            {
+                LogWarning(Label, "Factory scene was not set!");
+                return null;
+            }
+            
+            
+            var instance = GetInstanceOf<ControllerSceneDefault>("Controller: Scene", Controller.PARENT_OBJECT_NAME).Initialize() as IControllerScene;           
+            var scenes = factoryScene.GetScenes();
+            instance.SetToCache(scenes);
             return instance;
+            
+            
+            var instance = GetInstanceOf<ControllerPageDefault>("Controller: Page", Controller.PARENT_OBJECT_NAME).Initialize() as IControllerPage;
+            var pages = factoryPage.GetPages();
+            instance.PageRegister(pages);
+
         }
 
     }

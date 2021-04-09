@@ -5,7 +5,7 @@ namespace Framework.Core
 {
     public interface IFactoryController: IFactory
     {
-        IController GetControl();
+        IController Get();
 
     }
     
@@ -14,7 +14,7 @@ namespace Framework.Core
     public abstract class FactoryController : Factory, IFactoryController
     {
         protected readonly string PARENT_SCENEOBJECT_NAME = "Controllers";
-        public abstract IController GetControl();
+        public abstract IController Get();
         
 
         

@@ -9,7 +9,7 @@ namespace Framework
     {
         public override ISession GetSession()
         {
-            return Get<SessionMain>("Session: Main", PARENT_SCENEOBJECT_NAME);
+            return GetInstanceOf<SessionMain>("Session: Main", PARENT_SCENEOBJECT_NAME);
 
         }
 
