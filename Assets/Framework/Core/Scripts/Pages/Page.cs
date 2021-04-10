@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Framework.Core
 {
-    public interface IPage: ICacheable, ISceneObject, IDebug
+    public interface IPage: ISceneObject, IConfigurable, ICacheable, IDebug
     {
         IDataAnimation  DataAnimation   {get; set;}
     
@@ -15,11 +15,13 @@ namespace Framework.Core
     public abstract class Page : SceneObject, IPage
     {       
         
+        public static readonly string PARENT_OBJECT_NAME = Builder.OBJECT_NAME_UI; 
+        
         public bool             UseDebug        {get; set;} = true;
         public IDataStats       DataStats       {get; set;}
         public IDataAnimation   DataAnimation   {get; set;}
         
-        public abstract ICacheable Initialize();
+        public abstract void Initialize();
         public abstract ICacheable Configure();
 
         public void Activate(bool active)

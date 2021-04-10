@@ -6,7 +6,7 @@ namespace Framework.Core
     [Serializable]
     public abstract class SimpleObject
     {       
-        public string Label {get; protected set;}
+        public string Label {get; set;}
        
     }
 

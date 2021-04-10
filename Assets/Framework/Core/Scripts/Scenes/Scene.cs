@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Framework.Core
 {
-    public interface IScene: ICacheable, ISimpleObject, IDebug
+    public interface IScene: ISimpleObject, IConfigurable, ICacheable, IDebug
     {
 
     }
@@ -15,7 +15,7 @@ namespace Framework.Core
         public bool         UseDebug    {get; set;} = true;
         public IDataStats   DataStats   {get; set;}
 
-        public abstract ICacheable Initialize();
+        public abstract void Initialize();
         public abstract ICacheable Configure();
             
     
@@ -29,8 +29,7 @@ namespace Framework.Core
                 Debug.Log("["+ instance +"]: " + message);
             }
         }
-
-        
+      
         public void LogWarning(string instance, string message)
         {
             if(UseDebug)

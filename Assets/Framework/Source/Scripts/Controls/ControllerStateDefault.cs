@@ -6,19 +6,33 @@ namespace Framework
     public class ControllerStateDefault : ControllerState, IControllerState
     {
         
-        public override IController Initialize()
+    public override void Initialize()
         {
-            SetSceneObject(SCENEOBJECT_NAME);
+            SetSceneObject(ControllerState.OBJECT_NAME);
             Log(Label, "was sucsessfully initialized");
-            return this;
         } 
         
-        public override IController Configure() 
-        {                         
+        
+        public override ICacheable Configure() 
+        {                                     
+            foreach (var state in Cache.GetAll())
+            {
+                state.Initialize();
+            }
 
+            StateActive = Cache.Get<StateBuilding>();
             Log(Label, "was successfully configured.");
             return this;
         }
-    
+        
+        public override void OnStateEnter(IState state)
+        {
+
+        }
+
+        public override void OnStateExit(IState state)
+        {
+
+        }
     }
 }

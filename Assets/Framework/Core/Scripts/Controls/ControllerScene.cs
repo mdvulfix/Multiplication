@@ -19,7 +19,7 @@ namespace Framework.Core
     [Serializable]
     public abstract class ControllerScene: Controller, IControllerScene
     {
-        protected readonly string SCENEOBJECT_NAME = "Controller: Scene";
+        protected static readonly string OBJECT_NAME = "Controller: Scene";
         
         public ICache<IScene>    Cache        {get; protected set;} = new Cache<IScene>();
         public IScene            SceneActive  {get => sceneActive; set => sceneActive = value; }       

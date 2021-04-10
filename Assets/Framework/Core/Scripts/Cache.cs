@@ -43,7 +43,7 @@ namespace Framework.Core
             T instance = null;
             Type type = typeof(T);
             if(Store.TryGetValue(type, out instance))
-                return instance as T;
+                return (T)instance;
             else     
                 return null;
         }

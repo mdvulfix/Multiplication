@@ -8,11 +8,10 @@ namespace Framework
     {
         protected static readonly string OBJECT_NAME = "Session: Main";
 
-        public override ICacheable Initialize() 
+        public override void Initialize() 
         {
             SetSceneObject(OBJECT_NAME);
             Log(Label, "was sucsessfully initialized");
-            return this;
         }
 
         public override ICacheable Configure()

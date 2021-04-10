@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Framework.Core
 {
-    public interface IController: ICacheable, IDebug
+    public interface IController: IConfigurable, ICacheable, IDebug
     {
 
     }     
@@ -12,13 +12,15 @@ namespace Framework.Core
     [Serializable]
     public abstract class Controller : SceneObject, IController
     {        
+        public static readonly string PARENT_OBJECT_NAME = Builder.OBJECT_NAME_CONTROLLERS; 
+        
         public bool         UseDebug    {get; set;} = true;
-        public IDataStats   DataStats   {get; }
+        public IDataStats   DataStats   {get; set;}
                 
         
  #region Configure
         
-        public abstract ICacheable Initialize();
+        public abstract void Initialize();
         public abstract ICacheable Configure();
 
 #endregion   

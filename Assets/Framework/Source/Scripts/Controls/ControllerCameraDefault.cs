@@ -9,14 +9,13 @@ namespace Framework
         private Camera cameraMain;
         
         
-        public override IController Initialize()
+        public override void Initialize()
         {
             SetSceneObject(ControllerCamera.OBJECT_NAME);
             Log(Label, "was sucsessfully initialized");
-            return this;
         } 
          
-        public override IController Configure()
+        public override ICacheable Configure()
         {
             
             cameraMain = ObjectOnScene.AddComponent<Camera>();

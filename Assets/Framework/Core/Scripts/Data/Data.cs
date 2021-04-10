@@ -3,16 +3,20 @@
 namespace Framework.Core 
 {
     
-    public interface IData
+    public interface IData: ICacheable, ISimpleObject
     {
 
 
     }
     
     
-    public abstract class Data : IData
+    public abstract class Data : SimpleObject, IData
     {
-        
+
+        public abstract ICacheable Initialize();
+        public abstract ICacheable Configure();
+            
+
 
         
     }

@@ -9,15 +9,14 @@ namespace Framework
     {
         
         
-        public override IController Initialize()
+        public override void Initialize()
         {
-            SetSceneObject(SCENEOBJECT_NAME);
+            SetSceneObject(ControllerScene.OBJECT_NAME);
             Log(Label, "was sucsessfully initialized");
-            return this; 
         } 
         
         
-        public override IController Configure() 
+        public override ICacheable Configure() 
         {                                     
             foreach (var scene in Cache.Store.Values)
             {

@@ -1,18 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using Framework.Core;
 
-public class StateLogin : MonoBehaviour
+namespace Framework
 {
-    // Start is called before the first frame update
-    void Start()
+    public class StateLogin : State
     {
+        protected static readonly string OBJECT_NAME = "State: Login";
         
-    }
+        public StateLogin()
+        {
+            Initialize();
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public override void Initialize()
+        {
+            Label = OBJECT_NAME;
+            Log(Label, "was sucsessfully initialized");
+        }
+
+        public override ICacheable Configure()
+        {
+            Log(Label, "was sucsessfully configured");
+            return this;
+        }
+
     }
 }

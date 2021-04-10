@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Framework.Core 
 {
     
-    public interface ISession: ICacheable, IDebug
+    public interface ISession: IConfigurable, ICacheable, IDebug
     {
 
     }
@@ -14,11 +14,13 @@ namespace Framework.Core
     [Serializable]
     public abstract class Session : SceneObject, ISession
     {
+        public static readonly string PARENT_OBJECT_NAME = Builder.OBJECT_NAME_SESSIONS; 
+        
         public bool         UseDebug  {get; set;} = true;        
-        public IDataStats   DataStats {get; }
+        public IDataStats   DataStats {get; set;}
 
         
-        public abstract ICacheable Initialize();
+        public abstract void Initialize();
         public abstract ICacheable Configure();
 
         

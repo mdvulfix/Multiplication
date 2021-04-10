@@ -3,16 +3,12 @@
 namespace Framework.Core
 {    
 
-    public interface IControllerState: IController
-    {
-        HashSet<IState> States {get; }
-        
-        void SetStates(IFactoryState factory);
-        void SetStates(HashSet<IState> states);
-        
+    public interface IControllerState: IController, IHasCache<IState>
+    {    
+        IState StateActive {get; }
+    
         void OnStateEnter(IState state);
         void OnStateExit(IState state);
-    
     
     } 
     
@@ -21,34 +17,41 @@ namespace Framework.Core
     public abstract class ControllerState : Controller, IControllerState
     {
         
-        protected readonly string SCENEOBJECT_NAME = "Controller: State";
+        protected static readonly string OBJECT_NAME = "Controller: State";
+        
+        public ICache<IState>    Cache        {get; protected set;} = new Cache<IState>();
+        public IState            StateActive  {get; protected set;}       
 
-        private HashSet<IState> states;
-        
-        public HashSet<IState> States {get => states; private set => states = value; }
-        
-                
-        public void SetStates(IFactoryState factory)
+#region RegisterToCache
+
+        public IState SetToCache(IState instance)
         {
-            States = factory.GetStates();
-
-        }
-        
-        public void SetStates(HashSet<IState> states)
-        {
-            States = states;
-
+            Cache.Add(instance as IState);
+            return instance;
         }
 
-        public void OnStateEnter(IState state)
+        public void SetToCache(List<IState> instances)
         {
-
+            foreach (var instance in instances)
+            {
+                SetToCache(instance);
+            }
         }
 
-        public void OnStateExit(IState state)
-        {
+#endregion
+
+
+
+#region StateManagement
             
-        }
+        public abstract void OnStateEnter(IState state);
+        public abstract void OnStateExit(IState state);
+
+#endregion
+    
+
+
+
 
 
 

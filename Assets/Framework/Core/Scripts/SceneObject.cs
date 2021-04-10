@@ -5,10 +5,7 @@ namespace Framework.Core
 {   
     [Serializable]
     public abstract class SceneObject : MonoBehaviour
-    {       
-
-        
-        
+    {   
         public GameObject   ObjectOnScene   {get; private set;}
         public string       Label           {get; private set;}
        

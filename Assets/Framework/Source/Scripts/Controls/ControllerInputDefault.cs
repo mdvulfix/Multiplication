@@ -10,15 +10,14 @@ namespace Framework
     
         public InputAction InputActionByTyping;
         
-        public override IController Initialize()
+        public override void Initialize()
         {
             SetSceneObject(SCENEOBJECT_NAME);
             Log(Label, "was sucsessfully initialized");
-            return this;
         } 
         
         
-        public override IController Configure()
+        public override ICacheable Configure()
         {
             //InputActionByTyping += InputMethod_1(KeyCode.F);
             //InputActionByTyping += InputMethod_2(KeyCode.F);

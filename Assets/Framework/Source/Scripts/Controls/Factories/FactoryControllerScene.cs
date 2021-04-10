@@ -20,15 +20,8 @@ namespace Framework
             
             
             var instance = GetInstanceOf<ControllerSceneDefault>("Controller: Scene", Controller.PARENT_OBJECT_NAME).Initialize() as IControllerScene;           
-            var scenes = factoryScene.GetScenes();
-            instance.SetToCache(scenes);
+            instance.SetToCache(factoryScene.GetScenes());
             return instance;
-            
-            
-            var instance = GetInstanceOf<ControllerPageDefault>("Controller: Page", Controller.PARENT_OBJECT_NAME).Initialize() as IControllerPage;
-            var pages = factoryPage.GetPages();
-            instance.PageRegister(pages);
-
         }
 
     }

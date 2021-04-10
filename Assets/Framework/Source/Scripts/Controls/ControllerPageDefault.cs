@@ -6,15 +6,14 @@ namespace Framework
     public class ControllerPageDefault : ControllerPage
     {       
         // Initialize in factory        
-        public override IController Initialize()
+        public override void Initialize()
         {
             SetSceneObject(ControllerPage.OBJECT_NAME);
             Log(Label, "was sucsessfully initialized");
-            return this;
         } 
         
         // Initialize in builder 
-        public override IController Configure() 
+        public override ICacheable Configure() 
         {                                     
             InitializePages();
             SetActivePage<PageLoading>();
@@ -24,7 +23,7 @@ namespace Framework
 
         private void InitializePages() 
         {
-            foreach (var page in Cache.Store.Values)
+            foreach (var page in Cache.GetAll())
             {
                 page.Initialize();
             

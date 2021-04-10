@@ -7,12 +7,12 @@ namespace Framework.Core
         int ID {get; }
     }
       
-    public class DataStat : IDataStats
+    public class DataStats : IDataStats
     {
         public int      ID      {get; private set;}
         public string   Label   {get; private set;}
         
-        public DataStat(int id, string label)
+        public DataStats(int id, string label)
         {
             ID = id;
             Label = label;

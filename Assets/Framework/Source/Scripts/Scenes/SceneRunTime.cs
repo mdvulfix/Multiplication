@@ -11,11 +11,10 @@ namespace Framework
             Initialize();
         }
 
-        public override ICacheable Initialize()
+        public override void Initialize()
         {
             Label = OBJECT_NAME;
             Log(Label, "was sucsessfully initialized");
-            return this;
         }
 
         public override ICacheable Configure()

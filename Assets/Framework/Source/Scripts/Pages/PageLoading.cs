@@ -8,13 +8,12 @@ namespace Framework
     {
         protected static readonly string OBJECT_NAME = "Page: Loading";
         
-        public override ICacheable Initialize()
+        public override void Initialize()
         {
             SetSceneObject(OBJECT_NAME);
             Activate(false);
 
             Log(Label, "was sucsessfully initialized");
-            return this;
 
         }
 

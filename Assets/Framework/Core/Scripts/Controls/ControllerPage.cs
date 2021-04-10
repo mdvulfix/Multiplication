@@ -12,9 +12,7 @@ namespace Framework.Core
         
         //void TurnPageOn<TPageNext>() where TPageNext: class, IPage;
         
-        void  PageTurn<TPageNext>(bool waitForPageExit = false) where TPageNext: class, IPage;
-    
-    
+        void PageTurn<TPageNext>(bool waitForPageExit = false) where TPageNext: class, IPage;   
     
     } 
     

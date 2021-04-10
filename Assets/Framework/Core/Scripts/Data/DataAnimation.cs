@@ -20,6 +20,9 @@ namespace Framework.Core
     
     public class DataAnimation : IDataAnimation
     {
+        
+        public string         Label         {get; set;}
+        
         public bool           UseAnimation  {get; set;} = false;
         public Animator       Animator      {get; set;} = null;
         public AnimationState CurrentState  {get; set;} = AnimationState.None;
