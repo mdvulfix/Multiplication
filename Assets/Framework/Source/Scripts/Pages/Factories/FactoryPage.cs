@@ -46,8 +46,8 @@ namespace Framework
 
         private IDataAnimation GetDataAnimation()
         {
-            IDataAnimation data = null; //=  factoryData.Get<DataAnimation>();
-            //data.UseAnimation = true;
+            IDataAnimation data = factoryData.Get();
+            data.UseAnimation = true;
             return data;           
         }
     }

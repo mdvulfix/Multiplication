@@ -8,7 +8,7 @@ namespace Framework.Core
     {
         IDataAnimation  DataAnimation   {get; set;}
     
-        void Activate(bool active);
+        IPage Activate(bool active);
     }
 
     [Serializable]
@@ -24,7 +24,7 @@ namespace Framework.Core
         public abstract void Initialize();
         public abstract IConfigurable Configure();
 
-        public void Activate(bool active)
+        public IPage Activate(bool active)
         {
             
             //DataAnimation.Animator = ObjectOnScene.GetComponent<Animator>();
@@ -33,7 +33,9 @@ namespace Framework.Core
                 
             
             if(!ActivateObject(active))
-                return;
+                return null;
+            else
+                return this;
             /*
             if(DataAnimation.UseAnimation)
             {

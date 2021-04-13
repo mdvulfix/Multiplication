@@ -6,16 +6,26 @@ using Framework.Core;
 namespace Framework
 {
     [CreateAssetMenu(fileName = "FactoryData", menuName = "Factories/Data/Default")]
-    public class FactoryData : AFactory<IData>
+    public class FactoryData : AFactory<IDataAnimation>
     {
-        public override List<IData> Get()
+        
+        public override List<IDataAnimation> Get()
         {
-            var list = new List<IData>();
+            var list = new List<IDataAnimation>()
+            {
+                Get<DataAnimation>(DataAnimation.OBJECT_NAME)
+
+            };
             
 
 
             return list;
         }
+        
+        
+        
+        
+
     
     
     

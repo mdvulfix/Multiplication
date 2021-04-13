@@ -33,31 +33,13 @@ namespace Framework.Core
     
         public void PageTurn<TPageNext>(bool waitForPageExit = false) where TPageNext: class, IPage
         {
-            var pageNext = Cache.Get<TPageNext>();
-            
-            if(pageActive == null)
-            {
-                LogWarning(Label, "You are trying to turn a page [" + pageActive.Label + "] that has not been registered!");
-                return;
-            }
-    
-            if(pageActive.ObjectOnScene.activeSelf)
-                pageActive.Activate(false);
-
-            if(waitForPageExit)
-            {
-                //StopCoroutine(WaitForPageExit<TPageNext>());
-                //StartCoroutine(WaitForPageExit<TPageNext>());
-                
-                //Log("Animation is enabled on page [ " + Name + " ]");
-            }
-            else
-                PageGetNext<TPageNext>();
+            PageTurn(typeof(TPageNext), waitForPageExit);
         }
        
         public void PageTurn(Type pageType, bool waitForPageExit = false)
         {
             var pageNext = Cache.Get(pageType);
+            var pageNextType = pageNext.GetType();
             
             if(pageActive == null)
             {
@@ -66,37 +48,30 @@ namespace Framework.Core
             }
     
             if(pageActive.ObjectOnScene.activeSelf)
+            {
                 pageActive.Activate(false);
+                Log(Label, "[" + pageActive.Label + "] was deactivated!");
+
+            }
+                
 
             if(waitForPageExit)
             {
-                //StopCoroutine(WaitForPageExit<TPageNext>());
-                //StartCoroutine(WaitForPageExit<TPageNext>());
+                StopCoroutine(WaitForPageExit(pageNextType));
+                StartCoroutine(WaitForPageExit(pageNextType));
                 
                 //Log("Animation is enabled on page [ " + Name + " ]");
             }
             else
                 PageGetNext(pageType);
         }
-        
-        
-        
-        private void PageGetNext<TPageNext>() where TPageNext: class, IPage
+               
+        public void PageGetNext<TPageNext>() where TPageNext: class, IPage
         {
-            var pageNext = Cache.Get<TPageNext>();
-            
-            if(pageNext==null)
-            {
-                LogWarning(Label, "You are trying to turn a page on [" + pageNext.Label + "] that has not been registered!");
-                return;
-            }
-    
-            pageNext.Activate(true);
-            pageActive = pageNext;
-            Log(Label, pageNext.Label + "was animated");
+            PageGetNext(typeof(TPageNext));
         }  
     
-        private void PageGetNext(Type pageType)
+        public void PageGetNext(Type pageType)
         {
             var pageNext = Cache.Get(pageType);
             
@@ -106,20 +81,22 @@ namespace Framework.Core
                 return;
             }
     
-            pageNext.Activate(true);
+            pageActive = pageNext.Activate(true);
+        
             pageActive = pageNext;
-            Log(Label, pageNext.Label + "was animated");
+            Log(Label, "[" + pageActive.Label + "] was activated!");
         }
         
         
-        private IEnumerator WaitForPageExit<TPageNext>() where TPageNext: class, IPage
+        private IEnumerator WaitForPageExit(Type pageType)
         {
+            Log(Label, "Waiting for exit [" + pageActive.Label + "]...");
             while (pageActive.DataAnimation.TargetState != AnimationState.None)
             {
                 yield return null;
             }
             
-            PageGetNext<TPageNext>();
+            PageGetNext(pageType);
         }
        
 #endregion

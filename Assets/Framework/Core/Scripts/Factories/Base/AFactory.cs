@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,6 +16,8 @@ namespace Framework.Core
             where T: ASimpleObject, TCacheable, new();
             
         List<TCacheable> Get();
+        TData Get<TData>(string label)
+            where TData: ASimpleObject, TCacheable, IData, new();
     
     }
 
@@ -43,6 +46,16 @@ namespace Framework.Core
         }
 
         public abstract List<TCacheable> Get();
+        
+        public TData Get<TData>(string label)
+            where TData: ASimpleObject, TCacheable, IData, new()
+        {
+            var data = GetInstanceOfSimpleObject<TData>(label);
+            
+            
+            return data;
+        }
+            
 
 #region DebugFunctions
 
