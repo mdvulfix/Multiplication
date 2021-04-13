@@ -14,19 +14,26 @@ namespace Framework
         {
             var list = new List<IControllerScene>()
             {
-                GetAndInitialize<ControllerSceneDefault>("Controller: Scene")
+                GetAndInitialize<ControllerSceneDefault>(ControllerSceneDefault.OBJECT_NAME, factoryScene)
             };
 
             return list;
         }
 
-
-        private IControllerScene GetAndInitialize<T>(string label) where T: AControllerScene
+        private IControllerScene GetAndInitialize<T>(string label, IFactory<IScene> factory) 
+            where T: AControllerScene
         {
             var instance = GetInstanceOfSceneObject<T>(label, ABuilder.OBJECT_NAME_CONTROLLERS);
             instance.Initialize();
 
-            var scenes = factoryScene.Get();
+            if(factory==null)
+            {
+               LogWarning(Label, "Factory [" + typeof(IScene)+ "] was not found!");
+               return null;
+            }
+
+            var scenes = factory.Get();
+
             instance.SetToCache(scenes);
             return instance;
         

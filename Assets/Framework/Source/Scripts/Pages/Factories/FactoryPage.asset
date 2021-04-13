@@ -13,4 +13,13 @@ MonoBehaviour:
   m_Name: FactoryPage
   m_EditorClassIdentifier: 
   factoryData: {fileID: 11400000, guid: 759c72681e483ee409bcd077f84bbe77, type: 2}
-  prefab: {fileID: 4954254090882337441, guid: f1b816318ad4df3459545839a42a59d5, type: 3}
+  prefabPageLoading: {fileID: 4954254090882337441, guid: f1b816318ad4df3459545839a42a59d5,
+    type: 3}
+  prefabPageLogin: {fileID: 6789114870003706415, guid: 043e3e44f6b03294ab7bd6597ec95800,
+    type: 3}
+  prefabPageMenu: {fileID: 4719490890699790326, guid: d55ef707d37751b429ccb5f777d3f4f7,
+    type: 3}
+  prefabPageRunTime: {fileID: 55806713844936871, guid: 000be658b5c07d64bacdfbe7b5774cb2,
+    type: 3}
+  prefabPageScore: {fileID: 7394800760637859768, guid: 0d3038b5a12b323408c0f4179a3ffea6,
+    type: 3}

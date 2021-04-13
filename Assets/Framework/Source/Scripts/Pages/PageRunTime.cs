@@ -2,9 +2,9 @@
 
 namespace Framework
 {
-    public class PageLoading : APage
+    public class PageRunTime : APage
     {
-        public static readonly string OBJECT_NAME = "Page: Loading";
+        public static readonly string OBJECT_NAME = "Page: RunTime";
         
         public override void Initialize()
         {

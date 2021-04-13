@@ -5,6 +5,7 @@ using Framework.Core;
 
 namespace Framework
 {
+    //[ExecuteInEditMode]
     [Serializable]
     public class BuilderDefault : ABuilder
     {
@@ -35,6 +36,15 @@ namespace Framework
             SetSceneObject(OBJECT_NAME);
             Log(Label, "was sucsessfully initialized");
             //return this;
+        
+        
+
+        
+        
+        
+        
+        
+        
         }
         
         public override IConfigurable Configure()
@@ -59,6 +69,13 @@ namespace Framework
         private T Set<T>(IFactory<T> factory) 
             where T: class, ICacheable
         {          
+           
+           if(factory==null)
+           {
+               LogWarning(Label, "Factory [" + typeof(T)+ "] was not found!");
+               return null;
+           }
+           
            var list = factory.Get();
            if(list.Count == 0)
            {

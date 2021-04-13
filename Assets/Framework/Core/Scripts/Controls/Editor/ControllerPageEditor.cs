@@ -53,13 +53,15 @@ namespace Framework.Core
 
         private void NextPage()
         {
-            instance.PageActive = instance.Cache.GetNext(instance.PageActive.GetType());
+            var pageType = instance.Cache.GetNext(instance.PageActive.GetType()).GetType();
+            instance.PageTurn(pageType);
 
         }
 
         private void PrevPage()
         {
-            instance.PageActive = instance.Cache.GetPrev(instance.PageActive.GetType());
+            var pageType = instance.Cache.GetPrev(instance.PageActive.GetType()).GetType();
+            instance.PageTurn(pageType);
 
         }
     }

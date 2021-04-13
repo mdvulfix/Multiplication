@@ -14,21 +14,29 @@ namespace Framework
         {
             var list = new List<IControllerState>()
             {
-                GetAndInitialize<ControllerStateDefault>("Controller: State")
+                GetAndInitialize<ControllerStateDefault>(ControllerStateDefault.OBJECT_NAME, factoryState)
             };
 
             return list;
         }
-
-        private IControllerState GetAndInitialize<T>(string label) where T: AControllerState
+        
+        private IControllerState GetAndInitialize<T>(string label, IFactory<IState> factory) 
+            where T: AControllerState
         {
             var instance = GetInstanceOfSceneObject<T>(label, ABuilder.OBJECT_NAME_CONTROLLERS);
             instance.Initialize();
 
-            var states = factoryState.Get();
+            if(factory==null)
+            {
+               LogWarning(Label, "Factory [" + typeof(IState)+ "] was not found!");
+               return null;
+            }
+
+            var states = factory.Get();
+
             instance.SetToCache(states);
             return instance;
         
-        }
+        }        
     }
 }

@@ -1,28 +1,25 @@
-﻿namespace Framework.Core
+﻿using Framework.Core;
+
+namespace Framework
 {
-    
-    /* 
-    public class PageScore : Page
+    public class PageScore : APage
     {
-        public override void OnAwake()
-        {
-            SetPage(this);
-        }
+        public static readonly string OBJECT_NAME = "Page: Score";
         
-        
-        public override void OnInitialize()
+        public override void Initialize()
         {
+            SetSceneObject(OBJECT_NAME);
+            Activate(false);
 
-
-        }
-        
-        public override void OnUpdate()
-        {
-
+            Log(Label, "was sucsessfully initialized");
+            //return this;
 
         }
 
-
+        public override IConfigurable Configure()
+        {
+            Log(Label, "was sucsessfully configured");
+            return this;
+        }
     }
-    */
 }
