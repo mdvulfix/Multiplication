@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Framework.Core 
 {
+    /*
     public abstract class ControllerInput : Controller
     {
 
@@ -16,5 +17,5 @@ namespace Framework.Core
         public abstract void InputMethod_4(KeyCode kode);
     
     }
-
+    */
 }

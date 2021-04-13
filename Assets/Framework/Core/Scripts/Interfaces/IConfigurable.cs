@@ -6,7 +6,7 @@ namespace Framework.Core
     {
         //IDataStats  DataStats {get; set;} 
         void Initialize();
-        ICacheable Configure();
+        IConfigurable Configure();
             
     }
 

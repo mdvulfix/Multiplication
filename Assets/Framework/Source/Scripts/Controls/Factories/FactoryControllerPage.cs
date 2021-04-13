@@ -5,31 +5,32 @@ using Framework.Core;
 namespace Framework
 {   
     [CreateAssetMenu(fileName = "FactoryControllerPage", menuName = "Factories/Controllers/Page/Default")]
-    public class FactoryControllerPage : Factory
+    public class FactoryControllerPage : AFactory<IControllerPage>
     {
         [SerializeField]        
         private FactoryPage factoryPage;
         
-        public override List<IControllerPage> Get<IControllerPage>()
+        public override List<IControllerPage> Get()
         {
-            if(factoryPage == null)
+            var list = new List<IControllerPage>()
             {
-                LogWarning(Label, "Factory page was not set!");
-                return null;
-            }
-            
-            var list = new List<ControllerPageDefault>()
-            {
-                GetInstanceOf<ControllerPageDefault>("Controller: Page", Controller.PARENT_OBJECT_NAME).Initialize()
-                    
-
+                GetAndInitialize<ControllerPageDefault>("Controller: Page")
             };
-            //var instance = ;
-            var pages = factoryPage.Get<IPage>();
-            //instance.SetToCache(pages);
 
-            list.Add(instance);
             return list;
         }
+
+
+        private IControllerPage GetAndInitialize<T>(string label) where T: AControllerPage
+        {
+            var instance = GetInstanceOfSceneObject<T>(label, ABuilder.OBJECT_NAME_CONTROLLERS);
+            instance.Initialize();
+
+            var pages = factoryPage.Get();
+            instance.SetToCache(pages);
+            return instance;
+        
+        }
+
     }
 }

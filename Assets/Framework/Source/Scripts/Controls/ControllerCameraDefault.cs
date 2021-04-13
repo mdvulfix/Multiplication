@@ -3,22 +3,24 @@ using Framework.Core;
 
 namespace Framework
 {
-    public class ControllerCameraDefault : ControllerCamera
+    /*
+    public class ControllerCameraDefault : AControllerCamera
     {
     
         private Camera cameraMain;
         
         
-        public override void Initialize()
+        public override IConfigurable Initialize()
         {
             SetSceneObject(ControllerCamera.OBJECT_NAME);
             Log(Label, "was sucsessfully initialized");
+            return this;
         } 
          
-        public override ICacheable Configure()
+        public override IConfigurable Configure()
         {
             
-            cameraMain = ObjectOnScene.AddComponent<Camera>();
+            cameraMain = AObjectOnScene.AddComponent<Camera>();
             cameraMain.clearFlags = CameraClearFlags.SolidColor;
             cameraMain.backgroundColor = Color.cyan;
             cameraMain.orthographic = true;
@@ -28,4 +30,5 @@ namespace Framework
         
         }
     }
+    */
 }

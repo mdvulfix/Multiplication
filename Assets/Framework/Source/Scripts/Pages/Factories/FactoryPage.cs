@@ -4,8 +4,8 @@ using Framework.Core;
 
 namespace Framework
 {
-    [CreateAssetMenu(fileName = "FactoryPage", menuName = "Factories/Page")]
-    public class FactoryPage : Factory
+    [CreateAssetMenu(fileName = "FactoryPage", menuName = "Factories/Page/Default")]
+    public class FactoryPage : AFactory<IPage>
     {
         [SerializeField]
         private FactoryData factoryData;
@@ -13,29 +13,32 @@ namespace Framework
         [SerializeField]
         protected GameObject prefab;
         
-        public override List<IPage> Get<IPage>()
+        public override List<IPage> Get()
         {
             var list = new List<IPage>()
             {
-                GetInstanceOf<PageLoading>("Page: Loading", Page.PARENT_OBJECT_NAME, prefab) as IPage,
-                GetInstanceOf<PageLogin>("Page: Login", Page.PARENT_OBJECT_NAME, prefab) as IPage,
-                GetInstanceOf<PageMenu>("Page: Menu", Page.PARENT_OBJECT_NAME, prefab) as IPage
+                GetAndInitialize<PageLoading>(PageLoading.OBJECT_NAME),
+                GetAndInitialize<PageLogin>(PageLogin.OBJECT_NAME),
+                GetAndInitialize<PageMenu>(PageMenu.OBJECT_NAME)
             };
-            
-            foreach (var instance in list)
-            {
 
-            }
-            
-            
             return list;
         }
 
-        public IPage SetDataAnimation(IPage page)
+        private IPage GetAndInitialize<T>(string label) where T: APage
         {
-            page.DataAnimation =  (IDataAnimation)factoryData.Get<DataAnimation>();
-            page.DataAnimation.UseAnimation = true;
-            return page;           
+
+            var instance = GetInstanceOfSceneObject<T>(label, APage.PARENT_OBJECT_NAME, prefab);
+            instance.Initialize();
+            instance.DataAnimation =  GetDataAnimation();
+            return instance;
+        }
+
+        private IDataAnimation GetDataAnimation()
+        {
+            IDataAnimation data = null; //=  factoryData.Get<DataAnimation>();
+            //data.UseAnimation = true;
+            return data;           
         }
     }
 }

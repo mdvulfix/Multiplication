@@ -322,14 +322,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95b17f9c33fc21843924d6b3b40b363a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  factorySessions: {fileID: 11400000, guid: 3a91dc32e4cda1044a62bc56d6228bc9, type: 2}
-  factoryControlState: {fileID: 11400000, guid: 76a8279f39b611846b7d04f954e3d1a7,
+  factorySession: {fileID: 11400000, guid: 3a91dc32e4cda1044a62bc56d6228bc9, type: 2}
+  factoryControllerState: {fileID: 11400000, guid: 76a8279f39b611846b7d04f954e3d1a7,
     type: 2}
-  factoryControlCamera: {fileID: 11400000, guid: bd8567cdf831ba04facc427c2f835c58,
+  factoryControllerScene: {fileID: 11400000, guid: 67d36a1e1ab4a1347b9660e03463e1d4,
     type: 2}
-  factoryControlScene: {fileID: 11400000, guid: 67d36a1e1ab4a1347b9660e03463e1d4,
+  factoryControllerPage: {fileID: 11400000, guid: 229642ab260942247852cf3c4a7c9f0d,
     type: 2}
-  factoryControlPage: {fileID: 11400000, guid: 229642ab260942247852cf3c4a7c9f0d, type: 2}
 --- !u!1 &1882391633
 GameObject:
   m_ObjectHideFlags: 0

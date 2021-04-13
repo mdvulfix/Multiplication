@@ -5,19 +5,30 @@ using Framework.Core;
 namespace Framework
 {   
     [CreateAssetMenu(fileName = "FactoryControllerState", menuName = "Factories/Controllers/State/Default")]
-    public class FactoryControllerState : FactoryController
+    public class FactoryControllerState : AFactory<IControllerState>
     {
         [SerializeField]        
         private FactoryState factoryState;
 
-        public override IController Get()
+        public override List<IControllerState> Get()
         {
-            var instance = GetInstanceOf<ControllerStateDefault>("Controller: State", Controller.PARENT_OBJECT_NAME).Initialize() as ControllerState;
-            //instance.SetStates(factoryState);
+            var list = new List<IControllerState>()
+            {
+                GetAndInitialize<ControllerStateDefault>("Controller: State")
+            };
 
-            return instance;
-
+            return list;
         }
 
+        private IControllerState GetAndInitialize<T>(string label) where T: AControllerState
+        {
+            var instance = GetInstanceOfSceneObject<T>(label, ABuilder.OBJECT_NAME_CONTROLLERS);
+            instance.Initialize();
+
+            var states = factoryState.Get();
+            instance.SetToCache(states);
+            return instance;
+        
+        }
     }
 }

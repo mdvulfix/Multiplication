@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bc179ee2c64a6242b3a0a82f643dfbc, type: 3}
+  m_Script: {fileID: 11500000, guid: 1192b4964d2e29c4686964af801244fd, type: 3}
   m_Name: FactorySession
   m_EditorClassIdentifier: 

@@ -4,9 +4,9 @@ using Framework.Core;
 
 namespace Framework
 {
-    public class PageLogin : Page
+    public class PageLogin : APage
     {
-        protected static readonly string OBJECT_NAME = "Page: Login";
+        public static readonly string OBJECT_NAME = "Page: Login";
         
         public override void Initialize()
         {
@@ -14,10 +14,11 @@ namespace Framework
             Activate(false);
 
             Log(Label, "was sucsessfully initialized");
+            //return this;
 
         }
 
-        public override ICacheable Configure()
+        public override IConfigurable Configure()
         {
             Log(Label, "was sucsessfully configured");
             return this;

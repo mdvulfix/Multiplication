@@ -3,23 +3,20 @@ using Framework.Core;
 
 namespace Framework
 {   
-    public class ControllerStateDefault : ControllerState, IControllerState
+    public class ControllerStateDefault : AControllerState
     {
         
+    public static readonly string OBJECT_NAME = "Controller: State";
     public override void Initialize()
         {
-            SetSceneObject(ControllerState.OBJECT_NAME);
+            SetSceneObject(OBJECT_NAME);
             Log(Label, "was sucsessfully initialized");
+            //return this;
         } 
         
         
-        public override ICacheable Configure() 
+        public override IConfigurable Configure() 
         {                                     
-            foreach (var state in Cache.GetAll())
-            {
-                state.Initialize();
-            }
-
             StateActive = Cache.Get<StateBuilding>();
             Log(Label, "was successfully configured.");
             return this;

@@ -5,10 +5,10 @@ using Framework.Core;
 
 namespace Framework
 {
-    [CreateAssetMenu(fileName = "FactoryData", menuName = "Factories/Data")]
-    public class FactoryData : Factory
+    [CreateAssetMenu(fileName = "FactoryData", menuName = "Factories/Data/Default")]
+    public class FactoryData : AFactory<IData>
     {
-        public override List<IData> Get<IData>()
+        public override List<IData> Get()
         {
             var list = new List<IData>();
             

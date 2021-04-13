@@ -4,20 +4,23 @@ using Framework.Core;
 
 namespace Framework
 {
+    
+    /*
     public class ControllerInputDefault : ControllerInput
     {
         //private readonly string SCENEOBJECT_NAME = "Control: Input";
     
         public InputAction InputActionByTyping;
         
-        public override void Initialize()
+        public override IConfigurable Initialize()
         {
             SetSceneObject(SCENEOBJECT_NAME);
             Log(Label, "was sucsessfully initialized");
+            return this;
         } 
         
         
-        public override ICacheable Configure()
+        public override IConfigurable Configure()
         {
             //InputActionByTyping += InputMethod_1(KeyCode.F);
             //InputActionByTyping += InputMethod_2(KeyCode.F);
@@ -53,4 +56,6 @@ namespace Framework
     
     
     }
+
+    */
 }

@@ -9,7 +9,7 @@ namespace Framework.Core
     public class ControllerPageEditor: Editor
     {
         
-        ControllerPage instance;
+        IControllerPage instance;
         ICache<IPage> Cache {get; set;}
 
         private void OnEnable() 

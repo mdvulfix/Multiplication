@@ -5,24 +5,31 @@ using Framework.Core;
 namespace Framework
 {   
     [CreateAssetMenu(fileName = "FactoryControllerScene", menuName = "Factories/Controllers/Scene/Default")]
-    public class FactoryControllerScene : FactoryController
+    public class FactoryControllerScene : AFactory<IControllerScene>
     {
         [SerializeField]        
         private FactoryScene factoryScene;
         
-        public override IController Get()
+        public override List<IControllerScene> Get()
         {
-            if(factoryScene == null)
+            var list = new List<IControllerScene>()
             {
-                LogWarning(Label, "Factory scene was not set!");
-                return null;
-            }
-            
-            
-            var instance = GetInstanceOf<ControllerSceneDefault>("Controller: Scene", Controller.PARENT_OBJECT_NAME).Initialize() as IControllerScene;           
-            instance.SetToCache(factoryScene.GetScenes());
-            return instance;
+                GetAndInitialize<ControllerSceneDefault>("Controller: Scene")
+            };
+
+            return list;
         }
 
+
+        private IControllerScene GetAndInitialize<T>(string label) where T: AControllerScene
+        {
+            var instance = GetInstanceOfSceneObject<T>(label, ABuilder.OBJECT_NAME_CONTROLLERS);
+            instance.Initialize();
+
+            var scenes = factoryScene.Get();
+            instance.SetToCache(scenes);
+            return instance;
+        
+        }
     }
 }

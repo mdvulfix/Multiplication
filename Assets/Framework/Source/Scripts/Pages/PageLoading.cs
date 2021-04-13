@@ -4,9 +4,9 @@ using Framework.Core;
 
 namespace Framework
 {
-    public class PageLoading : Page
+    public class PageLoading : APage
     {
-        protected static readonly string OBJECT_NAME = "Page: Loading";
+        public static readonly string OBJECT_NAME = "Page: Loading";
         
         public override void Initialize()
         {
@@ -14,10 +14,11 @@ namespace Framework
             Activate(false);
 
             Log(Label, "was sucsessfully initialized");
+            //return this;
 
         }
 
-        public override ICacheable Configure()
+        public override IConfigurable Configure()
         {
             Log(Label, "was sucsessfully configured");
             return this;

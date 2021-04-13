@@ -9,6 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 076e2289788bf99458667faec123f03b, type: 3}
+  m_Script: {fileID: 11500000, guid: 07d78da98c4c0a747bec6aeae8bf5adb, type: 3}
   m_Name: FactoryScene
   m_EditorClassIdentifier: 
+  factoryData: {fileID: 11400000, guid: 759c72681e483ee409bcd077f84bbe77, type: 2}

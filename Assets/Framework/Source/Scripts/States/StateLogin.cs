@@ -2,22 +2,23 @@
 
 namespace Framework
 {
-    public class StateLogin : State
+    public class StateLogin : AState
     {
-        protected static readonly string OBJECT_NAME = "State: Login";
+        public static readonly string OBJECT_NAME = "State: Login";
         
         public StateLogin()
         {
-            Initialize();
+
         }
 
         public override void Initialize()
         {
             Label = OBJECT_NAME;
             Log(Label, "was sucsessfully initialized");
+            //return this;
         }
 
-        public override ICacheable Configure()
+        public override IConfigurable Configure()
         {
             Log(Label, "was sucsessfully configured");
             return this;

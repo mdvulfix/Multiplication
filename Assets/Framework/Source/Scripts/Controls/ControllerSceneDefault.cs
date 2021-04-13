@@ -5,23 +5,21 @@ using Framework.Core;
 
 namespace Framework
 {
-    public class ControllerSceneDefault : ControllerScene
+    public class ControllerSceneDefault : AControllerScene
     {
         
-        
+        public static readonly string OBJECT_NAME = "Controller: Scene";
         public override void Initialize()
         {
-            SetSceneObject(ControllerScene.OBJECT_NAME);
+            SetSceneObject(OBJECT_NAME);
             Log(Label, "was sucsessfully initialized");
+            //return this;
         } 
         
         
-        public override ICacheable Configure() 
+        public override IConfigurable Configure() 
         {                                     
-            foreach (var scene in Cache.Store.Values)
-            {
-                scene.Initialize();
-            }
+
 
             SceneActive = Cache.Get<SceneCore>();
             Log(Label, "was successfully configured.");

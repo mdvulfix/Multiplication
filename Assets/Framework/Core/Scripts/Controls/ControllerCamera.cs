@@ -4,17 +4,14 @@ using UnityEditor;
 namespace Framework.Core
 {
 
-    public interface IControllerCamera: IController
-    {
-       
-        
-    } 
 
-    public abstract class ControllerCamera: Controller, IControllerCamera
+    /*
+    public abstract class ControllerCamera: Controller<ICamera>
     {
         protected static readonly string OBJECT_NAME = "Controller: Camera";
 
     
     }
+    */
 
 }

@@ -2,22 +2,23 @@
 
 namespace Framework
 {
-    public class StateRunTime : State
+    public class StateRunTime : AState
     {
-        protected static readonly string OBJECT_NAME = "State: RunTime";
+        public static readonly string OBJECT_NAME = "State: RunTime";
         
         public StateRunTime()
         {
-            Initialize();
+
         }
 
         public override void Initialize()
         {
             Label = OBJECT_NAME;
             Log(Label, "was sucsessfully initialized");
+            //return this;
         }
 
-        public override ICacheable Configure()
+        public override IConfigurable Configure()
         {
             Log(Label, "was sucsessfully configured");
             return this;

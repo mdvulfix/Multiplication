@@ -4,20 +4,26 @@ using Framework.Core;
 
 namespace Framework
 {
-    [CreateAssetMenu(fileName = "FactoryState", menuName = "Factories/State")]
-    public class FactoryState : Factory
+    [CreateAssetMenu(fileName = "FactoryState", menuName = "Factories/State/Default")]
+    public class FactoryState : AFactory<IState>
     {
-        public override List<IState> Get<IState>()
+        public override List<IState> Get()
         {
             var list = new List<IState>()
             {
-                (IState)GetInstanceOf<StateInitialize>("State: Initialize").Initialize(),
-                (IState)GetInstanceOf<StateLogin>("State: Login").Initialize(),
-                (IState)GetInstanceOf<StateRunTime>("State: RunTime").Initialize()
+                GetAndInitialize<StateInitialize>(StateInitialize.OBJECT_NAME),
+                GetAndInitialize<StateLogin>(StateLogin.OBJECT_NAME),
+                GetAndInitialize<StateRunTime>(StateRunTime.OBJECT_NAME)
             };
 
             return list;
         }
-
+        
+        private IState GetAndInitialize<T>(string name) where T: AState, new()
+        {
+            var instance = GetInstanceOfSimpleObject<T>(name);
+            instance.Initialize();
+            return instance;
+        }
     }
 }

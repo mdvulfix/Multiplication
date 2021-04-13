@@ -4,9 +4,9 @@ using Framework.Core;
 
 namespace Framework
 {
-    public class PageMenu : Page
+    public class PageMenu : APage
     {
-        protected readonly string OBJECT_NAME = "Page: Menu";
+        public static readonly string OBJECT_NAME = "Page: Menu";
         
         public override void Initialize()
         {
@@ -14,9 +14,10 @@ namespace Framework
             Activate(false);
 
             Log(Label, "was sucsessfully initialized");
+            //return this;
         }
 
-        public override ICacheable Configure()
+        public override IConfigurable Configure()
         {
             Log(Label, "was sucsessfully configured");
             return this;

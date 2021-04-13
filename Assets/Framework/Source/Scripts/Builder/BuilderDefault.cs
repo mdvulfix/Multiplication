@@ -6,19 +6,19 @@ using Framework.Core;
 namespace Framework
 {
     [Serializable]
-    public class BuilderDefault : Builder
+    public class BuilderDefault : ABuilder
     {
         
-        public static readonly string OBJECT_NAME = Builder.OBJECT_NAME_BUILDER;
+        public static readonly string OBJECT_NAME = ABuilder.OBJECT_NAME_BUILDER;
         
         [Header("Factories: Session")]
-        [SerializeField] Factory                    factorySessions; 
+        [SerializeField] FactorySession             factorySession; 
         
         [Header("Factories: Controls")]
-        [SerializeField] FactoryControllerState     factoryControlState;
-        [SerializeField] FactoryControllerCamera    factoryControlCamera;
-        [SerializeField] FactoryControllerScene     factoryControlScene;
-        [SerializeField] FactoryControllerPage      factoryControlPage;              
+        [SerializeField] FactoryControllerState     factoryControllerState;
+        //[SerializeField] FactoryControllerCamera    factoryControlCamera;
+        [SerializeField] FactoryControllerScene     factoryControllerScene;
+        [SerializeField] FactoryControllerPage      factoryControllerPage;              
         //[SerializeField] FactoryControlInput factoryControlInput;
         
 
@@ -34,22 +34,19 @@ namespace Framework
         {
             SetSceneObject(OBJECT_NAME);
             Log(Label, "was sucsessfully initialized");
+            //return this;
         }
         
-        public override ICacheable Configure()
+        public override IConfigurable Configure()
         {          
-            Set<SessionMain>(factorySessions);
-            Set<ControllerStateDefault>(factoryControlState);
-            Set<ControllerCameraDefault>(factoryControlCamera);
-            Set<ControllerSceneDefault>(factoryControlScene);
-            Set<ControllerPageDefault>(factoryControlPage);
+            var instance = Set<ISession>(factorySession);
+            instance.Configure();
+            Set<IControllerState>(factoryControllerState).Configure();
+            //Set<ControllerCameraDefault>(factoryControlCamera).Configure();
+            Set<IControllerScene>(factoryControllerScene).Configure();
+            Set<IControllerPage>(factoryControllerPage).Configure();
             //Set<ControlInputDefault>(factoryControlInput);
             
-            foreach (var instance in Cache.GetAll())
-            {
-                instance.Configure();
-            }
-
             Log(Label, "was sucsessfully configured");
             return this;            
         }     
@@ -59,23 +56,24 @@ namespace Framework
 
 #region SetToCache
 
-        private void Set<T>(IFactory factory) where T:  class, ICacheable
+        private T Set<T>(IFactory<T> factory) 
+            where T: class, ICacheable
         {          
-           var list = GetInstancesFormFactory(factory);
+           var list = factory.Get();
            if(list.Count == 0)
            {
                LogWarning(Label, "Instance type of ["+ typeof(T) +"] was not found! Check factory ["+ factory +"] configuration.");
-               return;
+               return null;
            }
            
            foreach (var instance in list)
            {
-              if(instance.GetType() is T)
-              {   
-                  SetToCache(instance);
-                  Log(Label, "Instance type of ["+ typeof(T) +"] was sucsessfully set to cache.");
-              }
+                SetToCache(instance);
+                Log(Label, "Instance type of ["+ typeof(T) +"] was sucsessfully set to cache.");
+                return instance as T;
            } 
+
+           return null;
         }
 
 #endregion 
