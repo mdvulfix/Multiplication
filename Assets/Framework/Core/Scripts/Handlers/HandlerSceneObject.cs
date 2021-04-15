@@ -5,26 +5,35 @@ namespace Framework.Core.Handlers
 
     public static class HandlerSceneObject
     {
-        public static T Create<T>(string label, string parent = null, GameObject prefab = null) where T: ASceneObject
+        public static T Create<T>(string label, GameObject objParent = null, GameObject objPrefab = null) where T: ASceneObject
         {
             GameObject obj;
             
-            if(prefab!=null)
+            if(objPrefab!=null)
             {
-                obj =  GameObject.Instantiate(prefab);
+                obj =  GameObject.Instantiate(objPrefab);
                 obj.name = label;
             }
             else
                 obj =  new GameObject(label);
 
-            if(parent!=null)
+            if(objParent!=null)
             {
-                var objParent = GameObject.Find(parent);
                 obj.transform.SetParent(objParent.transform);
             }
 
             var instance = obj.AddComponent<T>();
             return instance as T;
         }
+
+        public static GameObject Find(string label)
+        {
+            return GameObject.Find(label);
+        }
+
+
+
+
+
     }
 }

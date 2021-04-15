@@ -1,18 +1,23 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Framework.Core;
+using Framework.Core.Handlers;
 
 namespace Framework
 {
+
+    public struct DataStruct<IPage>
+    {
+        public IDataStats      ValueDataStats       {get; set;} 
+        public IDataAnimation  ValueDataAnimation   {get; set;}
+
+    }
+    
     [CreateAssetMenu(fileName = "FactoryPage", menuName = "Factories/Page/Default")]
     public class FactoryPage : AFactory<IPage>, IHaveFactory
     {
         
         public static readonly string OBJECT_NAME = "Factory: Page";
-        
-        
-        
-        [SerializeField] private FactoryDataAnimation factoryDataAnimation;
         
         [SerializeField] protected GameObject prefabPageLoading;
         [SerializeField] protected GameObject prefabPageLogin;
@@ -28,9 +33,7 @@ namespace Framework
             SetSceneObject(OBJECT_NAME);
             Log(Label, "was sucsessfully initialized");
             //return this;
-        
-            GetFactory<IDataAnimation>(factoryDataAnimation);
-        
+                
         }
 
         public override IConfigurable Configure()
@@ -82,24 +85,32 @@ namespace Framework
                return null;
             }
 
-            var instance = GetInstanceOf<T>(label, APage.PARENT_OBJECT_NAME, prefab);
+            var instance = GetInstanceOf<T>(label, FindSceneObjectByName(APage.PARENT_OBJECT_NAME), prefab);
+            
+            instance.DataStruct = GetData(instance);
             instance.Initialize();
             
-            //GetDataAnimation(instance);
-
             return instance;
         }
 
-        /*
-        private void GetDataAnimation(IPage page)
+
+#endregion
+
+#region Data
+
+        public override DataStruct<IPage> GetData(IPage instance)
         {
-            var data = factoryDataAnimation.GetInstanceOf<DataAnimation>(DataAnimation.OBJECT_NAME);
-            data.UseAnimation = true;
-            data.Animator = page.ObjectOnScene.GetComponent<Animator>();  
-            
-            Log(Label, "Data Animation was set for page [" + page.Label + "].");         
+            var data = new DataStruct<IPage>()
+            {
+                ValueDataStats = HandlerSceneObject.Create<DataStats>("Data: Stats", instance.ObjectOnScene),
+                ValueDataAnimation = HandlerSceneObject.Create<DataAnimation>("Data: Animation", instance.ObjectOnScene)
+
+            };
+
+            return data;
+                
         }
-        */
+
 #endregion
 
     }

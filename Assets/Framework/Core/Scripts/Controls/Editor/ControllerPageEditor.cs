@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEditor;
 
@@ -47,21 +48,21 @@ namespace Framework.Core
         
         private void PageTurn<TPage>() where TPage: class, IPage
         {
-            instance.PageTurn<TPage>();
+            instance.PageTurn<TPage>(waitForPageExit: true);
 
         }
 
         private void NextPage()
         {
             var pageType = instance.Cache.GetNext(instance.PageActive.GetType()).GetType();
-            instance.PageTurn(pageType);
+            instance.PageTurn(pageType: pageType, waitForPageExit: true);
 
         }
 
         private void PrevPage()
         {
             var pageType = instance.Cache.GetPrev(instance.PageActive.GetType()).GetType();
-            instance.PageTurn(pageType);
+            instance.PageTurn(pageType: pageType, waitForPageExit: true);
 
         }
     }

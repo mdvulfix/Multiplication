@@ -13,10 +13,10 @@ namespace Framework
     
     public interface IDataAnimation: IData
     {
-        bool            UseAnimation    {get; }
-        Animator        Animator        {get; }
-        AnimationState  CurrentState    {get; }
-        AnimationState  TargetState     {get; } 
+        bool            UseAnimation    {get; set;}
+        Animator        Animator        {get; set;}
+        AnimationState  CurrentState    {get; set;}
+        AnimationState  TargetState     {get; set;} 
     }
     
     [Serializable]
@@ -25,10 +25,10 @@ namespace Framework
         
         public static readonly string OBJECT_NAME = "Data: Animation";
         
-        public bool           UseAnimation  {get => useAnimation;   private set => useAnimation = value;}
-        public Animator       Animator      {get => animator;       private set => animator = value;}
-        public AnimationState CurrentState  {get => currentState;   private set => currentState = value;}
-        public AnimationState TargetState   {get => targetState;    private set => targetState = value;}
+        public bool           UseAnimation  {get => useAnimation;   set => useAnimation = value;}
+        public Animator       Animator      {get => animator;       set => animator = value;}
+        public AnimationState CurrentState  {get => currentState;   set => currentState = value;}
+        public AnimationState TargetState   {get => targetState;    set => targetState = value;}
 
         [SerializeField] private bool           useAnimation;
         [SerializeField] private Animator       animator;

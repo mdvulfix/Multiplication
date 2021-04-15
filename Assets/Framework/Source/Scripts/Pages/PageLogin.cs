@@ -1,4 +1,6 @@
-﻿using Framework.Core;
+﻿using UnityEngine;
+using Framework.Core;
+using Framework.Core.Handlers;
 
 namespace Framework
 {
@@ -9,6 +11,7 @@ namespace Framework
         public override void Initialize()
         {
             SetSceneObject(OBJECT_NAME);
+            SetData(DataStruct);
             
 
             Log(Label, "was sucsessfully initialized");
@@ -18,8 +21,13 @@ namespace Framework
 
         public override IConfigurable Configure()
         {
-            Activate(false);
+            DataStats.ID = 2;
+
+            DataAnimation.UseAnimation = true;
+            DataAnimation.Animator = GetComponent<Animator>();
+
             
+            Activate(false);
             Log(Label, "was sucsessfully configured");
             return this;
         }

@@ -66,7 +66,7 @@ namespace Framework
         private IControllerState GetAndInitializeStaff<T>(string label, IFactory<IState> factory) 
             where T: AControllerState
         {
-            var instance = GetInstanceOf<T>(label, ABuilder.OBJECT_NAME_CONTROLLERS);
+            var instance = GetInstanceOf<T>(label, FindSceneObjectByName(ABuilder.OBJECT_NAME_CONTROLLERS));
             instance.Initialize();
 
             if(factory==null)

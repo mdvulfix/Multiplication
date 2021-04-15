@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using Framework.Core.Handlers;
 
 namespace Framework.Core
 {
-    public interface IPage: ISceneObject, IConfigurable, ICacheable, IDebug
+    public interface IPage: ISceneObject, IConfigurable, ICacheable, IDebug, IStructable<IPage>
     {
-        IDataAnimation  DataAnimation   {get; }
+        IDataStats      DataStats       {get; set;}
+        IDataAnimation  DataAnimation   {get; set;}
     
         IPage Activate(bool active);
     }
@@ -17,17 +19,29 @@ namespace Framework.Core
         
         public static readonly string PARENT_OBJECT_NAME = ABuilder.OBJECT_NAME_UI; 
         
+        
+        public DataStruct<IPage> DataStruct {get; set;} 
+        
         public bool             UseDebug        {get; set;} = true;
-        public IDataStats       DataStats       {get => dataStats;      private set => dataStats = value as DataStats;}
-        public IDataAnimation   DataAnimation   {get => dataAnimation;  private set => dataAnimation = value as DataAnimation;}
+        public IDataStats       DataStats       {get => dataStats;      set => dataStats = value as DataStats;}
+        public IDataAnimation   DataAnimation   {get => dataAnimation;  set => dataAnimation = value as DataAnimation;}
         
         [Header("Data")]
         [SerializeField] private DataStats      dataStats;
         [SerializeField] private DataAnimation  dataAnimation;
         
-        
+        public void SetData(DataStruct<IPage> data)
+        {
+            DataStats = data.ValueDataStats;
+            DataAnimation = data.ValueDataAnimation;
+        }
+
+#region Configure
+
         public abstract void Initialize();
         public abstract IConfigurable Configure();
+
+#endregion
 
         public IPage Activate(bool active)
         {
@@ -57,7 +71,7 @@ namespace Framework.Core
             }
             */
         }
-        /*
+        
         // TODO: check AwaitAnimation function;
         protected IEnumerator AwaitAnimation (bool on)
         {
@@ -72,9 +86,12 @@ namespace Framework.Core
             DataAnimation.CurrentState = AnimationState.None;
             Log(Label, "was finised transition to " + (on ? "On" : "Off") + "snimation state");      
         }
-        */
+        
 
-#region LogFunctions
+
+
+
+#region Log
 
         public virtual void Log(string instance, string message)
         {
@@ -94,5 +111,9 @@ namespace Framework.Core
 
 #endregion
     }
+
+
+
+
 
 }

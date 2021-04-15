@@ -9,13 +9,15 @@ namespace Framework.Core
     public interface IFactory<TCacheable>: IScriptableObject, IConfigurable, IDebug
         where TCacheable: ICacheable
     {
-        TSceneObject GetInstanceOf<TSceneObject>(string label, string parent = null, GameObject prefab = null) 
+        TSceneObject GetInstanceOf<TSceneObject>(string label, GameObject objParent = null, GameObject objPrefab = null) 
             where TSceneObject: ASceneObject, TCacheable;
 
         TSimpleObject GetInstanceOf<TSimpleObject>(string label) 
             where TSimpleObject: ASimpleObject, TCacheable, new();
             
         List<TCacheable> Get();
+        
+        DataStruct<TCacheable> GetData(TCacheable instance);
         
         //TData GetData<TData>(string label)
         //    where TData: ASimpleObject, IData, new();
@@ -35,20 +37,34 @@ namespace Framework.Core
 
 #endregion   
             
-#region GetFunctions
+#region Get
         
-        public virtual TSceneObject GetInstanceOf<TSceneObject>(string label, string parent = null, GameObject prefab = null) 
+        public virtual TSceneObject GetInstanceOf<TSceneObject>(string label, GameObject objParent = null, GameObject objPrefab = null) 
             where TSceneObject: ASceneObject, TCacheable
-        {
-            return HandlerSceneObject.Create<TSceneObject>(label, parent, prefab);
+        {           
+            return HandlerSceneObject.Create<TSceneObject>(label, objParent, objPrefab);
         }
-        
+
+        public GameObject FindSceneObjectByName(string label) 
+        {
+            var obj = HandlerSceneObject.Find(label);
+            if(obj == null)
+            {
+                LogWarning(label, "Game object was not found by name [" + label + "]");
+                return null;
+            }
+
+            return obj;
+        }
+
+
         public virtual TSimpleObject GetInstanceOf<TSimpleObject>(string label) 
             where TSimpleObject: ASimpleObject, TCacheable, new()
         {
             return HandlerSimpleObject.Create<TSimpleObject>(label);
         }
         
+
         /*
         public virtual TData GetData<TData>(string label)
             where TData: ASimpleObject, IData, new()
@@ -60,6 +76,13 @@ namespace Framework.Core
         public abstract List<TCacheable> Get();
 
 #endregion 
+
+#region Data
+
+        public abstract DataStruct<TCacheable> GetData(TCacheable instance);
+
+#endregion
+
 
 
 #region DebugFunctions

@@ -67,7 +67,7 @@ namespace Framework
         private IControllerPage GetAndInitializeStaff<T>(string label, IFactory<IPage> factory) 
             where T: AControllerPage
         {
-            var instance = GetInstanceOf<T>(label, ABuilder.OBJECT_NAME_CONTROLLERS);
+            var instance = GetInstanceOf<T>(label, FindSceneObjectByName(ABuilder.OBJECT_NAME_CONTROLLERS));
             instance.Initialize();
 
             if(factory==null)

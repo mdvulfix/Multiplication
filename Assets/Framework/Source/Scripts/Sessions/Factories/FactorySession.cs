@@ -44,7 +44,7 @@ namespace Framework
 
         private ISession GetAndInitialize<T>(string name) where T: ASession
         {
-            var instance = GetInstanceOf<T>(name,  ABuilder.OBJECT_NAME_SESSIONS);
+            var instance = GetInstanceOf<T>(name,  FindSceneObjectByName(ABuilder.OBJECT_NAME_SESSIONS));
             instance.Initialize();
             return instance;
         }

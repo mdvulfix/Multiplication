@@ -20,9 +20,13 @@ namespace Framework
         // Initialize in builder 
         public override IConfigurable Configure() 
         {                                     
-
+            foreach (var page in Cache.GetAll())
+            {
+                page.Configure();
+            }
             
             SetActivePage<PageLoading>();
+            
             Log(Label, "was successfully configured.");
             return this;
         }

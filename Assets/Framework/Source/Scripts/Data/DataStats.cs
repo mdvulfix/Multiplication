@@ -6,16 +6,23 @@ namespace Framework
 {
     public interface IDataStats: IData, ISceneObject
     {
-        int ID {get; }
+        int ID {get; set;}
     }
       
     [Serializable]  
     public class DataStats : ASceneObject, IDataStats
     {
+        public static readonly string OBJECT_NAME = "Data: Stats";
 
-        public int ID {get => id;   private set => id = value;}
+        public int ID {get => id; set => id = value;}
         
         [SerializeField] private int id;
+    
+       
+    
+    
+    
+    
     }
 
 
