@@ -34,27 +34,27 @@ namespace Framework
         public override void Initialize()
         {
             SetSceneObject(OBJECT_NAME);
-            Log(Label, "was sucsessfully initialized");
+            
             //return this;
         
-        
+            GetFactory<ISession>(factorySession);
+            GetFactory<IControllerState>(factoryControllerState);
+            //GetFactory<ControllerCamera>(factoryControlCamera);
+            GetFactory<IControllerScene>(factoryControllerScene);
+            GetFactory<IControllerPage>(factoryControllerPage);
+            //GetFactory<ControlInput>(factoryControlInput);
+            
+            Log(Label, "was sucsessfully initialized");
 
-        
-        
-        
-        
-        
-        
         }
         
         public override IConfigurable Configure()
         {          
-            var instance = Set<ISession>(factorySession);
-            instance.Configure();
-            Set<IControllerState>(factoryControllerState).Configure();
+            SetAndConfigure<ISession>(factorySession);
+            SetAndConfigure<IControllerState>(factoryControllerState);
             //Set<ControllerCameraDefault>(factoryControlCamera).Configure();
-            Set<IControllerScene>(factoryControllerScene).Configure();
-            Set<IControllerPage>(factoryControllerPage).Configure();
+            SetAndConfigure<IControllerScene>(factoryControllerScene);
+            SetAndConfigure<IControllerPage>(factoryControllerPage);
             //Set<ControlInputDefault>(factoryControlInput);
             
             Log(Label, "was sucsessfully configured");
@@ -64,18 +64,11 @@ namespace Framework
 
 #endregion 
 
-#region SetToCache
+#region Cache
 
-        private T Set<T>(IFactory<T> factory) 
-            where T: class, ICacheable
+        private T SetAndConfigure<T>(IFactory<T> factory) 
+            where T: class, IConfigurable, ICacheable
         {          
-           
-           if(factory==null)
-           {
-               LogWarning(Label, "Factory [" + typeof(T)+ "] was not found!");
-               return null;
-           }
-           
            var list = factory.Get();
            if(list.Count == 0)
            {
@@ -87,6 +80,8 @@ namespace Framework
            {
                 SetToCache(instance);
                 Log(Label, "Instance type of ["+ typeof(T) +"] was sucsessfully set to cache.");
+            
+                instance.Configure();
                 return instance as T;
            } 
 
@@ -94,6 +89,6 @@ namespace Framework
         }
 
 #endregion 
-        
+
     }
 }

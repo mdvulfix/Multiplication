@@ -47,21 +47,21 @@ namespace Framework.Core
         
         private void PageTurn<TPage>() where TPage: class, IPage
         {
-            instance.PageTurn<TPage>(true);
+            instance.PageTurn<TPage>();
 
         }
 
         private void NextPage()
         {
             var pageType = instance.Cache.GetNext(instance.PageActive.GetType()).GetType();
-            instance.PageTurn(pageType, true);
+            instance.PageTurn(pageType);
 
         }
 
         private void PrevPage()
         {
             var pageType = instance.Cache.GetPrev(instance.PageActive.GetType()).GetType();
-            instance.PageTurn(pageType, true);
+            instance.PageTurn(pageType);
 
         }
     }

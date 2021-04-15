@@ -21,6 +21,7 @@ namespace Framework
         public override IConfigurable Configure() 
         {                                     
 
+            
             SetActivePage<PageLoading>();
             Log(Label, "was successfully configured.");
             return this;
@@ -30,6 +31,8 @@ namespace Framework
         private void SetActivePage<T>() where T: class, IPage
         {
             PageActive = Cache.Get<T>();
+            PageActive.Activate(true);
+            Log(Label, "Page [" + PageActive.Label + "] was activated.");
         }
 
 

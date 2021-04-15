@@ -7,6 +7,31 @@ namespace Framework
     [CreateAssetMenu(fileName = "FactorySession", menuName = "Factories/Session/Default")]
     public class FactorySession : AFactory<ISession>
     {
+        
+        public static readonly string OBJECT_NAME = "Factory: Session";
+        
+        
+#region Configure
+
+        public override void Initialize()
+        {
+            
+            SetSceneObject(OBJECT_NAME);
+            Log(Label, "was sucsessfully initialized");
+            //return this;
+          
+        }
+
+        public override IConfigurable Configure()
+        {
+            Log(Label, "was sucsessfully configured");
+            return this;
+        }
+        
+#endregion
+        
+#region Get
+        
         public override List<ISession> Get()
         {
             var list = new List<ISession>()
@@ -19,9 +44,12 @@ namespace Framework
 
         private ISession GetAndInitialize<T>(string name) where T: ASession
         {
-            var instance = GetInstanceOfSceneObject<T>(name,  ABuilder.OBJECT_NAME_SESSIONS);
+            var instance = GetInstanceOf<T>(name,  ABuilder.OBJECT_NAME_SESSIONS);
             instance.Initialize();
             return instance;
         }
+
+#endregion
+
     }
 }

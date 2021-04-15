@@ -5,25 +5,68 @@ using Framework.Core;
 namespace Framework
 {   
     [CreateAssetMenu(fileName = "FactoryControllerScene", menuName = "Factories/Controllers/Scene/Default")]
-    public class FactoryControllerScene : AFactory<IControllerScene>
+    public class FactoryControllerScene : AFactory<IControllerScene>, IHaveFactory
     {
+        
+        public static readonly string OBJECT_NAME = "Factory: Scene";
+        
         [SerializeField]        
         private FactoryScene factoryScene;
+        
+#region Configure
+
+        public override void Initialize()
+        {
+            
+            SetSceneObject(OBJECT_NAME);
+            Log(Label, "was sucsessfully initialized");
+            //return this;
+        
+            GetFactory<IScene>(factoryScene);
+        
+        }
+
+        public override IConfigurable Configure()
+        {
+            Log(Label, "was sucsessfully configured");
+            return this;
+        }
+        
+#endregion
+            
+#region Factory
+
+        public IFactory<TCacheable> GetFactory<TCacheable>(IFactory<TCacheable> factory) 
+            where TCacheable: class, ICacheable
+        {
+           if(factory==null)
+           {
+               LogWarning(Label, "Factory [" + typeof(TCacheable)+ "] is not set!");
+               return null;
+           }
+           
+            factory.Initialize();
+            return factory;
+        }
+
+#endregion 
+             
+#region Get
         
         public override List<IControllerScene> Get()
         {
             var list = new List<IControllerScene>()
             {
-                GetAndInitialize<ControllerSceneDefault>(ControllerSceneDefault.OBJECT_NAME, factoryScene)
+                GetAndInitializeStaff<ControllerSceneDefault>(ControllerSceneDefault.OBJECT_NAME, factoryScene)
             };
 
             return list;
         }
 
-        private IControllerScene GetAndInitialize<T>(string label, IFactory<IScene> factory) 
+        private IControllerScene GetAndInitializeStaff<T>(string label, IFactory<IScene> factory) 
             where T: AControllerScene
         {
-            var instance = GetInstanceOfSceneObject<T>(label, ABuilder.OBJECT_NAME_CONTROLLERS);
+            var instance = GetInstanceOf<T>(label, ABuilder.OBJECT_NAME_CONTROLLERS);
             instance.Initialize();
 
             if(factory==null)
@@ -32,11 +75,23 @@ namespace Framework
                return null;
             }
 
-            var scenes = factory.Get();
-
-            instance.SetToCache(scenes);
-            return instance;
-        
+            var list = factory.Get();
+            if(list.Count == 0)
+            {
+               LogWarning(Label, "Instance type of ["+ typeof(T) +"] was not found! Check factory ["+ factory +"] configuration.");
+               return null;
+            }
+            
+            foreach (var cacheable in list)
+            {
+                instance.SetToCache(cacheable);
+                Log(Label, "Instance type of ["+ cacheable.Label +"] was sucsessfully set to cache.");
+            } 
+            
+            return instance;       
         }
+
+#endregion
+
     }
 }

@@ -3,14 +3,14 @@
 namespace Framework.Core 
 {
     
-    public interface IData: ICacheable, ISimpleObject
+    public interface IData: ICacheable, ISceneObject
     {
 
 
     }
     
     
-    public abstract class AData : ASimpleObject, IData
+    public abstract class AData : ASceneObject, IData
     {
 
 

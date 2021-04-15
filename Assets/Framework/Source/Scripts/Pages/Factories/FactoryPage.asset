@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7b5b180783802548ae0e56d1cb8210c, type: 3}
   m_Name: FactoryPage
   m_EditorClassIdentifier: 
-  factoryData: {fileID: 11400000, guid: 759c72681e483ee409bcd077f84bbe77, type: 2}
+  factoryDataAnimation: {fileID: 11400000, guid: 3291901da03bd59448e2fc518ea1533f,
+    type: 2}
   prefabPageLoading: {fileID: 4954254090882337441, guid: f1b816318ad4df3459545839a42a59d5,
     type: 3}
   prefabPageLogin: {fileID: 6789114870003706415, guid: 043e3e44f6b03294ab7bd6597ec95800,

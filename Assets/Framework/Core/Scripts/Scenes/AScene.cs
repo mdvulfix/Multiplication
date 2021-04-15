@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Framework.Core
 {
-    public interface IScene: IConfigurable, ICacheable, IDebug
+    public interface IScene: ISimpleObject, IConfigurable, ICacheable, IDebug
     {
 
     }

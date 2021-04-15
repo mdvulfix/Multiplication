@@ -1,61 +1,66 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Framework.Core.Handlers;
 
 namespace Framework.Core
 {
     
-    public interface IFactory<TCacheable>: IScriptableObject, IDebug
+    public interface IFactory<TCacheable>: IScriptableObject, IConfigurable, IDebug
         where TCacheable: ICacheable
     {
-        T GetInstanceOfSceneObject<T>(string name, string parent = null, GameObject prefab = null) 
-            where T: ASceneObject, TCacheable;
+        TSceneObject GetInstanceOf<TSceneObject>(string label, string parent = null, GameObject prefab = null) 
+            where TSceneObject: ASceneObject, TCacheable;
 
-        T GetInstanceOfSimpleObject<T>(string label) 
-            where T: ASimpleObject, TCacheable, new();
+        TSimpleObject GetInstanceOf<TSimpleObject>(string label) 
+            where TSimpleObject: ASimpleObject, TCacheable, new();
             
         List<TCacheable> Get();
-        TData Get<TData>(string label)
-            where TData: ASimpleObject, TCacheable, IData, new();
+        
+        //TData GetData<TData>(string label)
+        //    where TData: ASimpleObject, IData, new();
     
     }
 
-    public abstract class AFactory<TCacheable>: ScriptableObject, IFactory<TCacheable>
+    public abstract class AFactory<TCacheable>: AScriptableObject, IFactory<TCacheable>
         where TCacheable: ICacheable
-    {       
-        public string   Label       {get; set;} 
+    {      
         public bool     UseDebug    {get; set;} = true;      
         
-        public virtual T GetInstanceOfSceneObject<T>(string label, string parent = null, GameObject prefab = null) 
-            where T: ASceneObject,  TCacheable 
-        {
-            var obj = HandlerSceneObject.Create(label, parent, prefab);
-            var instance = obj.AddComponent<T>();
-            
-            return instance as T;
-        }
         
-        public virtual T GetInstanceOfSimpleObject<T>(string label) 
-            where T: ASimpleObject, TCacheable, new()
-        {
-            var instance = new T();
-            instance.Label = label;
-            
-            return instance as T;
-        }
+#region Configure
+        
+        public abstract void Initialize();
+        public abstract IConfigurable Configure();
 
-        public abstract List<TCacheable> Get();
+#endregion   
+            
+#region GetFunctions
         
-        public TData Get<TData>(string label)
-            where TData: ASimpleObject, TCacheable, IData, new()
+        public virtual TSceneObject GetInstanceOf<TSceneObject>(string label, string parent = null, GameObject prefab = null) 
+            where TSceneObject: ASceneObject, TCacheable
         {
-            var data = GetInstanceOfSimpleObject<TData>(label);
-            
-            
-            return data;
+            return HandlerSceneObject.Create<TSceneObject>(label, parent, prefab);
         }
-            
+        
+        public virtual TSimpleObject GetInstanceOf<TSimpleObject>(string label) 
+            where TSimpleObject: ASimpleObject, TCacheable, new()
+        {
+            return HandlerSimpleObject.Create<TSimpleObject>(label);
+        }
+        
+        /*
+        public virtual TData GetData<TData>(string label)
+            where TData: ASimpleObject, IData, new()
+        {
+            return HandlerSimpleObject.Create<TData>(label);
+    
+        }
+        */
+        public abstract List<TCacheable> Get();
+
+#endregion 
+
 
 #region DebugFunctions
 

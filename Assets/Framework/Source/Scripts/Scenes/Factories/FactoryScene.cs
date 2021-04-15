@@ -6,9 +6,31 @@ namespace Framework
 {
     [CreateAssetMenu(fileName = "FactoryScene", menuName = "Factories/Scene/Default")]
     public class FactoryScene : AFactory<IScene>
-    {
-        [SerializeField]
-        private FactoryData factoryData;
+    {       
+        
+        public static readonly string OBJECT_NAME = "Factory: Scene";
+        
+        
+#region Configure
+
+        public override void Initialize()
+        {
+            
+            SetSceneObject(OBJECT_NAME);
+            Log(Label, "was sucsessfully initialized");
+            //return this;
+               
+        }
+
+        public override IConfigurable Configure()
+        {
+            Log(Label, "was sucsessfully configured");
+            return this;
+        }
+        
+#endregion
+
+#region Get
         
         public override List<IScene> Get()
         {
@@ -24,11 +46,13 @@ namespace Framework
 
         private IScene GetAndInitialize<T>(string name) where T: AScene, new()
         {
-            var instance = GetInstanceOfSimpleObject<T>(name);
+            var instance = GetInstanceOf<T>(name);
             instance.Initialize();
 
             return instance;
         }
+        
+#endregion
 
     }
 }

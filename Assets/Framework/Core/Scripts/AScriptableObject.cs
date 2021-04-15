@@ -6,7 +6,7 @@ namespace Framework.Core
     
     public interface IScriptableObject
     {
-        string Label{get; set;}
+        string Label{get; }
         
     
     
@@ -15,9 +15,17 @@ namespace Framework.Core
     [Serializable]
     public abstract class AScriptableObject : ScriptableObject, IScriptableObject
     {   
-        public string Label {get; set;}
+        public string Label {get; private set;}
        
 
+        public virtual void SetSceneObject(string label)
+        {
+            Label = label;
+        }
+    
+    
+    
+    
     }
 
 }

@@ -5,10 +5,14 @@ using Framework.Core;
 namespace Framework
 {
     [CreateAssetMenu(fileName = "FactoryPage", menuName = "Factories/Page/Default")]
-    public class FactoryPage : AFactory<IPage>
+    public class FactoryPage : AFactory<IPage>, IHaveFactory
     {
         
-        [SerializeField] private FactoryData factoryData;
+        public static readonly string OBJECT_NAME = "Factory: Page";
+        
+        
+        
+        [SerializeField] private FactoryDataAnimation factoryDataAnimation;
         
         [SerializeField] protected GameObject prefabPageLoading;
         [SerializeField] protected GameObject prefabPageLogin;
@@ -16,21 +20,61 @@ namespace Framework
         [SerializeField] protected GameObject prefabPageRunTime;
         [SerializeField] protected GameObject prefabPageScore;
         
+#region Configure
+
+        public override void Initialize()
+        {
+            
+            SetSceneObject(OBJECT_NAME);
+            Log(Label, "was sucsessfully initialized");
+            //return this;
+        
+            GetFactory<IDataAnimation>(factoryDataAnimation);
+        
+        }
+
+        public override IConfigurable Configure()
+        {
+            Log(Label, "was sucsessfully configured");
+            return this;
+        }
+        
+#endregion
+
+#region Factory
+
+        public IFactory<TCacheable> GetFactory<TCacheable>(IFactory<TCacheable> factory) 
+            where TCacheable: class, ICacheable
+        {
+           if(factory==null)
+           {
+               LogWarning(Label, "Factory [" + typeof(TCacheable)+ "] is not set!");
+               return null;
+           }
+           
+            factory.Initialize();
+            return factory;
+        }
+
+#endregion 
+        
+#region Get
+        
         public override List<IPage> Get()
         {
             var list = new List<IPage>()
             {
-                GetAndInitialize<PageLoading>(PageLoading.OBJECT_NAME, prefabPageLoading),
-                GetAndInitialize<PageLogin>(PageLogin.OBJECT_NAME, prefabPageLogin),
-                GetAndInitialize<PageMenu>(PageMenu.OBJECT_NAME, prefabPageMenu), 
-                GetAndInitialize<PageRunTime>(PageRunTime.OBJECT_NAME, prefabPageRunTime), 
-                GetAndInitialize<PageScore>(PageScore.OBJECT_NAME, prefabPageScore), 
+                GetAndInitializeStaff<PageLoading>(PageLoading.OBJECT_NAME, prefabPageLoading),
+                GetAndInitializeStaff<PageLogin>(PageLogin.OBJECT_NAME, prefabPageLogin),
+                GetAndInitializeStaff<PageMenu>(PageMenu.OBJECT_NAME, prefabPageMenu), 
+                GetAndInitializeStaff<PageRunTime>(PageRunTime.OBJECT_NAME, prefabPageRunTime), 
+                GetAndInitializeStaff<PageScore>(PageScore.OBJECT_NAME, prefabPageScore), 
             };
 
             return list;
         }
 
-        private IPage GetAndInitialize<T>(string label, GameObject prefab) where T: APage
+        private IPage GetAndInitializeStaff<T>(string label, GameObject prefab) where T: APage
         {
             if(prefab==null)
             {
@@ -38,17 +82,25 @@ namespace Framework
                return null;
             }
 
-            var instance = GetInstanceOfSceneObject<T>(label, APage.PARENT_OBJECT_NAME, prefab);
+            var instance = GetInstanceOf<T>(label, APage.PARENT_OBJECT_NAME, prefab);
             instance.Initialize();
-            instance.DataAnimation =  GetDataAnimation();
+            
+            //GetDataAnimation(instance);
+
             return instance;
         }
 
-        private IDataAnimation GetDataAnimation()
+        /*
+        private void GetDataAnimation(IPage page)
         {
-            IDataAnimation data = factoryData.Get();
+            var data = factoryDataAnimation.GetInstanceOf<DataAnimation>(DataAnimation.OBJECT_NAME);
             data.UseAnimation = true;
-            return data;           
+            data.Animator = page.ObjectOnScene.GetComponent<Animator>();  
+            
+            Log(Label, "Data Animation was set for page [" + page.Label + "].");         
         }
+        */
+#endregion
+
     }
 }

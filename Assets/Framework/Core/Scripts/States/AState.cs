@@ -2,7 +2,7 @@
 
 namespace Framework.Core
 {
-    public interface IState: IConfigurable, ICacheable, IDebug
+    public interface IState: ISimpleObject, IConfigurable, ICacheable, IDebug
     {
         
     }

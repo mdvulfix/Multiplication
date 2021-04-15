@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Framework.Core
 {
     
-    public interface IBuilder: IConfigurable, ICacheable, IDebug
+    public interface IBuilder: IConfigurable, ICacheable, IDebug, IHaveFactory
     {
         
         void OnAwake();  
@@ -40,7 +40,7 @@ namespace Framework.Core
         public abstract void Initialize();
         public abstract IConfigurable Configure();
 
-#region SetToCache
+#region Cache
 
         public ICacheable SetToCache(ICacheable instance)
         {
@@ -58,6 +58,23 @@ namespace Framework.Core
         }
 
 #endregion
+
+#region Factories
+
+        public IFactory<TCacheable> GetFactory<TCacheable>(IFactory<TCacheable> factory) 
+            where TCacheable: class, ICacheable
+        {
+           if(factory==null)
+           {
+               LogWarning(Label, "Factory [" + typeof(TCacheable)+ "] is not set!");
+               return null;
+           }
+           
+            factory.Initialize();
+            return factory;
+        }
+
+#endregion 
 
 #region DebugFunctions
 

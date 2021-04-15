@@ -9,7 +9,7 @@ namespace Framework
         public override void Initialize()
         {
             SetSceneObject(OBJECT_NAME);
-            Activate(false);
+            
 
             Log(Label, "was sucsessfully initialized");
             //return this;
@@ -18,6 +18,8 @@ namespace Framework
 
         public override IConfigurable Configure()
         {
+            Activate(false);
+            
             Log(Label, "was sucsessfully configured");
             return this;
         }

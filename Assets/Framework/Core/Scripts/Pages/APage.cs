@@ -6,20 +6,25 @@ namespace Framework.Core
 {
     public interface IPage: ISceneObject, IConfigurable, ICacheable, IDebug
     {
-        IDataAnimation  DataAnimation   {get; set;}
+        IDataAnimation  DataAnimation   {get; }
     
         IPage Activate(bool active);
     }
 
-    [Serializable]
+    [Serializable, RequireComponent(typeof(Animator))]
     public abstract class APage : ASceneObject, IPage
     {       
         
         public static readonly string PARENT_OBJECT_NAME = ABuilder.OBJECT_NAME_UI; 
         
         public bool             UseDebug        {get; set;} = true;
-        public IDataStats       DataStats       {get; set;}
-        public IDataAnimation   DataAnimation   {get; set;}
+        public IDataStats       DataStats       {get => dataStats;      private set => dataStats = value as DataStats;}
+        public IDataAnimation   DataAnimation   {get => dataAnimation;  private set => dataAnimation = value as DataAnimation;}
+        
+        [Header("Data")]
+        [SerializeField] private DataStats      dataStats;
+        [SerializeField] private DataAnimation  dataAnimation;
+        
         
         public abstract void Initialize();
         public abstract IConfigurable Configure();
@@ -27,11 +32,14 @@ namespace Framework.Core
         public IPage Activate(bool active)
         {
             
-            //DataAnimation.Animator = ObjectOnScene.GetComponent<Animator>();
-            //if(DataAnimation.Animator == null)
-            //    DataAnimation.Animator = ObjectOnScene.AddComponent<Animator>();
-                
-            
+            /*
+            if(DataAnimation.Animator == null)
+            {
+                LogWarning(Label, "Animator is not set!");
+                return null;
+
+            }
+            */
             if(!ActivateObject(active))
                 return null;
             else
@@ -41,7 +49,7 @@ namespace Framework.Core
             {
                 StopCoroutine(AwaitAnimation(active));
                 StartCoroutine(AwaitAnimation(active));
-                Log("Animation is enabled on page [ " + Name + " ]");
+                
             }
             else
             {
@@ -49,7 +57,7 @@ namespace Framework.Core
             }
             */
         }
-
+        /*
         // TODO: check AwaitAnimation function;
         protected IEnumerator AwaitAnimation (bool on)
         {
@@ -64,7 +72,7 @@ namespace Framework.Core
             DataAnimation.CurrentState = AnimationState.None;
             Log(Label, "was finised transition to " + (on ? "On" : "Off") + "snimation state");      
         }
- 
+        */
 
 #region LogFunctions
 

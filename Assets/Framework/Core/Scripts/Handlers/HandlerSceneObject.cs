@@ -1,29 +1,30 @@
 ﻿using UnityEngine;
 
-public static class HandlerSceneObject
+namespace Framework.Core.Handlers
 {
 
-    public static GameObject Create(string name, string parent = null, GameObject prefab = null)
+    public static class HandlerSceneObject
     {
-        
-        GameObject obj;
-        
-        if(prefab!=null)
+        public static T Create<T>(string label, string parent = null, GameObject prefab = null) where T: ASceneObject
         {
-            obj =  GameObject.Instantiate(prefab);
-            obj.name = name;
-        }
-        else
-            obj =  new GameObject(name);
+            GameObject obj;
+            
+            if(prefab!=null)
+            {
+                obj =  GameObject.Instantiate(prefab);
+                obj.name = label;
+            }
+            else
+                obj =  new GameObject(label);
 
-        if(parent!=null)
-        {
-            var objParent = GameObject.Find(parent);
-            obj.transform.SetParent(objParent.transform);
-        }
+            if(parent!=null)
+            {
+                var objParent = GameObject.Find(parent);
+                obj.transform.SetParent(objParent.transform);
+            }
 
-        return obj;
+            var instance = obj.AddComponent<T>();
+            return instance as T;
+        }
     }
-
-
 }
