@@ -5,11 +5,21 @@ using Framework.Core.Handlers;
 
 namespace Framework.Core
 {
-    public interface IPage: ISceneObject, IConfigurable, ICacheable, IDebug, IStructable<IPage>
-    {
-        IDataStats      DataStats       {get; set;}
-        IDataAnimation  DataAnimation   {get; set;}
     
+    public interface IPageDataStruct: IDataStruct<IPage>
+    {
+        IDataStats DataStats    {get; }
+        IDataAnimation DataAnimation {get; }
+        
+    
+        void SetData(IDataStats dataStats, IDataAnimation dataAnimation);
+    
+    }
+    
+    
+    
+    public interface IPage: IPageDataStruct, ISceneObject, IConfigurable, ICacheable, IDebug 
+    {   
         IPage Activate(bool active);
     }
 
@@ -19,9 +29,6 @@ namespace Framework.Core
         
         public static readonly string PARENT_OBJECT_NAME = ABuilder.OBJECT_NAME_UI; 
         
-        
-        public DataStruct<IPage> DataStruct {get; set;} 
-        
         public bool             UseDebug        {get; set;} = true;
         public IDataStats       DataStats       {get => dataStats;      set => dataStats = value as DataStats;}
         public IDataAnimation   DataAnimation   {get => dataAnimation;  set => dataAnimation = value as DataAnimation;}
@@ -30,11 +37,9 @@ namespace Framework.Core
         [SerializeField] private DataStats      dataStats;
         [SerializeField] private DataAnimation  dataAnimation;
         
-        public void SetData(DataStruct<IPage> data)
-        {
-            DataStats = data.ValueDataStats;
-            DataAnimation = data.ValueDataAnimation;
-        }
+    
+        public abstract void SetData(IDataStruct<IPage> datasSruct);
+        public abstract void SetData(IDataStats dataStats, IDataAnimation dataAnimation);
 
 #region Configure
 

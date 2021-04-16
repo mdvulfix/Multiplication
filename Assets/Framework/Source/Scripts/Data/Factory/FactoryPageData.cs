@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using Framework.Core;
 using Framework.Core.Handlers;
@@ -6,17 +6,11 @@ using Framework.Core.Handlers;
 namespace Framework
 {    
     [CreateAssetMenu(fileName = "FactoryPage", menuName = "Factories/Page/Default")]
-    public class FactoryPage : AFactory<IPage>, IHaveFactory
+    public class FactoryData : AFactory<DataStruct<IPage>>
     {
         
-        public static readonly string OBJECT_NAME = "Factory: Page";
-        
-        [SerializeField] protected GameObject prefabPageLoading;
-        [SerializeField] protected GameObject prefabPageLogin;
-        [SerializeField] protected GameObject prefabPageMenu;
-        [SerializeField] protected GameObject prefabPageRunTime;
-        [SerializeField] protected GameObject prefabPageScore;
-        
+        public static readonly string OBJECT_NAME = "Factory: Data";
+                
 #region Configure
 
         public override void Initialize()
@@ -35,35 +29,14 @@ namespace Framework
         }
         
 #endregion
-
-#region Factory
-
-        public IFactory<TCacheable> GetFactory<TCacheable>(IFactory<TCacheable> factory) 
-            where TCacheable: class, ICacheable
-        {
-           if(factory==null)
-           {
-               LogWarning(Label, "Factory [" + typeof(TCacheable)+ "] is not set!");
-               return null;
-           }
-           
-            factory.Initialize();
-            return factory;
-        }
-
-#endregion 
         
 #region Get
         
-        public override List<IPage> Get()
+        public override List<IDataStruct<IPage>> Get()
         {
-            var list = new List<IPage>()
+            var list = new List<IDataStruct<IPage>>()
             {
-                GetAndInitializeStaff<PageLoading>(PageLoading.OBJECT_NAME, prefabPageLoading),
-                GetAndInitializeStaff<PageLogin>(PageLogin.OBJECT_NAME, prefabPageLogin),
-                GetAndInitializeStaff<PageMenu>(PageMenu.OBJECT_NAME, prefabPageMenu), 
-                GetAndInitializeStaff<PageRunTime>(PageRunTime.OBJECT_NAME, prefabPageRunTime), 
-                GetAndInitializeStaff<PageScore>(PageScore.OBJECT_NAME, prefabPageScore), 
+                GetAndInitializeStaff<DataStruct<IPage>>(PageLoading.OBJECT_NAME),
             };
 
             return list;

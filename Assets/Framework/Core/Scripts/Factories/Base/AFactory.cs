@@ -17,7 +17,7 @@ namespace Framework.Core
             
         List<TCacheable> Get();
         
-        DataStruct<TCacheable> GetData(TCacheable instance);
+        IDataStruct<TCacheable> GetData(TCacheable instance);
         
         //TData GetData<TData>(string label)
         //    where TData: ASimpleObject, IData, new();
@@ -79,7 +79,7 @@ namespace Framework.Core
 
 #region Data
 
-        public abstract DataStruct<TCacheable> GetData(TCacheable instance);
+        public abstract IDataStruct<TCacheable> GetData(TCacheable instance);
 
 #endregion
 
