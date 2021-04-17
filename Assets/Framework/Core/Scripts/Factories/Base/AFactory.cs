@@ -17,10 +17,10 @@ namespace Framework.Core
             
         List<TCacheable> Get();
         
-        IDataStruct<TCacheable> GetData(TCacheable instance);
+        //IDataStruct<TCacheable> Get(TCacheable instance);
         
-        //TData GetData<TData>(string label)
-        //    where TData: ASimpleObject, IData, new();
+        TData SetData<TData>(string label, GameObject objParent = null, GameObject objPrefab = null)
+            where TData: ASceneObject, IData;
     
     }
 
@@ -57,35 +57,31 @@ namespace Framework.Core
             return obj;
         }
 
-
         public virtual TSimpleObject GetInstanceOf<TSimpleObject>(string label) 
             where TSimpleObject: ASimpleObject, TCacheable, new()
         {
             return HandlerSimpleObject.Create<TSimpleObject>(label);
         }
         
-
-        /*
-        public virtual TData GetData<TData>(string label)
-            where TData: ASimpleObject, IData, new()
+        public virtual TData SetData<TData>(string label, GameObject objParent = null, GameObject objPrefab = null)
+            where TData: ASceneObject, IData
         {
-            return HandlerSimpleObject.Create<TData>(label);
-    
+            return HandlerSceneObject.Create<TData>(label, objParent, objPrefab);
         }
-        */
+
         public abstract List<TCacheable> Get();
 
 #endregion 
 
 #region Data
 
-        public abstract IDataStruct<TCacheable> GetData(TCacheable instance);
+        //public abstract IDataStruct<TCacheable> Get(TCacheable instance);
 
 #endregion
 
 
 
-#region DebugFunctions
+#region Debug
 
         public virtual void Log(string instance, string message)
         {

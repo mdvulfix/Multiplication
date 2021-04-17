@@ -5,11 +5,11 @@ using Framework.Core.Handlers;
 
 namespace Framework
 {    
-    [CreateAssetMenu(fileName = "FactoryPage", menuName = "Factories/Page/Default")]
-    public class FactoryData : AFactory<DataStruct<IPage>>
+    [CreateAssetMenu(fileName = "FactoryPageDataStruct", menuName = "Factories/Page/DataStruct/Default")]
+    public class FactoryPageData : AFactory<IPageDataStruct>
     {
         
-        public static readonly string OBJECT_NAME = "Factory: Data";
+        public static readonly string OBJECT_NAME = "Factory: PageDataStruct";
                 
 #region Configure
 
@@ -32,29 +32,24 @@ namespace Framework
         
 #region Get
         
-        public override List<IDataStruct<IPage>> Get()
+        public override List<IPageDataStruct> Get()
         {
-            var list = new List<IDataStruct<IPage>>()
+            var list = new List<IPageDataStruct>()
             {
-                GetAndInitializeStaff<DataStruct<IPage>>(PageLoading.OBJECT_NAME),
-            };
+                GetAndInitialize<PageDataStruct>(PageDataStruct.OBJECT_NAME)
 
+            };
+            
             return list;
+
         }
 
-        private IPage GetAndInitializeStaff<T>(string label, GameObject prefab) where T: APage
+        private T GetAndInitialize<T>(string label) where T: ASimpleObject, IPageDataStruct, new()
         {
-            if(prefab==null)
-            {
-               LogWarning(Label, "Prefab for [" + label + "] page was not found!");
-               return null;
-            }
-
-            var instance = GetInstanceOf<T>(label, FindSceneObjectByName(APage.PARENT_OBJECT_NAME), prefab);
-            
-            instance.DataStruct = GetData(instance);
+            var instance = GetInstanceOf<T>(label);
             instance.Initialize();
-            
+    
+        
             return instance;
         }
 
@@ -63,17 +58,16 @@ namespace Framework
 
 #region Data
 
-        public override DataStruct<IPage> GetData(IPage instance)
+        public PageDataStruct Get(IPage instance)
         {
-            var data = new DataStruct<IPage>()
+            var data = new PageDataStruct()
             {
-                ValueDataStats = HandlerSceneObject.Create<DataStats>("Data: Stats", instance.ObjectOnScene),
-                ValueDataAnimation = HandlerSceneObject.Create<DataAnimation>("Data: Animation", instance.ObjectOnScene)
+                DataStats = HandlerSceneObject.Create<DataStats>("Data: Stats", instance.ObjectOnScene),
+                DataAnimation = HandlerSceneObject.Create<DataAnimation>("Data: Animation", instance.ObjectOnScene)
 
             };
 
             return data;
-                
         }
 
 #endregion

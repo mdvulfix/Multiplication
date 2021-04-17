@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Framework.Core
 {
-    public interface ICacheable
+    public interface ICacheable: IConfigurable
     {
 
             

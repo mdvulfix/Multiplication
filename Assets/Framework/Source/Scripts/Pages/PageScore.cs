@@ -11,7 +11,6 @@ namespace Framework
         public override void Initialize()
         {
             SetSceneObject(OBJECT_NAME);
-            SetData(DataStruct);
             
             Log(Label, "was sucsessfully initialized");
             //return this;

@@ -6,16 +6,18 @@ using Framework.Core.Handlers;
 namespace Framework
 {    
     [CreateAssetMenu(fileName = "FactoryPage", menuName = "Factories/Page/Default")]
-    public class FactoryPage : AFactory<IPage>, IHaveFactory
+    public class FactoryPage : AFactory<IPage> //, IHaveFactory
     {
         
         public static readonly string OBJECT_NAME = "Factory: Page";
         
-        [SerializeField] protected GameObject prefabPageLoading;
-        [SerializeField] protected GameObject prefabPageLogin;
-        [SerializeField] protected GameObject prefabPageMenu;
-        [SerializeField] protected GameObject prefabPageRunTime;
-        [SerializeField] protected GameObject prefabPageScore;
+        //[SerializeField] private FactoryPageData factoryPageDataStruct;
+        
+        [SerializeField] private GameObject prefabPageLoading;
+        [SerializeField] private GameObject prefabPageLogin;
+        [SerializeField] private GameObject prefabPageMenu;
+        [SerializeField] private GameObject prefabPageRunTime;
+        [SerializeField] private GameObject prefabPageScore;
         
 #region Configure
 
@@ -26,50 +28,38 @@ namespace Framework
             Log(Label, "was sucsessfully initialized");
             //return this;
                 
+            //GetFactory<IPageDataStruct>(factoryPageDataStruct);
+        
         }
 
         public override IConfigurable Configure()
         {
+            
+            
+            
             Log(Label, "was sucsessfully configured");
             return this;
         }
         
 #endregion
-
-#region Factory
-
-        public IFactory<TCacheable> GetFactory<TCacheable>(IFactory<TCacheable> factory) 
-            where TCacheable: class, ICacheable
-        {
-           if(factory==null)
-           {
-               LogWarning(Label, "Factory [" + typeof(TCacheable)+ "] is not set!");
-               return null;
-           }
-           
-            factory.Initialize();
-            return factory;
-        }
-
-#endregion 
-        
+ 
 #region Get
         
         public override List<IPage> Get()
         {
             var list = new List<IPage>()
             {
-                GetAndInitializeStaff<PageLoading>(PageLoading.OBJECT_NAME, prefabPageLoading),
-                GetAndInitializeStaff<PageLogin>(PageLogin.OBJECT_NAME, prefabPageLogin),
-                GetAndInitializeStaff<PageMenu>(PageMenu.OBJECT_NAME, prefabPageMenu), 
-                GetAndInitializeStaff<PageRunTime>(PageRunTime.OBJECT_NAME, prefabPageRunTime), 
-                GetAndInitializeStaff<PageScore>(PageScore.OBJECT_NAME, prefabPageScore), 
+                GetAndInitialize<PageLoading>(PageLoading.OBJECT_NAME, prefabPageLoading),
+                GetAndInitialize<PageLogin>(PageLogin.OBJECT_NAME, prefabPageLogin),
+                GetAndInitialize<PageMenu>(PageMenu.OBJECT_NAME, prefabPageMenu), 
+                GetAndInitialize<PageRunTime>(PageRunTime.OBJECT_NAME, prefabPageRunTime), 
+                GetAndInitialize<PageScore>(PageScore.OBJECT_NAME, prefabPageScore)
             };
 
             return list;
         }
 
-        private IPage GetAndInitializeStaff<T>(string label, GameObject prefab) where T: APage
+        private IPage GetAndInitialize<T>(string label, GameObject prefab) where T: APage
         {
             if(prefab==null)
             {
@@ -77,30 +67,13 @@ namespace Framework
                return null;
             }
 
-            var instance = GetInstanceOf<T>(label, FindSceneObjectByName(APage.PARENT_OBJECT_NAME), prefab);
+            var instance = GetInstanceOf<T>(label, FindSceneObjectByName(APage.PARENT_OBJECT_NAME), prefab);   
             
-            instance.DataStruct = GetData(instance);
             instance.Initialize();
-            
+            instance.DataStats = SetData<DataStats>(DataStats.OBJECT_NAME, instance.ObjectOnScene);
+            instance.DataAnimation = SetData<DataAnimation>(DataAnimation.OBJECT_NAME, instance.ObjectOnScene);
+
             return instance;
-        }
-
-
-#endregion
-
-#region Data
-
-        public override DataStruct<IPage> GetData(IPage instance)
-        {
-            var data = new DataStruct<IPage>()
-            {
-                ValueDataStats = HandlerSceneObject.Create<DataStats>("Data: Stats", instance.ObjectOnScene),
-                ValueDataAnimation = HandlerSceneObject.Create<DataAnimation>("Data: Animation", instance.ObjectOnScene)
-
-            };
-
-            return data;
-                
         }
 
 #endregion

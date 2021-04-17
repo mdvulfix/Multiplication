@@ -19,6 +19,11 @@ namespace Framework
         AnimationState  TargetState     {get; set;} 
     }
     
+    public interface IDataAnimationStuct
+    {
+        IDataAnimation DataAnimation {get; set;}
+    }
+
     [Serializable]
     public class DataAnimation : AData, IDataAnimation
     {      

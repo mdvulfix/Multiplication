@@ -1,27 +1,21 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Framework.Core.Handlers;
 
 namespace Framework.Core
-{
-    
-    public interface IPageDataStruct: IDataStruct<IPage>
-    {
-        IDataStats DataStats    {get; }
-        IDataAnimation DataAnimation {get; }
-        
-    
-        void SetData(IDataStats dataStats, IDataAnimation dataAnimation);
-    
-    }
-    
-    
-    
-    public interface IPage: IPageDataStruct, ISceneObject, IConfigurable, ICacheable, IDebug 
+{   
+    public interface IPage: ISceneObject, ICacheable, IDebug, IHaveCache<IPageDataStruct>
     {   
+        IDataStats      DataStats       {get; set;}
+        IDataAnimation  DataAnimation   {get; set;}
+        
+        //void SetData(IPageDataStruct datasSruct);
+        
         IPage Activate(bool active);
     }
+
 
     [Serializable, RequireComponent(typeof(Animator))]
     public abstract class APage : ASceneObject, IPage
@@ -29,17 +23,18 @@ namespace Framework.Core
         
         public static readonly string PARENT_OBJECT_NAME = ABuilder.OBJECT_NAME_UI; 
         
-        public bool             UseDebug        {get; set;} = true;
-        public IDataStats       DataStats       {get => dataStats;      set => dataStats = value as DataStats;}
-        public IDataAnimation   DataAnimation   {get => dataAnimation;  set => dataAnimation = value as DataAnimation;}
+        public ICache<IPageDataStruct>  Cache           {get; protected set;} = new Cache<IPageDataStruct>(); 
+        
+        public bool                     UseDebug        {get; set;} = true;
+        public IDataStats               DataStats       {get => dataStats;      set => dataStats = value as DataStats;}
+        public IDataAnimation           DataAnimation   {get => dataAnimation;  set => dataAnimation = value as DataAnimation;}
         
         [Header("Data")]
         [SerializeField] private DataStats      dataStats;
         [SerializeField] private DataAnimation  dataAnimation;
         
     
-        public abstract void SetData(IDataStruct<IPage> datasSruct);
-        public abstract void SetData(IDataStats dataStats, IDataAnimation dataAnimation);
+        //public abstract void SetData(IPageDataStruct datasSruct);
 
 #region Configure
 
@@ -93,8 +88,24 @@ namespace Framework.Core
         }
         
 
+#region Cache
 
+        public IPageDataStruct SetToCache(IPageDataStruct instance)
+        {
+            Cache.Add(instance);
+            return instance;
+        }
 
+        public List<IPageDataStruct> SetToCache(List<IPageDataStruct> instances)
+        {
+            foreach (var instance in instances)
+            {
+                SetToCache(instance);
+            }
+            return instances;
+        }
+
+#endregion 
 
 #region Log
 

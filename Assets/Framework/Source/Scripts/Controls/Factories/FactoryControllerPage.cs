@@ -58,13 +58,13 @@ namespace Framework
         {
             var list = new List<IControllerPage>()
             {
-                GetAndInitializeStaff<ControllerPageDefault>(ControllerPageDefault.OBJECT_NAME, factoryPage)
+                GetAndInitialize<ControllerPageDefault>(ControllerPageDefault.OBJECT_NAME, factoryPage)
             };
 
             return list;
         }
 
-        private IControllerPage GetAndInitializeStaff<T>(string label, IFactory<IPage> factory) 
+        private IControllerPage GetAndInitialize<T>(string label, IFactory<IPage> factory) 
             where T: AControllerPage
         {
             var instance = GetInstanceOf<T>(label, FindSceneObjectByName(ABuilder.OBJECT_NAME_CONTROLLERS));

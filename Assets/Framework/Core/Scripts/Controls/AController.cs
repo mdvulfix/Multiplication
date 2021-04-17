@@ -4,11 +4,10 @@ using UnityEngine;
 
 namespace Framework.Core
 {
-    public interface IController<T>: IConfigurable, ICacheable, IDebug where T: class, ICacheable
+    public interface IController<T>: ICacheable, IDebug, IHaveCache<T> 
+        where T: class, ICacheable
     {   
-        ICache<T> Cache {get; }
-        T SetToCache(T instance);
-        List<T> SetToCache(List<T> instances);
+
 
     }     
     

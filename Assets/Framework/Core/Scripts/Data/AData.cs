@@ -3,7 +3,7 @@
 namespace Framework.Core 
 {
     
-    public interface IData: ICacheable, ISceneObject
+    public interface IData: ISceneObject
     {
 
 

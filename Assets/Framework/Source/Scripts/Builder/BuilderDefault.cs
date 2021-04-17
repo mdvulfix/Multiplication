@@ -57,6 +57,13 @@ namespace Framework
             SetAndConfigure<IControllerPage>(factoryControllerPage);
             //Set<ControlInputDefault>(factoryControlInput);
             
+            
+            foreach (var instance in Cache.GetAll())
+            {
+                instance.Configure();
+            }
+            
+            
             Log(Label, "was sucsessfully configured");
             return this;            
         }     
