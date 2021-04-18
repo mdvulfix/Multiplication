@@ -7,12 +7,30 @@ namespace Framework
     {       
         
         public static readonly string OBJECT_NAME = "Controller: Page";
+    
+        
+        [SerializeField] private PageLoading pageLoading;
+        [SerializeField] private PageLogin pageLogin;
+        [SerializeField] private PageMenu pageMenu;
         
         
+        public override void OnAwake()
+        {
+            Initialize();
+            
+            SetToCache(pageLoading).Initialize();
+            SetToCache(pageLogin).Initialize();
+            SetToCache(pageMenu).Initialize();
+            
+            Configure();
+
+        }
+        
+    
         // Initialize in factory        
         public override void Initialize()
         {
-            SetSceneObject(OBJECT_NAME);
+            SetParams(OBJECT_NAME);
             Log(Label, "was sucsessfully initialized");
             //return this;
         } 

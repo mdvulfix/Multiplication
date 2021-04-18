@@ -68,10 +68,10 @@ namespace Framework
             }
 
             var instance = GetInstanceOf<T>(label, FindSceneObjectByName(APage.PARENT_OBJECT_NAME), prefab);   
-            
+        
+            instance.DataStats = SetData<DataStats>(DataStats.OBJECT_NAME, instance.gameObject);
+            instance.DataAnimation = SetData<DataAnimation>(DataAnimation.OBJECT_NAME, instance.gameObject);
             instance.Initialize();
-            instance.DataStats = SetData<DataStats>(DataStats.OBJECT_NAME, instance.ObjectOnScene);
-            instance.DataAnimation = SetData<DataAnimation>(DataAnimation.OBJECT_NAME, instance.ObjectOnScene);
 
             return instance;
         }

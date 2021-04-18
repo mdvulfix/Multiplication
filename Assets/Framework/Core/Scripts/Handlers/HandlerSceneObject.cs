@@ -19,7 +19,7 @@ namespace Framework.Core.Handlers
 
             if(objParent!=null)
             {
-                obj.transform.SetParent(objParent.transform);
+                obj.transform.SetParent(objParent.transform, false);
             }
 
             var instance = obj.AddComponent<T>();

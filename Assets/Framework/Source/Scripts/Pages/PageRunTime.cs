@@ -8,10 +8,19 @@ namespace Framework
     {
         public static readonly string OBJECT_NAME = "Page: RunTime";
         
+        public override void OnAwake()
+        {           
+            //Initialize();
+            Configure();
+
+        }
+        
         public override void Initialize()
         {
-            SetSceneObject(OBJECT_NAME);
+            SetParams(OBJECT_NAME);
             
+            DataStats.ID = 3;
+            DataStats.IsInitialized = true;
 
             Log(Label, "was sucsessfully initialized");
             //return this;
@@ -24,10 +33,12 @@ namespace Framework
 
             DataAnimation.UseAnimation = true;
             DataAnimation.Animator = GetComponent<Animator>();
-
+            DataAnimation.CurrentState = ANIMATOR_STATE_NONE;
+            DataAnimation.TargetState = ANIMATOR_STATE_NONE;
             
             Activate(false);
             
+            DataStats.IsConfigerd = true;
             Log(Label, "was sucsessfully configured");
             return this;
         }

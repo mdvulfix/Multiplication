@@ -9,9 +9,22 @@ namespace Framework
     {
         
         public static readonly string OBJECT_NAME = "Controller: Scene";
+        
+         
+        public override void OnAwake()
+        {
+            //SetToCache(pageLoading);
+            //SetToCache(pageLogin);
+            //SetToCache(pageMenu);
+            
+            Initialize();
+            Configure();
+
+        }
+        
         public override void Initialize()
         {
-            SetSceneObject(OBJECT_NAME);
+            SetParams(OBJECT_NAME);
             Log(Label, "was sucsessfully initialized");
             //return this;
         } 

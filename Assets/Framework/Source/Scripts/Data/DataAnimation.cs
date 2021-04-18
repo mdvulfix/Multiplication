@@ -4,24 +4,13 @@ using Framework.Core;
 
 namespace Framework
 {
-    public enum AnimationState
-    {
-        None,
-        On,
-        Off
-    }
-    
     public interface IDataAnimation: IData
     {
-        bool            UseAnimation    {get; set;}
-        Animator        Animator        {get; set;}
-        AnimationState  CurrentState    {get; set;}
-        AnimationState  TargetState     {get; set;} 
-    }
-    
-    public interface IDataAnimationStuct
-    {
-        IDataAnimation DataAnimation {get; set;}
+        bool        UseAnimation    {get; set;}
+        string      CurrentState    {get; set;}
+        string      TargetState     {get; set;} 
+
+        Animator    Animator        {get; set;}
     }
 
     [Serializable]
@@ -30,15 +19,21 @@ namespace Framework
         
         public static readonly string OBJECT_NAME = "Data: Animation";
         
-        public bool           UseAnimation  {get => useAnimation;   set => useAnimation = value;}
-        public Animator       Animator      {get => animator;       set => animator = value;}
-        public AnimationState CurrentState  {get => currentState;   set => currentState = value;}
-        public AnimationState TargetState   {get => targetState;    set => targetState = value;}
+        public bool     UseAnimation  {get => useAnimation;   set => useAnimation = value;}
+        public string   CurrentState  {get => currentState;   set => currentState = value;}
+        public string   TargetState   {get => targetState;    set => targetState = value;}
 
-        [SerializeField] private bool           useAnimation;
-        [SerializeField] private Animator       animator;
-        [SerializeField] private AnimationState currentState;
-        [SerializeField] private AnimationState targetState;
+        public Animator Animator      {get => animator;       set => animator = value;}
+
+
+        [SerializeField] private bool       useAnimation;
+        [SerializeField] private string     currentState;
+        [SerializeField] private string     targetState;
+        
+        [SerializeField] private Animator   animator;
+        
+        
+        
         
         public DataAnimation()
         {

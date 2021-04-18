@@ -17,11 +17,15 @@ namespace Framework.Core
     }
 
 
-    [Serializable, RequireComponent(typeof(Animator))]
+    [Serializable, RequireComponent(typeof(Animator)), RequireComponent(typeof(CanvasGroup))]
     public abstract class APage : ASceneObject, IPage
     {       
         
-        public static readonly string PARENT_OBJECT_NAME = ABuilder.OBJECT_NAME_UI; 
+        public static readonly string PARENT_OBJECT_NAME = ABuilder.OBJECT_NAME_UI;
+
+        public static readonly string ANIMATOR_STATE_NONE = "None";
+        public static readonly string ANIMATOR_STATE_ON = "On";
+        public static readonly string ANIMATOR_STATE_OFF = "Off";
         
         public ICache<IPageDataStruct>  Cache           {get; protected set;} = new Cache<IPageDataStruct>(); 
         
@@ -29,62 +33,97 @@ namespace Framework.Core
         public IDataStats               DataStats       {get => dataStats;      set => dataStats = value as DataStats;}
         public IDataAnimation           DataAnimation   {get => dataAnimation;  set => dataAnimation = value as DataAnimation;}
         
+        [SerializeField] 
+        protected bool projectMode;
+
         [Header("Data")]
         [SerializeField] private DataStats      dataStats;
         [SerializeField] private DataAnimation  dataAnimation;
         
-    
-        //public abstract void SetData(IPageDataStruct datasSruct);
 
-#region Configure
 
+ #region Configure
+        
+        public void Awake()
+        {
+            if(projectMode)
+            {
+                OnAwake();
+            } 
+        }
+        
+        public abstract void OnAwake();
         public abstract void Initialize();
         public abstract IConfigurable Configure();
 
 #endregion
 
-        public IPage Activate(bool active)
+        public IPage Activate(bool activate)
+        {
+            if(DataAnimation.UseAnimation)
+            {
+                if(activate)
+                {
+                    DataStats.IsActive = ActivateObject(activate);
+                    Animate(activate);
+                }
+                else
+                {
+                    Animate(activate);
+                    DataStats.IsActive = ActivateObject(activate);
+                }
+            }
+            else
+            {
+                Log(Label, "Animation is disabled on page [ " + Label + " ]");
+                DataStats.IsActive = ActivateObject(activate);
+            }
+                
+            return this;
+        }
+        
+        
+        private void Animate (bool animate)
         {
             
-            /*
             if(DataAnimation.Animator == null)
             {
                 LogWarning(Label, "Animator is not set!");
-                return null;
+                return;
+            }
 
-            }
-            */
-            if(!ActivateObject(active))
-                return null;
-            else
-                return this;
-            /*
-            if(DataAnimation.UseAnimation)
+
+            if(!DataStats.IsActive)
             {
-                StopCoroutine(AwaitAnimation(active));
-                StartCoroutine(AwaitAnimation(active));
-                
+                LogWarning(Label, "Page is not active!");
+                return;
             }
-            else
-            {
-                Log("Animation is disabled on page [ " + Name + " ]");
-            }
-            */
+
+            DataAnimation.Animator.SetBool("On", animate);
+            
+            StopCoroutine("AwaitAnimation");
+            StartCoroutine(AwaitAnimation(animate));
         }
         
-        // TODO: check AwaitAnimation function;
-        protected IEnumerator AwaitAnimation (bool on)
+        
+        private IEnumerator AwaitAnimation (bool on)
         {
-            DataAnimation.CurrentState = on ? AnimationState.On : AnimationState.Off;
+            
+            DataAnimation.TargetState = on ? ANIMATOR_STATE_ON : ANIMATOR_STATE_OFF;
 
-            while (DataAnimation.Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationState.On.ToString()))
+            while (DataAnimation.Animator.GetCurrentAnimatorStateInfo(0).IsName(DataAnimation.TargetState.ToString()))
                yield return null;
 
             while (DataAnimation.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
                yield return null; 
 
-            DataAnimation.CurrentState = AnimationState.None;
-            Log(Label, "was finised transition to " + (on ? "On" : "Off") + "snimation state");      
+            DataAnimation.TargetState = ANIMATOR_STATE_NONE;
+            Log(Label, "was finised transition to " + (on ? "On" : "Off") + " animation state!");      
+        
+        
+        
+        
+        
         }
         
 

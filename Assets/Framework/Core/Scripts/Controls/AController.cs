@@ -18,8 +18,20 @@ namespace Framework.Core
         public IDataStats   DataStats   {get; set;}
         public ICache<T>    Cache       {get; protected set;} = new Cache<T>();  
         
+        [SerializeField]
+        protected bool projectMode;
+
  #region Configure
         
+        public void Awake()
+        {
+            if(projectMode)
+            {
+                OnAwake();
+            } 
+        }
+        
+        public abstract void OnAwake();
         public abstract void Initialize();
         public abstract IConfigurable Configure();
 

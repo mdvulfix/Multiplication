@@ -33,7 +33,7 @@ namespace Framework
         
         public override void Initialize()
         {
-            SetSceneObject(OBJECT_NAME);
+            SetParams(OBJECT_NAME);
             
             //return this;
         
@@ -50,11 +50,11 @@ namespace Framework
         
         public override IConfigurable Configure()
         {          
-            SetAndConfigure<ISession>(factorySession);
-            SetAndConfigure<IControllerState>(factoryControllerState);
+            Set<ISession>(factorySession);
+            Set<IControllerState>(factoryControllerState);
             //Set<ControllerCameraDefault>(factoryControlCamera).Configure();
-            SetAndConfigure<IControllerScene>(factoryControllerScene);
-            SetAndConfigure<IControllerPage>(factoryControllerPage);
+            Set<IControllerScene>(factoryControllerScene);
+            Set<IControllerPage>(factoryControllerPage);
             //Set<ControlInputDefault>(factoryControlInput);
             
             
@@ -73,7 +73,7 @@ namespace Framework
 
 #region Cache
 
-        private T SetAndConfigure<T>(IFactory<T> factory) 
+        private T Set<T>(IFactory<T> factory) 
             where T: class, IConfigurable, ICacheable
         {          
            var list = factory.Get();
@@ -88,7 +88,6 @@ namespace Framework
                 SetToCache(instance);
                 Log(Label, "Instance type of ["+ typeof(T) +"] was sucsessfully set to cache.");
             
-                instance.Configure();
                 return instance as T;
            } 
 

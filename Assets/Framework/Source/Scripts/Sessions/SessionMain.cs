@@ -10,7 +10,7 @@ namespace Framework
 
         public override void Initialize() 
         {
-            SetSceneObject(OBJECT_NAME);
+            SetParams(OBJECT_NAME);
             Log(Label, "was sucsessfully initialized");
             //return this;
         }

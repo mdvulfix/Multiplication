@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Framework.Core;
 using Framework.Core.Handlers;
-
+/*
 namespace Framework
-{    
+{       
     [CreateAssetMenu(fileName = "FactoryPageDataStruct", menuName = "Factories/Page/DataStruct/Default")]
     public class FactoryPageData : AFactory<IPageDataStruct>
     {
@@ -62,7 +62,7 @@ namespace Framework
         {
             var data = new PageDataStruct()
             {
-                DataStats = HandlerSceneObject.Create<DataStats>("Data: Stats", instance.ObjectOnScene),
+                DataStats = HandlerSceneObject.Create<DataStats>("Data: Stats", instance.ga),
                 DataAnimation = HandlerSceneObject.Create<DataAnimation>("Data: Animation", instance.ObjectOnScene)
 
             };
@@ -71,6 +71,7 @@ namespace Framework
         }
 
 #endregion
-
+        
     }
 }
+*/

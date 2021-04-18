@@ -47,7 +47,7 @@ namespace Framework.Core
                 return;
             }
     
-            if(pageActive.ObjectOnScene.activeSelf)
+            if(pageActive.DataStats.IsActive)
             {
                 pageActive.Activate(false);
                 Log(Label, "[" + pageActive.Label + "] was deactivated!");
@@ -57,8 +57,11 @@ namespace Framework.Core
 
             if(waitForPageExit)
             {
-                StopCoroutine(WaitForPageExit(pageNextType));
-                StartCoroutine(WaitForPageExit(pageNextType));
+                StopCoroutine("WaitForPageExit");
+                StartCoroutine(WaitForPageExit(pageActive));
+
+
+                PageGetNext(pageType);
                 
                 //Log("Animation is enabled on page [ " + Name + " ]");
             }
@@ -82,21 +85,19 @@ namespace Framework.Core
             }
     
             pageActive = pageNext.Activate(true);
-        
-            pageActive = pageNext;
             Log(Label, "[" + pageActive.Label + "] was activated!");
         }
         
         
-        private IEnumerator WaitForPageExit(Type pageType)
+        private IEnumerator WaitForPageExit(IPage page)
         {
-            Log(Label, "Waiting for exit [" + pageActive.Label + "]...");
-            while (pageActive.DataAnimation.TargetState != AnimationState.None)
+            Log(Label, "Waiting for exit [" + page.Label + "]...");
+            while (page.DataAnimation.TargetState != APage.ANIMATOR_STATE_NONE)
             {
                 yield return null;
             }
             
-            PageGetNext(pageType);
+            
         }
        
 #endregion

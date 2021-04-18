@@ -25,19 +25,19 @@ namespace Framework.Core
             var page = instance.PageActive;
             GUILayout.BeginHorizontal();
             
-            if(GUILayout.Button("Loading"))
+            if(GUILayout.Button("Loading")|| Input.GetKeyUp(KeyCode.L))
             {
                 PageTurn<PageLoading>();
             }
-            if(GUILayout.Button("<<"))
+            if(GUILayout.Button("<<")|| Input.GetKeyUp(KeyCode.P))
             {
                 PrevPage();
             }
-            if(GUILayout.Button(">>"))
+            if(GUILayout.Button(">>")|| Input.GetKeyUp(KeyCode.N))
             {
                 NextPage();
             }
-            if(GUILayout.Button("Menu"))
+            if(GUILayout.Button("Menu")|| Input.GetKeyUp(KeyCode.M))
             {
                 PageTurn<PageMenu>();
             }

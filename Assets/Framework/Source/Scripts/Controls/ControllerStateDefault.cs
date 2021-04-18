@@ -7,9 +7,22 @@ namespace Framework
     {
         
     public static readonly string OBJECT_NAME = "Controller: State";
-    public override void Initialize()
+
+
+        public override void OnAwake()
         {
-            SetSceneObject(OBJECT_NAME);
+            //SetToCache(pageLoading);
+            //SetToCache(pageLogin);
+            //SetToCache(pageMenu);
+            
+            Initialize();
+            Configure();
+
+        }
+
+        public override void Initialize()
+        {
+            SetParams(OBJECT_NAME);
             Log(Label, "was sucsessfully initialized");
             //return this;
         } 

@@ -5,9 +5,10 @@ using Framework.Core;
 namespace Framework
 {
     
-    public interface IPageDataStruct: ISimpleObject, IDataStatsStuct, IDataAnimationStuct, ICacheable
+    public interface IPageDataStruct: ISimpleObject, ICacheable
     {
-        
+        IDataStats       DataStats       {get; set;}
+        IDataAnimation   DataAnimation   {get; set;}
     }
     
     public class PageDataStruct : ASimpleObject, IPageDataStruct, IDebug

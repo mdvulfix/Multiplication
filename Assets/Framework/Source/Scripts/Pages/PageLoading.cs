@@ -9,10 +9,20 @@ namespace Framework
     {
         public static readonly string OBJECT_NAME = "Page: Loading";
         
+        public override void OnAwake()
+        {           
+            //Initialize();
+            Configure();
+
+        }
+        
         public override void Initialize()
         {
-            SetSceneObject(OBJECT_NAME);
+            SetParams(OBJECT_NAME);
         
+            DataStats.ID = 0;
+            DataStats.IsInitialized = true;
+
             Log(Label, "was sucsessfully initialized");
             //return this;
 
@@ -20,13 +30,16 @@ namespace Framework
 
         public override IConfigurable Configure()
         {
-            DataStats.ID = 1;
-
+            
             DataAnimation.UseAnimation = true;
+            DataAnimation.CurrentState = ANIMATOR_STATE_NONE;
+            DataAnimation.TargetState = ANIMATOR_STATE_NONE;
+            
             DataAnimation.Animator = GetComponent<Animator>();
             
-            Activate(false);
+            //Activate(false);
             
+            DataStats.IsConfigerd = true;
             Log(Label, "was sucsessfully configured");
             return this;
         }
