@@ -23,6 +23,11 @@ namespace Framework.Core
 
         private IScene sceneActive;
         
+#region Start&Update
+
+        public abstract void OnAwake();
+
+#endregion
 
 #region SceneManagement
             

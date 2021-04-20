@@ -12,15 +12,15 @@ namespace Framework.Core
     
     } 
     
-    
-    
     public abstract class AControllerState : AController<IState>, IControllerState
     {       
-        public IState            StateActive  {get; protected set;}       
+        public IState StateActive  {get; protected set;}       
 
+#region Start&Update
 
+        public abstract void OnAwake();
 
-
+#endregion
 
 #region StateManagement
             
@@ -29,11 +29,5 @@ namespace Framework.Core
 
 #endregion
     
-
-
-
-
-
-
     }
 }

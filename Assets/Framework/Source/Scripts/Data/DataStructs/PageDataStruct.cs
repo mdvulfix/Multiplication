@@ -5,7 +5,7 @@ using Framework.Core;
 namespace Framework
 {
     
-    public interface IPageDataStruct: ISimpleObject, ICacheable
+    public interface IPageDataStruct: ISimpleObject, IConfigurable
     {
         IDataStats       DataStats       {get; set;}
         IDataAnimation   DataAnimation   {get; set;}

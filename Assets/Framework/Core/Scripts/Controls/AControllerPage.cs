@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace Framework.Core
 {    
-    
     public interface IControllerPage: IController<IPage>
     {
         IPage PageActive  {get; set;}
@@ -21,13 +20,11 @@ namespace Framework.Core
     {
         public IPage PageActive  {get => pageActive; set => pageActive = value; }       
 
-        private IPage pageActive;
+        protected IPage pageActive;
 
-#region Configure
-        
+#region Start&Update
 
-
-#endregion 
+#endregion
 
 #region PageManagement
     
@@ -87,9 +84,8 @@ namespace Framework.Core
             pageActive = pageNext.Activate(true);
             Log(Label, "[" + pageActive.Label + "] was activated!");
         }
-        
-        
-        private IEnumerator WaitForPageExit(IPage page)
+              
+        protected IEnumerator WaitForPageExit(IPage page)
         {
             Log(Label, "Waiting for exit [" + page.Label + "]...");
             while (page.DataAnimation.TargetState != APage.ANIMATOR_STATE_NONE)

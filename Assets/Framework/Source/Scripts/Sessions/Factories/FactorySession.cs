@@ -36,7 +36,7 @@ namespace Framework
         {
             var list = new List<ISession>()
             {
-                GetAndInitialize<SessionMain>(SessionMain.OBJECT_NAME)
+                GetAndInitialize<Session>(Session.OBJECT_NAME)
             };
             
             return list;

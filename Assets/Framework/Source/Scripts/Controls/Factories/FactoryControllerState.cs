@@ -57,7 +57,7 @@ namespace Framework
         {
             var list = new List<IControllerState>()
             {
-                GetAndInitializeStaff<ControllerStateDefault>(ControllerStateDefault.OBJECT_NAME, factoryState)
+                GetAndInitializeStaff<ControllerState>(ControllerState.OBJECT_NAME, factoryState)
             };
 
             return list;

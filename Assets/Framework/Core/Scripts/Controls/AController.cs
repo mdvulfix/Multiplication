@@ -4,39 +4,18 @@ using UnityEngine;
 
 namespace Framework.Core
 {
-    public interface IController<T>: ICacheable, IDebug, IHaveCache<T> 
+    public interface IController<T>: IController, IHaveCache<T> 
         where T: class, ICacheable
     {   
-
 
     }     
     
     [Serializable]
-    public abstract class AController<T> : ASceneObject, IController<T>  where T: class, ICacheable
+    public abstract class AController<T> : AController, IController<T>  
+        where T: class, ICacheable
     {                
-        public bool         UseDebug    {get; set;} = true;
-        public IDataStats   DataStats   {get; set;}
-        public ICache<T>    Cache       {get; protected set;} = new Cache<T>();  
-        
-        [SerializeField]
-        protected bool projectMode;
-
- #region Configure
-        
-        public void Awake()
-        {
-            if(projectMode)
-            {
-                OnAwake();
-            } 
-        }
-        
-        public abstract void OnAwake();
-        public abstract void Initialize();
-        public abstract IConfigurable Configure();
-
-#endregion   
-
+        public ICache<T> Cache {get; protected set;} = new Cache<T>();  
+          
 #region SetToCache
 
         public T SetToCache(T instance)
@@ -56,7 +35,36 @@ namespace Framework.Core
 
 #endregion 
     
-#region DebugFunctions
+    } 
+    
+///////////////////////////////////////////////////////////////////////////////////////////////// 
+    
+    public interface IController: IConfigurable, IDebug
+    {   
+        ISession Session {get; }
+    }  
+
+    [Serializable]
+    public abstract class AController : ASceneObject, IController  
+    {
+
+        public bool         UseDebug    {get; set;} = true;
+        
+        public ISession     Session     {get => session; set => session = value as Session;}
+        public IDataStats   DataStats   {get; set;}
+
+        
+        [SerializeField] protected bool isProject;
+        [SerializeField] protected Session session;
+
+#region Configure
+        
+        public abstract void Initialize();
+        public abstract IConfigurable Configure();
+
+#endregion
+
+#region Debug
 
         public virtual void Log(string instance, string message)
         {
@@ -76,5 +84,8 @@ namespace Framework.Core
         }
 
 #endregion
-    }
+
+    } 
+    
+
 }

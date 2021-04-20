@@ -6,7 +6,7 @@ using Framework.Core.Handlers;
 
 namespace Framework.Core
 {   
-    public interface IPage: ISceneObject, ICacheable, IDebug, IHaveCache<IPageDataStruct>
+    public interface IPage: ISceneObject, IConfigurable, IDebug, IHaveCache<IPageDataStruct>
     {   
         IDataStats      DataStats       {get; set;}
         IDataAnimation  DataAnimation   {get; set;}
@@ -44,87 +44,12 @@ namespace Framework.Core
 
  #region Configure
         
-        public void Awake()
-        {
-            if(projectMode)
-            {
-                OnAwake();
-            } 
-        }
-        
-        public abstract void OnAwake();
         public abstract void Initialize();
         public abstract IConfigurable Configure();
 
 #endregion
 
-        public IPage Activate(bool activate)
-        {
-            if(DataAnimation.UseAnimation)
-            {
-                if(activate)
-                {
-                    DataStats.IsActive = ActivateObject(activate);
-                    Animate(activate);
-                }
-                else
-                {
-                    Animate(activate);
-                    DataStats.IsActive = ActivateObject(activate);
-                }
-            }
-            else
-            {
-                Log(Label, "Animation is disabled on page [ " + Label + " ]");
-                DataStats.IsActive = ActivateObject(activate);
-            }
-                
-            return this;
-        }
-        
-        
-        private void Animate (bool animate)
-        {
-            
-            if(DataAnimation.Animator == null)
-            {
-                LogWarning(Label, "Animator is not set!");
-                return;
-            }
-
-
-            if(!DataStats.IsActive)
-            {
-                LogWarning(Label, "Page is not active!");
-                return;
-            }
-
-            DataAnimation.Animator.SetBool("On", animate);
-            
-            StopCoroutine("AwaitAnimation");
-            StartCoroutine(AwaitAnimation(animate));
-        }
-        
-        
-        private IEnumerator AwaitAnimation (bool on)
-        {
-            
-            DataAnimation.TargetState = on ? ANIMATOR_STATE_ON : ANIMATOR_STATE_OFF;
-
-            while (DataAnimation.Animator.GetCurrentAnimatorStateInfo(0).IsName(DataAnimation.TargetState.ToString()))
-               yield return null;
-
-            while (DataAnimation.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
-               yield return null; 
-
-            DataAnimation.TargetState = ANIMATOR_STATE_NONE;
-            Log(Label, "was finised transition to " + (on ? "On" : "Off") + " animation state!");      
-        
-        
-        
-        
-        
-        }
+        public abstract IPage Activate(bool active);
         
 
 #region Cache

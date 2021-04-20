@@ -2,9 +2,8 @@ using System.Collections.Generic;
 
 namespace Framework.Core
 {
-    public interface IConfigurable
+    public interface IConfigurable: ICacheable
     {
-        //IDataStats  DataStats {get; set;} 
         void Initialize();
         IConfigurable Configure();
             

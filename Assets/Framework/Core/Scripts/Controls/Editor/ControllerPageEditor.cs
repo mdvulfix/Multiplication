@@ -5,7 +5,7 @@ using UnityEditor;
 namespace Framework.Core
 {
 
-    [CustomEditor(typeof(ControllerPageDefault))]
+    [CustomEditor(typeof(ControllerPage))]
     [CanEditMultipleObjects]
     public class ControllerPageEditor: Editor
     {
@@ -15,7 +15,7 @@ namespace Framework.Core
 
         private void OnEnable() 
         {
-            instance = (ControllerPageDefault)target;       
+            instance = (ControllerPage)target;       
         }
         
         public override void OnInspectorGUI()

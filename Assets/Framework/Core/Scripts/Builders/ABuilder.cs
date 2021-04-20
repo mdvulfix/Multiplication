@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Framework.Core
 {
     
-    public interface IBuilder: IConfigurable, ICacheable, IDebug, IHaveFactory
+    public interface IBuilder: IConfigurable, IDebug, IHaveFactory, IHaveCache<IConfigurable>
     {
         
         void OnAwake();  
@@ -23,7 +23,7 @@ namespace Framework.Core
         public bool                 UseDebug    {get; set;} = true;
         public IDataStats           DataStats   {get; set;}
         
-        public ICache<ICacheable>   Cache       {get; protected set;} = new Cache<ICacheable>();       
+        public ICache<IConfigurable>   Cache       {get; protected set;} = new Cache<IConfigurable>();       
         
         public void Awake()
         {            
@@ -42,19 +42,20 @@ namespace Framework.Core
 
 #region Cache
 
-        public ICacheable SetToCache(ICacheable instance)
+        public IConfigurable SetToCache(IConfigurable instance)
         {
             Cache.Add(instance);
             return instance;
         
         }   
 
-        public void SetToCache(List<ICacheable> instances)
+        public List<IConfigurable> SetToCache(List<IConfigurable> instances)
         {
             foreach (var instance in instances)
             {
                 SetToCache(instance);
             }
+            return instances;
         }
 
 #endregion
@@ -76,7 +77,7 @@ namespace Framework.Core
 
 #endregion 
 
-#region DebugFunctions
+#region Debug
 
         public virtual void Log(string instance, string message)
         {

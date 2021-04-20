@@ -57,7 +57,7 @@ namespace Framework
         {
             var list = new List<IControllerScene>()
             {
-                GetAndInitializeStaff<ControllerSceneDefault>(ControllerSceneDefault.OBJECT_NAME, factoryScene)
+                GetAndInitializeStaff<ControllerScene>(ControllerScene.OBJECT_NAME, factoryScene)
             };
 
             return list;

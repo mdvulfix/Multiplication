@@ -58,7 +58,7 @@ namespace Framework
         {
             var list = new List<IControllerPage>()
             {
-                GetAndInitialize<ControllerPageDefault>(ControllerPageDefault.OBJECT_NAME, factoryPage)
+                GetAndInitialize<ControllerPage>(ControllerPage.OBJECT_NAME, factoryPage)
             };
 
             return list;

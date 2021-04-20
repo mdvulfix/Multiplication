@@ -1,14 +1,15 @@
-﻿using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 using Framework.Core;
 
+
 namespace Framework
-{   
-    public class ControllerStateDefault : AControllerState
+{
+    public class ControllerScene: AControllerScene
     {
         
-    public static readonly string OBJECT_NAME = "Controller: State";
-
-
+        public static readonly string OBJECT_NAME = "Controller: Scene";
+        
         public override void OnAwake()
         {
             //SetToCache(pageLoading);
@@ -19,7 +20,7 @@ namespace Framework
             Configure();
 
         }
-
+        
         public override void Initialize()
         {
             SetParams(OBJECT_NAME);
@@ -30,19 +31,23 @@ namespace Framework
         
         public override IConfigurable Configure() 
         {                                     
-            StateActive = Cache.Get<StateBuilding>();
+
+
+            SceneActive = Cache.Get<SceneCore>();
             Log(Label, "was successfully configured.");
             return this;
         }
         
-        public override void OnStateEnter(IState state)
+        public override void OnSceneEnter(IScene scene)
         {
 
         }
 
-        public override void OnStateExit(IState state)
+        public override void OnSceneExit(IScene scene)
         {
 
         }
+
     }
+
 }
