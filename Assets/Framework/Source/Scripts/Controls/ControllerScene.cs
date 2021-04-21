@@ -5,18 +5,36 @@ using Framework.Core;
 
 namespace Framework
 {
+    
     public class ControllerScene: AControllerScene
     {
         
         public static readonly string OBJECT_NAME = "Controller: Scene";
         
+        
+        [Header("Scenes")]
+        [SerializeField] private SceneCore sceneCore;
+        [SerializeField] private SceneMenu sceneMenu;
+        [SerializeField] private SceneRunTime sceneRunTime;
+        [SerializeField] private SceneScore sceneScore;
+        
         public override void OnAwake()
         {
-            //SetToCache(pageLoading);
-            //SetToCache(pageLogin);
-            //SetToCache(pageMenu);
-            
             Initialize();
+
+            if(isProject)
+            {
+                SetToCache(sceneCore);
+                SetToCache(sceneMenu);
+                SetToCache(sceneRunTime);
+                SetToCache(sceneScore);
+
+                foreach (var instance in Cache.GetAll())
+                {
+                    instance.Initialize();
+                }
+            }
+
             Configure();
 
         }
@@ -31,21 +49,9 @@ namespace Framework
         
         public override IConfigurable Configure() 
         {                                     
-
-
             SceneActive = Cache.Get<SceneCore>();
             Log(Label, "was successfully configured.");
             return this;
-        }
-        
-        public override void OnSceneEnter(IScene scene)
-        {
-
-        }
-
-        public override void OnSceneExit(IScene scene)
-        {
-
         }
 
     }

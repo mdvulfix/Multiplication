@@ -11,8 +11,6 @@ namespace Framework.Core
         IDataStats      DataStats       {get; set;}
         IDataAnimation  DataAnimation   {get; set;}
         
-        //void SetData(IPageDataStruct datasSruct);
-        
         IPage Activate(bool active);
     }
 

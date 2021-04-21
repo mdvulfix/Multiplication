@@ -3,9 +3,11 @@ using UnityEngine;
 
 namespace Framework.Core
 {
-    public interface IScene: ISimpleObject, IConfigurable, ICacheable, IDebug
+    public interface IScene: ISimpleObject, IConfigurable, IDebug
     {
-
+        IDataStats DataStats {get; set;}
+        
+        //IScene Activate(bool active);
     }
     
     [Serializable]
@@ -23,7 +25,7 @@ namespace Framework.Core
 
         }
     
-#region LogFunctions
+#region Log
 
         public void Log(string instance, string message)
         {

@@ -7,7 +7,7 @@ namespace Framework.Core
 
     [CustomEditor(typeof(ControllerPage))]
     [CanEditMultipleObjects]
-    public class ControllerPageEditor: Editor
+    public class EditorControllerPage: Editor
     {
         
         IControllerPage instance;
