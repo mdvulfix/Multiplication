@@ -21,14 +21,20 @@ namespace Framework
         {
             SetParams(OBJECT_NAME);
             
-            SetToCache(controllerPage);
-            SetToCache(controllerInput);
-            SetToCache(controllerUpdate);
-            
-            foreach (var instance in Cache.GetAll())
+            if(IsProject)
             {
-                instance.Initialize();
+                SetToCache(controllerPage);
+                SetToCache(controllerInput);
+                SetToCache(controllerUpdate);
+                
+                foreach (var instance in Cache.GetAll())
+                {
+                    instance.Initialize();
+                }
+
             }
+            
+
 
 
             Log(Label, "was sucsessfully initialized");
@@ -38,10 +44,15 @@ namespace Framework
         public override IConfigurable Configure()
         {
 
-            foreach (var instance in Cache.GetAll())
+            if(IsProject)
             {
-                instance.Configure();
+                foreach (var instance in Cache.GetAll())
+                {
+                    instance.Configure();
+                }
             }
+
+
 
             Log(Label, "was sucsessfully configured");
             return this;

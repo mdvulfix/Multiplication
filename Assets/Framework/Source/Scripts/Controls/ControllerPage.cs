@@ -19,14 +19,22 @@ namespace Framework
         {
             SetParams(OBJECT_NAME);
             
-            SetToCache(pageLoading);
-            SetToCache(pageLogin);
-            SetToCache(pageMenu);
-            
-            foreach (var instance in Cache.GetAll())
+            if(isProject)
             {
-                instance.Initialize();
+                SetToCache(pageLoading);
+                SetToCache(pageLogin);
+                SetToCache(pageMenu);
+
+                foreach (var instance in Cache.GetAll())
+                {
+                    instance.Initialize();
+                }
             }
+
+            
+
+
+
             
             Log(Label, "was sucsessfully initialized");
             //return this;
@@ -40,7 +48,7 @@ namespace Framework
                 page.Configure();
             }
             
-            //SetPageActive<PageLoading>();
+            SetPageActive<PageLoading>();
             
             Log(Label, "was successfully configured.");
             return this;
@@ -60,6 +68,7 @@ namespace Framework
             Log(Label, "Page [" + PageActive.Label + "] was activated.");
         }
 
+        /*
         public void TurnPageOn(Type pageType)
         {
             var pageNext = Cache.Get(pageType);
@@ -100,5 +109,6 @@ namespace Framework
             }
 
         }
+        */
     }
 }

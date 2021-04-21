@@ -49,7 +49,94 @@ namespace Framework.Core
 
 #endregion
 
-        public abstract IPage Activate(bool active);
+        public IPage Activate(bool activate)
+        {
+            
+            
+            
+            if(DataAnimation.UseAnimation)
+            {
+                if(activate)
+                {
+                    
+                    DataStats.IsActive = ActivateObject(true);
+                    Log(Label, " was activated.");
+                    Animate(true);
+                }
+                else
+                {
+                    Animate(false);
+                }
+            }
+            else
+            {
+                Log(Label, "Animation is disabled on page [ " + Label + " ]");
+                DataStats.IsActive = ActivateObject(activate);
+            }
+                
+            return this;
+        }
+        
+        
+        private void Animate (bool animate)
+        {
+            
+            if(DataAnimation.Animator == null)
+            {
+                LogWarning(Label, "Animator is not set!");
+                return;
+            }
+
+
+            if(!DataStats.IsActive)
+            {
+                LogWarning(Label, "Page is not active!");
+                return;
+            }
+
+            
+    
+            StopCoroutine("AwaitAnimation");
+            StartCoroutine(AwaitAnimation(animate));
+
+        }
+        
+        
+        private IEnumerator AwaitAnimation (bool animate)
+        {
+
+            DataAnimation.Animator.SetBool("On", animate);
+
+            DataAnimation.TargetState = animate ? ANIMATOR_STATE_ON : ANIMATOR_STATE_OFF;
+            Log(Label, "Target state is ["  + DataAnimation.TargetState + "].");
+            
+            //waiting for target state
+            while(!DataAnimation.Animator.GetCurrentAnimatorStateInfo(0).IsName(DataAnimation.TargetState))
+            {
+                yield return null;
+
+            }
+        
+            //waiting for target state is plaing
+            while(DataAnimation.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
+            {
+                yield return null;
+
+            }
+
+            DataAnimation.TargetState = ANIMATOR_STATE_NONE;
+        
+            Log(Label, "Target state is ["  + DataAnimation.TargetState + "].");
+            Log(Label, "was finised transition to " + (animate ? "On" : "Off") + " animation state!"); 
+    
+    
+            if(!animate)
+            {
+                DataStats.IsActive = ActivateObject(false);
+                Log(Label, " was diactivated.");
+                
+            }
+        }
         
 
 #region Cache

@@ -55,15 +55,11 @@ namespace Framework.Core
             if(waitForPageExit)
             {
                 StopCoroutine("WaitForPageExit");
-                StartCoroutine(WaitForPageExit(pageActive));
-
-
-                PageGetNext(pageType);
-                
+                StartCoroutine(WaitForPageExit(pageNextType));
                 //Log("Animation is enabled on page [ " + Name + " ]");
             }
             else
-                PageGetNext(pageType);
+                PageGetNext(pageNextType);
         }
                
         public void PageGetNext<TPageNext>() where TPageNext: class, IPage
@@ -85,15 +81,15 @@ namespace Framework.Core
             Log(Label, "[" + pageActive.Label + "] was activated!");
         }
               
-        protected IEnumerator WaitForPageExit(IPage page)
+        protected IEnumerator WaitForPageExit(Type pageType)
         {
-            Log(Label, "Waiting for exit [" + page.Label + "]...");
-            while (page.DataAnimation.TargetState != APage.ANIMATOR_STATE_NONE)
+            Log(Label, "Waiting for exit [" + pageActive.Label + "]...");
+            while (pageActive.DataAnimation.TargetState != APage.ANIMATOR_STATE_NONE)
             {
                 yield return null;
             }
             
-            
+            PageGetNext(pageType);
         }
        
 #endregion

@@ -45,14 +45,14 @@ namespace Framework
             if(Input.GetKeyUp(fadeIn))
             {
                 Log(Label, "Get key [ " + fadeIn + " ]!");
-                controllerPage.TurnPageOn(typeof(PageLoading));
+                //controllerPage.TurnPageOn(typeof(PageLoading));
 
             }
 
            if(Input.GetKeyUp(fadeOut))
             {
                 Log(Label, "Get key [ " + fadeOut + " ]!");
-                controllerPage.TurnPageOff(typeof(PageLoading), true);
+                //controllerPage.TurnPageOff(typeof(PageLoading), true);
 
             }
         }

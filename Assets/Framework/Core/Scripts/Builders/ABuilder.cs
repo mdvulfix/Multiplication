@@ -20,10 +20,10 @@ namespace Framework.Core
         public static readonly string OBJECT_NAME_SCENE = "Scene";
         public static readonly string OBJECT_NAME_UI = "UI";
         
-        public bool                 UseDebug    {get; set;} = true;
-        public IDataStats           DataStats   {get; set;}
+        public bool                     UseDebug    {get; set;} = true;
+        public IDataStats               DataStats   {get; set;}
         
-        public ICache<IConfigurable>   Cache       {get; protected set;} = new Cache<IConfigurable>();       
+        public ICache<IConfigurable>    Cache       {get; protected set;} = new Cache<IConfigurable>();       
         
         public void Awake()
         {            
