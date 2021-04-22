@@ -20,10 +20,11 @@ namespace Framework.Core
     {
         IScene SceneActive {get; }
         
-        void SceneTurn<TSceneNext>(bool waitForSceneExit = false) 
-            where TSceneNext: class, IScene;
+        void SceneTurn<TScene, TPage>(bool delay = false) 
+            where TScene: class, IScene
+            where TPage: class, IPage;
         
-        void SceneTurn(Type sceneType, bool waitForSceneExit = false);   
+        void SceneTurn(Type sceneType, Type pageType, bool delay = false);
 
     } 
     
@@ -39,47 +40,76 @@ namespace Framework.Core
 
 #region SceneManagement
     
-        public void SceneTurn<TSceneNext>(bool waitForSceneExit = false) where TSceneNext: class, IScene
+        public void SceneTurn<TScene, TPage>(bool delay = false) 
+            where TScene: class, IScene
+            where TPage: class, IPage
         {
-            SceneTurn(typeof(TSceneNext), waitForSceneExit);
+            SceneTurn(typeof(TScene), typeof(TPage), delay);
         }
        
-        public void SceneTurn(Type sceneType, bool waitForSceneExit = false)
+        public void SceneTurn(Type sceneType, Type pageType, bool delay = false)
         {
             var sceneNext = Cache.Get(sceneType);
             var sceneNextType = sceneNext.GetType();
+
+            var pageNext = sceneNext.Cache.Get(sceneType);
+            var pageNextType = pageNext.GetType();
             
             if(SceneActive == null)
             {
                 LogWarning(Label, "You are trying to turn a scene [" + SceneActive.Label + "] that has not been registered!");
                 return;
             }
-    
-            if(SceneActive.DataStats.IsActive)
+            
+            var pageActive = SceneActive.DataSceneLoad.PageActive;
+            if(pageActive == null)
             {
-                SceneActive.Activate(false);
-                Log(Label, "[" + SceneActive.Label + "] was deactivated!");
-
+                LogWarning(Label, "You are trying to turn a page [" + pageActive.Label + "] that has not been registered!");
+                return;
             }
             
-            if(waitForSceneExit)
+            if(pageActive.DataStats.IsActive)
             {
+                pageActive.Activate(false);
+                Log(Label, "[" + pageActive.Label + "] was deactivated!");
+
+                if(SceneActive.DataStats.IsActive && SceneActive!=sceneNext)
+                {
+                    SceneActive.Activate(false);
+                    Log(Label, "[" + SceneActive.Label + "] was deactivated!");
+                
+                }
+            }
+            
+            if(delay)
+            {
+                
+                
+                
+                
+                
+                
+                
+                
                 StopCoroutine("WaitForSceneExit");
                 StartCoroutine(WaitForSceneExit(sceneNextType));
                 //Log("Animation is enabled on page [ " + Name + " ]");
             }
             else
-                SceneGetNext(sceneNextType);
+                SceneGetNext(sceneNextType, pageNextType);
         }
                
-        public void SceneGetNext<TSceneNext>() where TSceneNext: class, IScene
+        public void SceneGetNext<TScene, TPage>() 
+            where TScene: class, IScene
+            where TPage: class, IPage
         {
-            SceneGetNext(typeof(TSceneNext));
+            SceneGetNext(typeof(TScene), typeof(TPage));
         }  
     
-        public void SceneGetNext(Type sceneType)
+        public void SceneGetNext(Type sceneType, Type pageType)
         {
             var sceneNext = Cache.Get(sceneType);
+            var pageNext = sceneNext.Cache.Get(sceneType);
             
             if(sceneNext==null)
             {
@@ -88,9 +118,12 @@ namespace Framework.Core
             }
     
             SceneActive = sceneNext.Activate(true);
+            SceneActive.DataSceneLoad.PageActive = pageNext.Activate(true);
+            
             Log(Label, "[" + SceneActive.Label + "] was activated!");
         }
-              
+
+        
         private IEnumerator WaitForSceneExit(Type sceneType)
         {
             Log(Label, "Waiting for exit [" + SceneActive.Label + "]...");
@@ -113,7 +146,81 @@ namespace Framework.Core
 
 
 #endregion
+
+
+#region PageManagement
     
+        public void PageTurn<TPage>(bool delay = false) where TPage: class, IPage
+        {
+            PageTurn(typeof(TPage), delay);
+        }
+       
+        public void PageTurn(Type pageType, bool delay = false)
+        {
+            var pageNext = Cache.Get(pageType);
+            var pageNextType = pageNext.GetType();
+            
+            var pageActive = SceneActive.DataSceneLoad.PageActive;
+            
+            if(pageActive == null)
+            {
+                LogWarning(Label, "You are trying to turn a page [" + pageActive.Label + "] that has not been registered!");
+                return;
+            }
+    
+            if(pageActive.DataStats.IsActive)
+            {
+                pageActive.Activate(false);
+                Log(Label, "[" + pageActive.Label + "] was deactivated!");
+
+            }
+                
+
+            if(delay)
+            {
+                StopCoroutine("WaitForPageExit");
+                StartCoroutine(WaitForPageExit(pageNextType));
+                //Log("Animation is enabled on page [ " + Name + " ]");
+            }
+            else
+                PageGetNext(pageNextType);
+        }
+               
+        public void PageGetNext<TPageNext>() where TPageNext: class, IPage
+        {
+            PageGetNext(typeof(TPageNext));
+        }  
+    
+        public void PageGetNext(Type pageType)
+        {
+            var pageActive = SceneActive.DataSceneLoad.PageActive; 
+            var pageNext = Cache.Get(pageType);
+            
+            if(pageNext==null)
+            {
+                LogWarning(Label, "You are trying to turn a page on [" + pageNext.Label + "] that has not been registered!");
+                return;
+            }
+    
+            pageActive = pageNext.Activate(true);
+            Log(Label, "[" + pageActive.Label + "] was activated!");
+        }
+              
+        protected IEnumerator WaitForPageExit(Type pageType)
+        {
+            var pageActive = SceneActive.DataSceneLoad.PageActive;
+            
+            Log(Label, "Waiting for exit [" + pageActive.Label + "]...");
+            while (pageActive.DataAnimation.TargetState != APage.ANIMATOR_STATE_NONE)
+            {
+                yield return null;
+            }
+            
+            PageGetNext(pageType);
+        }
+
+
+#endregion
     }
 
 }

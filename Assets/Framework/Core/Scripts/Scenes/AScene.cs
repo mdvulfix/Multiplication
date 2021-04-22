@@ -63,7 +63,7 @@ namespace Framework.Core
             if(isLoading)
             {
                 DataStats.IsActive = SetActvie(true);
-                DataSceneLoad.PageActive = DataSceneLoad.PageLoading.Activate(true);
+                //DataSceneLoad.PageActive = DataSceneLoad.PageLoading.Activate(true);
                 
                 StopCoroutine("SceneLoadAsync");
                 StartCoroutine(SceneLoadAsync(scene));
@@ -94,8 +94,8 @@ namespace Framework.Core
 
         private IEnumerator SceneUnloadAsync(ESceneBuildId scene)
         {
-            DataSceneLoad.PageActive.Activate(false);
-            DataSceneLoad.PageActive = null;
+            //DataSceneLoad.PageActive.Activate(false);
+            //DataSceneLoad.PageActive = null;
 
             yield return new WaitForSeconds(2f);
 

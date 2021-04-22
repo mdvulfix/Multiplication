@@ -9,8 +9,8 @@ namespace Framework.Core
     {
         IPage PageActive  {get; set;}
         
-        void PageTurn<TPageNext>(bool waitForPageExit = false) where TPageNext: class, IPage; 
-        void PageTurn(Type pageType, bool waitForPageExit = false);   
+        void PageTurn<TPageNext>(bool delay = false) where TPageNext: class, IPage; 
+        void PageTurn(Type pageType, bool delay = false);   
     
     } 
     
@@ -26,12 +26,12 @@ namespace Framework.Core
 
 #region PageManagement
     
-        public void PageTurn<TPageNext>(bool waitForPageExit = false) where TPageNext: class, IPage
+        public void PageTurn<TPageNext>(bool delay = false) where TPageNext: class, IPage
         {
             PageTurn(typeof(TPageNext), waitForPageExit);
         }
        
-        public void PageTurn(Type pageType, bool waitForPageExit = false)
+        public void PageTurn(Type pageType, bool delay = false)
         {
             var pageNext = Cache.Get(pageType);
             var pageNextType = pageNext.GetType();
