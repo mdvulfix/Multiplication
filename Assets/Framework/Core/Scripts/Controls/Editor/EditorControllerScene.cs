@@ -26,9 +26,9 @@ namespace Framework.Core
             var page = instance.SceneActive;
             GUILayout.BeginHorizontal();
             
-            if(GUILayout.Button("Core")|| Input.GetKeyUp(KeyCode.L))
+            if(GUILayout.Button("Menu")|| Input.GetKeyUp(KeyCode.L))
             {
-                SceneTurn<SceneCore>();
+                SceneTurn<SceneMenu>();
             }
             if(GUILayout.Button("<<")|| Input.GetKeyUp(KeyCode.P))
             {

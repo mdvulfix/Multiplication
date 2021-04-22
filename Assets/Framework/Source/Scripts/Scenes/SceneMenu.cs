@@ -16,7 +16,14 @@ namespace Framework
         
         public override void Initialize()
         {
-            SetParams(OBJECT_NAME, BUILD_ID);
+            SetParams(OBJECT_NAME);
+            
+            if(!DataCheck(DataStats))
+                return;
+            
+            if(!DataCheck(DataSceneLoad))
+                return; 
+            
             
             DataStats.GUID = 1;
             DataStats.IsInitialized = true;
@@ -34,13 +41,20 @@ namespace Framework
 
             }
 
-            Log(Label, "was sucsessfully initialized");
+            Log(Label, LogSuccessfulInitialize());
             //return this;
         }
 
         public override IConfigurable Configure()
         {
-            Log(Label, "was sucsessfully configured");
+            
+            DataSceneLoad.SceneBuildId = BUILD_ID;
+            DataSceneLoad.PageLoading = pageLoading;
+            DataSceneLoad.OnLoadCallback = null;
+
+            DataStats.IsConfigerd = true;
+
+            Log(Label, LogSuccessfulConfigure());
             return this;
         }
     }

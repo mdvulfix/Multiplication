@@ -15,13 +15,13 @@ namespace Framework
 
         public override void Initialize()
         {
-            SetParams(OBJECT_NAME, BUILD_ID);
+            SetParams(OBJECT_NAME);
             
-            if(DataStats == null)
-            {
-                LogWarning(Label, LogFailedInitialize("Data: Stats was not found!"));
+            if(!DataCheck<IDataStats>(DataStats))
                 return;
-            }
+            
+            if(!DataCheck<IDataSceneLoad>(DataSceneLoad))
+                return;
               
             
             DataStats.GUID = 0;
@@ -35,7 +35,6 @@ namespace Framework
                 {
                     instance.Initialize();
                 }
-
             }
             
             Log(Label, LogSuccessfulInitialize());
@@ -45,10 +44,13 @@ namespace Framework
         public override IConfigurable Configure()
         {
             
-            
+            DataSceneLoad.SceneBuildId = BUILD_ID;
+            DataSceneLoad.PageLoading = pageLoading;
+            DataSceneLoad.OnLoadCallback = null;
+        
             DataStats.IsConfigerd = true;
             
-            Log(Label, "was sucsessfully configured");
+            Log(Label, LogSuccessfulConfigure());
             return this;
         }
     }

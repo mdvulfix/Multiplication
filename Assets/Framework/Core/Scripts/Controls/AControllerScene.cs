@@ -57,7 +57,7 @@ namespace Framework.Core
     
             if(SceneActive.DataStats.IsActive)
             {
-                //sceneActive.Activate(false);
+                SceneActive.Activate(false);
                 Log(Label, "[" + SceneActive.Label + "] was deactivated!");
 
             }
@@ -87,7 +87,7 @@ namespace Framework.Core
                 return;
             }
     
-            //sceneActive = sceneNext.Activate(true);
+            SceneActive = sceneNext.Activate(true);
             Log(Label, "[" + SceneActive.Label + "] was activated!");
         }
               
