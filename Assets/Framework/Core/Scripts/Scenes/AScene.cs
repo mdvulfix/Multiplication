@@ -48,9 +48,7 @@ namespace Framework.Core
 
         public IScene Activate(bool activate)
         {
-            
-            
-            if(!SceneChange(scene: DataSceneLoad.SceneBuildId, page: DataSceneLoad.PageLoading, isLoading: activate))
+            if(!SceneChange(scene: DataSceneLoad.SceneBuildId, isLoading: activate))
             {
                 LogWarning(Label, "Activation is faild!");
                 return null;
@@ -59,12 +57,13 @@ namespace Framework.Core
             return this;
         }
 
-        private bool SceneChange(ESceneBuildId scene, IPage page, Action callback = null, bool isLoading = true)
+        private bool SceneChange(ESceneBuildId scene, Action callback = null, bool isLoading = true)
         {
 
             if(isLoading)
             {
                 DataStats.IsActive = SetActvie(true);
+                DataSceneLoad.PageActive = DataSceneLoad.PageLoading.Activate(true);
                 
                 StopCoroutine("SceneLoadAsync");
                 StartCoroutine(SceneLoadAsync(scene));
@@ -81,7 +80,7 @@ namespace Framework.Core
         
         private IEnumerator SceneLoadAsync(ESceneBuildId scene)
         {
-            yield return null;
+            yield return new WaitForSeconds(4f);
             
             var operation =  SceneManager.LoadSceneAsync((int)scene, LoadSceneMode.Additive);
             while (!operation.isDone)
@@ -95,7 +94,9 @@ namespace Framework.Core
 
         private IEnumerator SceneUnloadAsync(ESceneBuildId scene)
         {
-            
+            DataSceneLoad.PageActive.Activate(false);
+            DataSceneLoad.PageActive = null;
+
             yield return new WaitForSeconds(2f);
 
             var operation = SceneManager.UnloadSceneAsync((int)scene);

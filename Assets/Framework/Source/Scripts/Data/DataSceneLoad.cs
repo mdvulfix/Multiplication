@@ -9,6 +9,8 @@ namespace Framework
         ESceneBuildId   SceneBuildId    {get; set;}
         
         IPage           PageLoading     {get; set;} 
+        IPage           PageActive      {get; set;}
+        
         Action          OnLoadCallback  {get; set;} 
 
 
@@ -23,6 +25,7 @@ namespace Framework
         public ESceneBuildId    SceneBuildId    {get => sceneBuildId;   set => sceneBuildId = value;}
         
         public IPage            PageLoading     {get => pageLoading;    set => pageLoading = value as PageLoading;}
+        public IPage            PageActive     {get; set;}
         public Action           OnLoadCallback  {get => onLoadCallback; set => onLoadCallback = value;}
 
 

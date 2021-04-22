@@ -19,11 +19,11 @@ namespace Framework
         {
             SetParams(OBJECT_NAME);
             
-            if(!DataCheck(DataStats))
+            if(!DataCheck<IDataStats>(DataStats))
                 return;
             
-            if(!DataCheck(DataSceneLoad))
-                return; 
+            if(!DataCheck<IDataSceneLoad>(DataSceneLoad))
+                return;
             
             DataStats.GUID = 2;
             DataStats.IsInitialized = true;

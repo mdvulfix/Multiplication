@@ -1906,7 +1906,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isProject: 1
   dataStats: {fileID: 527611228}
-  dataSceneLoad: {fileID: 0}
+  dataSceneLoad: {fileID: 212979843}
   pageLoading: {fileID: 950125175}
   pageRunTime: {fileID: 458363380}
   pagePause: {fileID: 1718960151}
@@ -4732,7 +4732,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isProject: 1
   dataStats: {fileID: 1683092234}
-  dataSceneLoad: {fileID: 0}
+  dataSceneLoad: {fileID: 1045531538}
   pageLoading: {fileID: 1104754360}
   pageScore: {fileID: 912888681}
 --- !u!1 &1617991393
