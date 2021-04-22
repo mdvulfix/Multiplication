@@ -12,15 +12,20 @@ namespace Framework
         public static readonly string OBJECT_NAME = "Controller: Scene";
         
         
+        [Header("Controllers")]
+        [SerializeField] private ControllerPage controllerPage;
+        
+        
         [Header("Scenes")]
         [SerializeField] private SceneCore sceneCore;
         [SerializeField] private SceneMenu sceneMenu;
         [SerializeField] private SceneRunTime sceneRunTime;
         [SerializeField] private SceneScore sceneScore;
         
-        public override void OnAwake()
+                
+        public override void Initialize()
         {
-            Initialize();
+            SetParams(OBJECT_NAME);
 
             if(isProject)
             {
@@ -35,24 +40,35 @@ namespace Framework
                 }
             }
 
-            Configure();
-
-        }
-        
-        public override void Initialize()
-        {
-            SetParams(OBJECT_NAME);
-            Log(Label, "was sucsessfully initialized");
+            Log(Label, LogSuccessfulInitialize());
             //return this;
-        } 
         
+        } 
         
         public override IConfigurable Configure() 
         {                                     
-            SceneActive = Cache.Get<SceneCore>();
-            Log(Label, "was successfully configured.");
+            
+            if(Cache.IsEmpty())
+            {
+                LogWarning(Label, LogFailedConfigure("Cache is empty!"));
+                return null;
+            }
+            else
+            {
+                foreach (var instance in Cache.GetAll())
+                {
+                    instance.Configure();
+                }
+
+            }
+
+            SceneSetActive<SceneMenu>();
+            
+            Log(Label, LogSuccessfulConfigure());
             return this;
         }
+
+
 
     }
 

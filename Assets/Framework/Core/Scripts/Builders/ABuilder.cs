@@ -6,10 +6,9 @@ using UnityEngine;
 namespace Framework.Core
 {
     
-    public interface IBuilder: IConfigurable, IDebug, IHaveFactory, IHaveCache<IConfigurable>
+    public interface IBuilder: IAwakable, IConfigurable, IDebug, IHaveFactory, IHaveCache<IConfigurable>
     {
         
-        void OnAwake();  
     }
     
     public abstract class ABuilder : ASingleton<ABuilder>, IBuilder
@@ -23,23 +22,31 @@ namespace Framework.Core
         public bool                     UseDebug    {get; set;} = true;
         public IDataStats               DataStats   {get; set;}
         
-        public ICache<IConfigurable>    Cache       {get; protected set;} = new Cache<IConfigurable>();       
+        public ICache<IConfigurable>    Cache       {get; protected set;} = new Cache<IConfigurable>("Builder: Cache");       
+
+#region Configure
         
-        public void Awake()
-        {            
-            OnAwake();
-        }
-    
-        public virtual void OnAwake()
+        public virtual void SetParams(string label)
         {
-            Initialize();
-
-
+            Label = label;
         }
-        
+
         public abstract void Initialize();
         public abstract IConfigurable Configure();
 
+#endregion
+
+#region Start&Update
+        
+        public void Awake()
+        {
+            OnAwake();
+        }
+
+        public abstract void OnAwake();
+
+#endregion
+        
 #region Cache
 
         public IConfigurable SetToCache(IConfigurable instance)
@@ -59,23 +66,6 @@ namespace Framework.Core
         }
 
 #endregion
-
-#region Factories
-
-        public IFactory<TCacheable> GetFactory<TCacheable>(IFactory<TCacheable> factory) 
-            where TCacheable: class, ICacheable
-        {
-           if(factory==null)
-           {
-               LogWarning(Label, "Factory [" + typeof(TCacheable)+ "] is not set!");
-               return null;
-           }
-           
-            factory.Initialize();
-            return factory;
-        }
-
-#endregion 
 
 #region Debug
 
@@ -97,8 +87,23 @@ namespace Framework.Core
         }
 
 #endregion
-    
-    
+
+#region Factories
+
+        public IFactory<TCacheable> GetFactory<TCacheable>(IFactory<TCacheable> factory) 
+            where TCacheable: class, ICacheable
+        {
+           if(factory==null)
+           {
+               LogWarning(Label, "Factory [" + typeof(TCacheable)+ "] is not set!");
+               return null;
+           }
+           
+            factory.Initialize();
+            return factory;
+        }
+
+#endregion 
     
     }
 }

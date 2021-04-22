@@ -89,7 +89,14 @@ namespace Framework.Core
             
             PageGetNext(pageType);
         }
-       
+
+        protected void PageSetActive<T>() where T: class, IPage
+        {
+            PageActive = Cache.Get<T>();
+            PageActive.Activate(true);
+            Log(Label, "Page [" + PageActive.Label + "] was activated.");
+        }
+
 #endregion
     }
 }

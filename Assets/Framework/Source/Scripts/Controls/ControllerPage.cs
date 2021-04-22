@@ -8,12 +8,27 @@ namespace Framework
     {       
         public static readonly string OBJECT_NAME = "Controller: Page";
 
-        [Header("Pages")]
-        [SerializeField] private PageLoading pageLoading;
-        [SerializeField] private PageLogin pageLogin;
-        [SerializeField] private PageMenu pageMenu;
+        [Header("Scene: Core")]
+        [SerializeField] private PageLoading sceneCorePageLoading;
+        
+        [Header("Scene: Menu")]
+        [SerializeField] private PageLoading sceneMenuPageLoading;
+        [SerializeField] private PageLogin sceneMenuPageLogin;
+        [SerializeField] private PageMenu sceneMenuPageMenu;
+
+        [Header("Scene: RunTime")]
+        [SerializeField] private PageLoading sceneRunTimePageLoading;
+        [SerializeField] private PageRunTime sceneRunTimePageRunTime;
+        [SerializeField] private PagePause sceneRunTimePagePause;
+
+        [Header("Scene: Score")]
+        [SerializeField] private PageLoading sceneScorePageLoading;
+        [SerializeField] private PageScore sceneScorePageScore;
+
+
         
 #region Configure
+        
         // Initialize in factory        
         public override void Initialize()
         {
@@ -21,36 +36,45 @@ namespace Framework
             
             if(isProject)
             {
-                SetToCache(pageLoading);
-                SetToCache(pageLogin);
-                SetToCache(pageMenu);
+                //SetToCache(pageLoading);
+                //SetToCache(pageLogin);
+                //SetToCache(pageMenu);
+                //SetToCache(pageRunTime);
+                //SetToCache(pagePause);
+                //SetToCache(pageScore);
 
-                foreach (var instance in Cache.GetAll())
-                {
-                    instance.Initialize();
-                }
+                //foreach (var instance in Cache.GetAll())
+                //{
+                //    instance.Initialize();
+                //}
             }
 
             
-
-
-
-            
-            Log(Label, "was sucsessfully initialized");
+            Log(Label, LogSuccessfulInitialize());
             //return this;
         } 
         
         // Initialize in builder 
         public override IConfigurable Configure() 
         {                                     
-            foreach (var page in Cache.GetAll())
+            
+            if(Cache.IsEmpty())
             {
-                page.Configure();
+                LogWarning(Label, LogFailedConfigure("Cache is empty!"));
+                return null;
             }
+            else
+            {
+                foreach (var page in Cache.GetAll())
+                {
+                    page.Configure();
+                }
+
+            }
+
+            //PageSetActive<PageLoading>();
             
-            SetPageActive<PageLoading>();
-            
-            Log(Label, "was successfully configured.");
+            Log(Label, LogSuccessfulConfigure());
             return this;
         }
         
@@ -61,12 +85,7 @@ namespace Framework
 
 #endregion
 
-        private void SetPageActive<T>() where T: class, IPage
-        {
-            PageActive = Cache.Get<T>();
-            PageActive.Activate(true);
-            Log(Label, "Page [" + PageActive.Label + "] was activated.");
-        }
+
 
         /*
         public void TurnPageOn(Type pageType)

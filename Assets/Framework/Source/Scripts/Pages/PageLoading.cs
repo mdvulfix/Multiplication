@@ -16,7 +16,7 @@ namespace Framework
         {
             SetParams(OBJECT_NAME);
         
-            DataStats.ID = 0;
+            DataStats.GUID = 0;
             DataStats.IsInitialized = true;
 
             Log(Label, "was sucsessfully initialized");

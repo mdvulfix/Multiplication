@@ -7,8 +7,7 @@ using UnityEngine.SceneManagement;
 
 namespace Framework.Core
 {
-    
-    public enum TypeScene
+    public enum ESceneBuildId
     {
         Core,
         Menu,
@@ -17,10 +16,9 @@ namespace Framework.Core
     
     }
     
-    
     public interface IControllerScene: IController<IScene>
     {
-        IScene SceneActive {get; set;}
+        IScene SceneActive {get; }
         
         void SceneTurn<TSceneNext>(bool waitForSceneExit = false) 
             where TSceneNext: class, IScene;
@@ -32,13 +30,10 @@ namespace Framework.Core
     [Serializable]
     public abstract class AControllerScene: AController<IScene>, IControllerScene
     {
-        public IScene SceneActive  {get => sceneActive; set => sceneActive = value; }       
-
-        private IScene sceneActive;
-        
+        public IScene           SceneActive     {get; private set;}       
+        public IControllerPage  ControllerPage  {get; protected set;}   
+       
 #region Start&Update
-
-        public abstract void OnAwake();
 
 #endregion
 
@@ -54,20 +49,19 @@ namespace Framework.Core
             var sceneNext = Cache.Get(sceneType);
             var sceneNextType = sceneNext.GetType();
             
-            if(sceneActive == null)
+            if(SceneActive == null)
             {
-                LogWarning(Label, "You are trying to turn a scene [" + sceneActive.Label + "] that has not been registered!");
+                LogWarning(Label, "You are trying to turn a scene [" + SceneActive.Label + "] that has not been registered!");
                 return;
             }
     
-            if(sceneActive.DataStats.IsActive)
+            if(SceneActive.DataStats.IsActive)
             {
                 //sceneActive.Activate(false);
-                Log(Label, "[" + sceneActive.Label + "] was deactivated!");
+                Log(Label, "[" + SceneActive.Label + "] was deactivated!");
 
             }
-                
-
+            
             if(waitForSceneExit)
             {
                 StopCoroutine("WaitForSceneExit");
@@ -94,12 +88,12 @@ namespace Framework.Core
             }
     
             //sceneActive = sceneNext.Activate(true);
-            Log(Label, "[" + sceneActive.Label + "] was activated!");
+            Log(Label, "[" + SceneActive.Label + "] was activated!");
         }
               
-        protected IEnumerator WaitForSceneExit(Type sceneType)
+        private IEnumerator WaitForSceneExit(Type sceneType)
         {
-            Log(Label, "Waiting for exit [" + sceneActive.Label + "]...");
+            Log(Label, "Waiting for exit [" + SceneActive.Label + "]...");
             /*
             while (sceneActive.DataAnimation.TargetState != AScene.ANIMATOR_STATE_NONE)
             {
@@ -109,7 +103,15 @@ namespace Framework.Core
             yield return null;
             SceneGetNext(sceneType);
         }
-       
+
+        protected void SceneSetActive<T>() where T: class, IScene
+        {
+            SceneActive = Cache.Get<T>();
+            SceneActive.Activate(true);
+            Log(Label, "Scene [" + SceneActive.Label + "] was activated.");
+        }
+
+
 #endregion
     
     }

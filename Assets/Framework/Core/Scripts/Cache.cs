@@ -22,6 +22,7 @@ namespace Framework.Core
         T GetPrev();
         T GetPrev(Type type);
 
+        bool IsEmpty();
         List<T> GetAll();
 
     }
@@ -32,8 +33,23 @@ namespace Framework.Core
         public bool                 UseDebug    {get; set;} = true;
         public Dictionary<Type, T>  Store       {get; } = new Dictionary<Type, T>(100);
     
+        
+        public Cache(string label)
+        {   
+            Label = label;
+
+        }
+        
         public T Add(T instance)
         {
+            
+            if(instance==null)
+            {
+                LogWarning(Label, "Instance was not found!");
+                return null;
+
+            }
+            
             Store.Add(instance.GetType(), instance);
             return instance;
         }
@@ -45,7 +61,10 @@ namespace Framework.Core
             if(Store.TryGetValue(type, out instance))
                 return (T)instance;
             else     
+            {
+                LogWarning(Label, "Cache [" + typeof(T).Name + "] is empty!");
                 return null;
+            }
         }
 
         public T Get<TValue>() where TValue: T
@@ -54,8 +73,12 @@ namespace Framework.Core
             Type type = typeof(TValue);
             if(Store.TryGetValue(type, out instance))
                 return instance as T;
-            else     
+            else
+            {
+                LogWarning(Label, "Cache [" + typeof(T).Name + "] is empty!");
                 return null;
+            }
+                
         }
         
         public T Get(Type type)
@@ -64,7 +87,10 @@ namespace Framework.Core
             if(Store.TryGetValue(type, out instance))
                 return instance as T;
             else     
+            {
+                LogWarning(Label, "Cache [" + typeof(T).Name + "] is empty!");
                 return null;
+            }
         }
 
         public T GetNext()
@@ -81,7 +107,10 @@ namespace Framework.Core
                 return instance as T;
             }
             else
-                return null;          
+            {
+                LogWarning(Label, "Cache [" + typeof(T).Name + "] is empty!");
+                return null;
+            }       
         }
         
         public T GetNext(Type type)
@@ -97,7 +126,10 @@ namespace Framework.Core
                 return instance as T;
             }
             else
-                return null;          
+            {
+                LogWarning(Label, "Cache [" + typeof(T).Name + "] is empty!");
+                return null;
+            }         
         }
 
         public T GetPrev()
@@ -114,7 +146,10 @@ namespace Framework.Core
                 return instance as T;
             }
             else
-                return null; 
+            {
+                LogWarning(Label, "Cache [" + typeof(T).Name + "] is empty!");
+                return null;
+            }
 
         }
 
@@ -131,14 +166,17 @@ namespace Framework.Core
                 return instance as T;
             }
             else
-                return null; 
+            {
+                LogWarning(Label, "Cache [" + typeof(T).Name + "] is empty!");
+                return null;
+            }
 
         }
 
         public List<T> GetAll()
         {
             
-            if(Store.Keys.Count > 0)
+            if(!IsEmpty())
             {
                 return new List<T>(Store.Values);
             }
@@ -147,6 +185,15 @@ namespace Framework.Core
                 LogWarning(Label, "Cache " + typeof(T) + " is empty!");
                 return null;
             }
+        }
+
+        public bool IsEmpty()
+        {
+            if(Store.Keys.Count> 0)
+                return false;
+
+            LogWarning(Label, "Cache [" + typeof(T).Name + "] is empty!");
+            return true;
         }
 
 #region DebugFunctions

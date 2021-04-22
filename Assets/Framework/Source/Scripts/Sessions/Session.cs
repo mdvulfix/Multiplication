@@ -11,7 +11,7 @@ namespace Framework
 
         [Header ("Controllers")]
         //[SerializeField] private ControllerState    controllerState;
-        //[SerializeField] private ControllerScene    controllerScene;
+        [SerializeField] private ControllerScene    controllerScene;
         [SerializeField] private ControllerPage     controllerPage;
         [SerializeField] private ControllerInput    controllerInput;
         [SerializeField] private ControllerUpdate   controllerUpdate;
@@ -21,8 +21,9 @@ namespace Framework
         {
             SetParams(OBJECT_NAME);
             
-            if(IsProject)
+            if(isProject)
             {
+                SetToCache(controllerScene);
                 SetToCache(controllerPage);
                 SetToCache(controllerInput);
                 SetToCache(controllerUpdate);
@@ -34,9 +35,6 @@ namespace Framework
 
             }
             
-
-
-
             Log(Label, "was sucsessfully initialized");
             //return this;
         }
@@ -44,15 +42,13 @@ namespace Framework
         public override IConfigurable Configure()
         {
 
-            if(IsProject)
+            if(isProject)
             {
                 foreach (var instance in Cache.GetAll())
                 {
                     instance.Configure();
                 }
             }
-
-
 
             Log(Label, "was sucsessfully configured");
             return this;

@@ -25,22 +25,27 @@ namespace Framework.Core
         public static readonly string ANIMATOR_STATE_ON = "On";
         public static readonly string ANIMATOR_STATE_OFF = "Off";
         
-        public ICache<IPageDataStruct>  Cache           {get; protected set;} = new Cache<IPageDataStruct>(); 
+        public ICache<IPageDataStruct>  Cache           {get; protected set;} = new Cache<IPageDataStruct>("Page: Cache"); 
         
-        public bool                     UseDebug        {get; set;} = true;
+        public bool                     UseDebug        {get; set;} = false;
         public IDataStats               DataStats       {get => dataStats;      set => dataStats = value as DataStats;}
         public IDataAnimation           DataAnimation   {get => dataAnimation;  set => dataAnimation = value as DataAnimation;}
         
         [SerializeField] 
-        protected bool projectMode;
+        protected bool isProject;
 
         [Header("Data")]
-        [SerializeField] private DataStats      dataStats;
-        [SerializeField] private DataAnimation  dataAnimation;
+        [SerializeField] protected DataStats      dataStats;
+        [SerializeField] protected DataAnimation  dataAnimation;
         
 
 
  #region Configure
+        
+        protected virtual void SetParams(string label)
+        {
+            Label = label;
+        }
         
         public abstract void Initialize();
         public abstract IConfigurable Configure();
@@ -50,14 +55,12 @@ namespace Framework.Core
         public IPage Activate(bool activate)
         {
             
-            
-            
             if(DataAnimation.UseAnimation)
             {
                 if(activate)
                 {
                     
-                    DataStats.IsActive = ActivateObject(true);
+                    DataStats.IsActive = SetActvie(true);
                     Log(Label, " was activated.");
                     Animate(true);
                 }
@@ -69,13 +72,12 @@ namespace Framework.Core
             else
             {
                 Log(Label, "Animation is disabled on page [ " + Label + " ]");
-                DataStats.IsActive = ActivateObject(activate);
+                DataStats.IsActive = SetActvie(activate);
             }
                 
             return this;
         }
-        
-        
+         
         private void Animate (bool animate)
         {
             
@@ -98,8 +100,7 @@ namespace Framework.Core
             StartCoroutine(AwaitAnimation(animate));
 
         }
-        
-        
+          
         private IEnumerator AwaitAnimation (bool animate)
         {
 
@@ -130,7 +131,7 @@ namespace Framework.Core
     
             if(!animate)
             {
-                DataStats.IsActive = ActivateObject(false);
+                DataStats.IsActive = SetActvie(false);
                 Log(Label, " was diactivated.");
                 
             }
@@ -156,7 +157,7 @@ namespace Framework.Core
 
 #endregion 
 
-#region Log
+#region Logs
 
         public virtual void Log(string instance, string message)
         {
@@ -164,6 +165,7 @@ namespace Framework.Core
             {
                 Debug.Log("["+ instance +"]: " + message);
             }
+                
         }
 
         public virtual void LogWarning(string instance, string message)
@@ -172,6 +174,26 @@ namespace Framework.Core
             {
                 Debug.LogWarning("["+ instance +"]: " + message);
             }
+        }
+
+        protected string LogSuccessfulInitialize()
+        {
+            return "Initialization process was successfully finished!";
+        }
+
+        protected string LogSuccessfulConfigure()
+        {
+            return "Configuration process was successfully finished!";
+        }
+        
+        protected string LogFailedInitialize(string reason = null)
+        {
+            return "Initialization process was failed! " + reason;
+        }
+
+        protected string LogFailedConfigure(string reason = null)
+        {
+            return "Configuration process was failed! " + reason;
         }
 
 #endregion

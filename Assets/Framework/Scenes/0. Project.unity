@@ -526,7 +526,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30ac5943560b5574d9a97faadc84d79a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectMode: 1
+  isProject: 0
   dataStats: {fileID: 1144991811}
   dataAnimation: {fileID: 991019851}
 --- !u!225 &101888615
@@ -916,10 +916,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 458363377}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8fc22943751a7e4298e7a6a8afbd844, type: 3}
+  m_Script: {fileID: 11500000, guid: a049bde9348f5714db9b14fc9e9febae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectMode: 1
+  isProject: 0
   dataStats: {fileID: 1221425155}
   dataAnimation: {fileID: 1815968138}
 --- !u!225 &458363381
@@ -1137,7 +1137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a30e969578fa00141bbb20e3cd2232dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  guid: 0
   isInitialized: 0
   isConfigerd: 0
   isActive: 0
@@ -1500,7 +1500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a30e969578fa00141bbb20e3cd2232dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  guid: 0
   isInitialized: 0
   isConfigerd: 0
   isActive: 0
@@ -1771,13 +1771,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 757579719}
+  - component: {fileID: 757579720}
   m_Layer: 0
   m_Name: 'Scene: RunTime'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &757579719
 Transform:
   m_ObjectHideFlags: 0
@@ -1794,6 +1795,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &757579720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757579718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16eacb3964c986941a21305e36a704fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isProject: 0
+  pageLoading: {fileID: 950125175}
+  pageRunTime: {fileID: 458363380}
+  pagePause: {fileID: 1718960151}
 --- !u!1 &799052737
 GameObject:
   m_ObjectHideFlags: 0
@@ -1845,7 +1862,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a30e969578fa00141bbb20e3cd2232dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  guid: 0
   isInitialized: 0
   isConfigerd: 0
   isActive: 0
@@ -1980,9 +1997,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 912888678}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4c40f16e153a92468c430685859711b, type: 3}
+  m_Script: {fileID: 11500000, guid: d46efc81b8996634aa8ccdb5c9cf3cba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isProject: 0
+  dataStats: {fileID: 799052739}
+  dataAnimation: {fileID: 501441564}
 --- !u!225 &912888682
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -2106,7 +2126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8fc22943751a7e4298e7a6a8afbd844, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectMode: 1
+  isProject: 0
   dataStats: {fileID: 2053223462}
   dataAnimation: {fileID: 709646401}
 --- !u!225 &950125176
@@ -2728,7 +2748,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8fc22943751a7e4298e7a6a8afbd844, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectMode: 1
+  isProject: 0
   dataStats: {fileID: 492707479}
   dataAnimation: {fileID: 469380461}
 --- !u!225 &1104754361
@@ -2831,7 +2851,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a30e969578fa00141bbb20e3cd2232dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  guid: 0
   isInitialized: 0
   isConfigerd: 0
   isActive: 0
@@ -3102,7 +3122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dc08263201b49b46912056d49edf296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectMode: 1
+  isProject: 0
   dataStats: {fileID: 1377590445}
   dataAnimation: {fileID: 1617991395}
 --- !u!225 &1174337189
@@ -3343,7 +3363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8fc22943751a7e4298e7a6a8afbd844, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectMode: 1
+  isProject: 0
   dataStats: {fileID: 2114875206}
   dataAnimation: {fileID: 1193783508}
 --- !u!225 &1196825455
@@ -3446,7 +3466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a30e969578fa00141bbb20e3cd2232dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  guid: 0
   isInitialized: 0
   isConfigerd: 0
   isActive: 0
@@ -3561,7 +3581,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a30e969578fa00141bbb20e3cd2232dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  guid: 0
   isInitialized: 0
   isConfigerd: 0
   isActive: 0
@@ -3800,13 +3820,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1425024506}
+  - component: {fileID: 1425024507}
   m_Layer: 0
   m_Name: 'Scene: Core'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1425024506
 Transform:
   m_ObjectHideFlags: 0
@@ -3823,6 +3844,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1425024507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1425024505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7553c10b86b9ff245a1b5f4646bdd18d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isProject: 0
+  pageLoading: {fileID: 3661211494938434886}
 --- !u!1 &1503704622
 GameObject:
   m_ObjectHideFlags: 0
@@ -3975,7 +4010,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a30e969578fa00141bbb20e3cd2232dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  guid: 0
   isInitialized: 0
   isConfigerd: 0
   isActive: 0
@@ -4084,6 +4119,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isProject: 1
   session: {fileID: 295961437}
+  sceneCore: {fileID: 1425024507}
+  sceneMenu: {fileID: 1883665632}
+  sceneRunTime: {fileID: 757579720}
+  sceneScore: {fileID: 1605686146}
 --- !u!1 &1605686144
 GameObject:
   m_ObjectHideFlags: 0
@@ -4093,13 +4132,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1605686145}
+  - component: {fileID: 1605686146}
   m_Layer: 0
   m_Name: 'Scene: Score'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1605686145
 Transform:
   m_ObjectHideFlags: 0
@@ -4116,6 +4156,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1605686146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605686144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac539637d931d33468e697418a73fde0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isProject: 0
+  pageLoading: {fileID: 1104754360}
+  pageScore: {fileID: 912888681}
 --- !u!1 &1617991393
 GameObject:
   m_ObjectHideFlags: 0
@@ -4406,6 +4461,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4c40f16e153a92468c430685859711b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isProject: 0
+  dataStats: {fileID: 629583878}
+  dataAnimation: {fileID: 49598132}
 --- !u!225 &1718960152
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -4579,13 +4637,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1883665631}
+  - component: {fileID: 1883665632}
   m_Layer: 0
   m_Name: 'Scene: Menu'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1883665631
 Transform:
   m_ObjectHideFlags: 0
@@ -4602,6 +4661,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1883665632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1883665630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8bb9ec8984b4f946b304f248cfa8aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isProject: 0
+  pageLoading: {fileID: 1196825454}
+  pageLogin: {fileID: 101888614}
+  pageMenu: {fileID: 1174337188}
 --- !u!1 &1926481902
 GameObject:
   m_ObjectHideFlags: 0
@@ -5239,7 +5314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a30e969578fa00141bbb20e3cd2232dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  guid: 0
   isInitialized: 0
   isConfigerd: 0
   isActive: 0
@@ -5354,7 +5429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a30e969578fa00141bbb20e3cd2232dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  guid: 0
   isInitialized: 0
   isConfigerd: 0
   isActive: 0
@@ -5512,7 +5587,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8fc22943751a7e4298e7a6a8afbd844, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectMode: 1
+  isProject: 0
   dataStats: {fileID: 1506879120}
   dataAnimation: {fileID: 1066275964}
 --- !u!114 &3661211494938434887

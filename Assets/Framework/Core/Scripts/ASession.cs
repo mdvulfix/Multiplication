@@ -16,15 +16,19 @@ namespace Framework.Core
     {
         public static readonly string PARENT_OBJECT_NAME = ABuilder.OBJECT_NAME_SESSIONS; 
         
-        public bool                 IsProject {get => isProject;  set => isProject = value; }
         public bool                 UseDebug  {get; set;} = true;        
         public IDataStats           DataStats {get; set;}
-        public ICache<IController>  Cache     {get; protected set;} = new Cache<IController>(); 
+        public ICache<IController>  Cache     {get; protected set;} = new Cache<IController>("Session: Cache"); 
 
-        [SerializeField] private bool isProject;
+        [SerializeField] protected bool isProject;
 
 #region Configure
         
+        public virtual void SetParams(string label)
+        {
+            Label = label;
+        }
+
         public abstract void Initialize();
         public abstract IConfigurable Configure();
 

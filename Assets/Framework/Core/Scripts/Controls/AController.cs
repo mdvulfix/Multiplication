@@ -9,12 +9,11 @@ namespace Framework.Core
     {   
 
     }     
-    
-    [Serializable]
+
     public abstract class AController<T> : AController, IController<T>  
         where T: class, ICacheable
     {                
-        public ICache<T> Cache {get; protected set;} = new Cache<T>();  
+        public ICache<T> Cache {get; protected set;} = new Cache<T>("Controller: Cache");  
           
 #region SetToCache
 
@@ -39,7 +38,7 @@ namespace Framework.Core
     
 ///////////////////////////////////////////////////////////////////////////////////////////////// 
     
-    public interface IController: IConfigurable, IDebug
+    public interface IController: ISceneObject, IConfigurable, IDebug
     {   
         ISession Session {get; }
     }  
@@ -59,12 +58,18 @@ namespace Framework.Core
 
 #region Configure
         
+        
+        public virtual void SetParams(string label)
+        {
+            Label = label;
+        }
+        
         public abstract void Initialize();
         public abstract IConfigurable Configure();
 
 #endregion
 
-#region Debug
+#region Logs
 
         public virtual void Log(string instance, string message)
         {
@@ -81,6 +86,26 @@ namespace Framework.Core
             {
                 Debug.LogWarning("["+ instance +"]: " + message);
             }
+        }
+
+        protected string LogSuccessfulInitialize()
+        {
+            return "Initialization process was successfully finished!";
+        }
+
+        protected string LogSuccessfulConfigure()
+        {
+            return "Configuration process was successfully finished!";
+        }
+        
+        protected string LogFailedInitialize(string reason = null)
+        {
+            return "Initialization process was failed! " + reason;
+        }
+
+        protected string LogFailedConfigure(string reason = null)
+        {
+            return "Configuration process was failed! " + reason;
         }
 
 #endregion
