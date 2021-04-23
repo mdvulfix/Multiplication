@@ -62,7 +62,7 @@ namespace Framework
 
             }
 
-            SceneSetActive<SceneMenu>();
+            SceneEnter<SceneMenu, PageMenu>();
             
             Log(Label, LogSuccessfulConfigure());
             return this;

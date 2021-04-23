@@ -7,18 +7,35 @@ namespace Framework.Core
 {    
     public interface IControllerPage: IController<IPage>
     {
-        IPage PageActive  {get; set;}
+        IPage PageActive  {get; }
         
-        void PageTurn<TPageNext>(bool delay = false) where TPageNext: class, IPage; 
-        void PageTurn(Type pageType, bool delay = false);   
-    
+        void PageSetActive<T>()
+            where T: class, IPage;
+
+        void PageSetActive(IPage page);
+        
+        void PageEnter<TPageNext>() 
+            where TPageNext: class, IPage;
+        
+        void PageEnter(Type pageType);
+
+        void PageEnter(IPage page);
+
+        void PageExit(IPage pageActive);
+        
+        void PageEnterNext<TPage>(bool delay = false)
+            where TPage: class, IPage; 
+        
+        void PageEnterNext(Type pageType, bool delay = false);  
+
+        void PageEnterNext(IPage pageNext, bool delay = false);
+
     } 
     
     public abstract class AControllerPage : AController<IPage>, IControllerPage
-    {
-        public IPage PageActive  {get => pageActive; set => pageActive = value; }       
+    {   
+        public IPage PageActive  {get; private set;}      
 
-        protected IPage pageActive;
 
 #region Start&Update
 
@@ -26,19 +43,54 @@ namespace Framework.Core
 
 #region PageManagement
     
-        public void PageTurn<TPageNext>(bool delay = false) where TPageNext: class, IPage
+        // Page Enter /////////////////////////////////////////////////
+               
+        public void PageEnter<TPage>() where TPage: class, IPage
         {
-            PageTurn(typeof(TPageNext), waitForPageExit);
+            PageEnter(typeof(TPage));
+        }  
+    
+        public void PageEnter(Type pageType)
+        {
+            var page = Cache.Get(pageType);
+            
+            if(page==null)
+            {
+                LogWarning(Label, "You are trying to turn a page on [" + page.Label + "] that has not been registered!");
+                return;
+            }
+    
+            PageActive = page.Activate(true);
+            Log(Label, "[" + PageActive.Label + "] was activated!");
         }
-       
-        public void PageTurn(Type pageType, bool delay = false)
+
+        public void PageEnter(IPage page)
         {
-            var pageNext = Cache.Get(pageType);
-            var pageNextType = pageNext.GetType();
+            if(Cache.Contains(page))
+            {
+                PageActive = page.Activate(true);
+                Log(Label, "[" + PageActive.Label + "] was activated!");
+            }
+            else
+            {
+                LogWarning(Label, "You are trying to turn a page on [" + page.Label + "] that has not been registered!");
+                return;
+            }
+    
+        }
+
+        // Page Exit //////////////////////////////////////////////////
+        
+        public void PageExit(IPage pageActive = null)
+        {
+            
+            if(pageActive == null)
+                pageActive = PageActive;
+            
             
             if(pageActive == null)
             {
-                LogWarning(Label, "You are trying to turn a page [" + pageActive.Label + "] that has not been registered!");
+                LogWarning(Label, "You are trying to turn a page [" + PageActive.Label + "] that has not been registered!");
                 return;
             }
     
@@ -46,55 +98,106 @@ namespace Framework.Core
             {
                 pageActive.Activate(false);
                 Log(Label, "[" + pageActive.Label + "] was deactivated!");
-
+            }
+        }
+        
+        // Page Enter Next (after exit active page) ///////////////////
+        
+        public void PageEnterNext<TPageNext>(bool delay = false) 
+            where TPageNext: class, IPage
+        {
+            PageEnterNext(typeof(TPageNext), delay);
+        }
+       
+        public void PageEnterNext(Type pageNextType, bool delay = false)
+        {
+            var pageNext = Cache.Get(pageNextType);
+             
+            if(PageActive == null)
+            {
+                LogWarning(Label, "You are trying to turn a page [" + PageActive.Label + "] that has not been registered!");
+                return;
+            }
+    
+            if(PageActive.DataStats.IsActive)
+            {
+                PageActive.Activate(false);
+                Log(Label, "[" + PageActive.Label + "] was deactivated!");
             }
                 
 
-            if(waitForPageExit)
+            if(delay)
             {
                 StopCoroutine("WaitForPageExit");
                 StartCoroutine(WaitForPageExit(pageNextType));
                 //Log("Animation is enabled on page [ " + Name + " ]");
             }
             else
-                PageGetNext(pageNextType);
+                PageEnter(pageNextType);
         }
-               
-        public void PageGetNext<TPageNext>() where TPageNext: class, IPage
+
+        public void PageEnterNext(IPage pageNext, bool delay = false)
         {
-            PageGetNext(typeof(TPageNext));
-        }  
-    
-        public void PageGetNext(Type pageType)
-        {
-            var pageNext = Cache.Get(pageType);
-            
-            if(pageNext==null)
+            if(Cache.Contains(pageNext))
             {
-                LogWarning(Label, "You are trying to turn a page on [" + pageNext.Label + "] that has not been registered!");
+                if(PageActive == null)
+                {
+                    LogWarning(Label, "You are trying to turn a page [" + PageActive.Label + "] that has not been registered!");
+                    return;
+                }
+        
+                if(PageActive.DataStats.IsActive)
+                {
+                    PageActive.Activate(false);
+                    Log(Label, "[" + PageActive.Label + "] was deactivated!");
+                }
+                    
+                if(delay)
+                {
+                    StopCoroutine("WaitForPageExit");
+                    StartCoroutine(WaitForPageExit(pageNext.GetType()));
+                    //Log("Animation is enabled on page [ " + Name + " ]");
+                }
+                else
+                    PageEnter(pageNext);
+            }
+            else
+            {
+                LogWarning(Label, "You are trying to turn on page [" + pageNext.Label + "] that has not been registered!");
                 return;
             }
-    
-            pageActive = pageNext.Activate(true);
-            Log(Label, "[" + pageActive.Label + "] was activated!");
         }
-              
+
+        // Delay //////////////////////////////////////////////////////
+
         protected IEnumerator WaitForPageExit(Type pageType)
         {
-            Log(Label, "Waiting for exit [" + pageActive.Label + "]...");
-            while (pageActive.DataAnimation.TargetState != APage.ANIMATOR_STATE_NONE)
+            Log(Label, "Waiting for exit [" + PageActive.Label + "]...");
+            while (PageActive.DataAnimation.TargetState != APage.ANIMATOR_STATE_NONE)
             {
                 yield return null;
             }
             
-            PageGetNext(pageType);
+            PageEnter(pageType);
         }
 
-        protected void PageSetActive<T>() where T: class, IPage
+        // Page Activate //////////////////////////////////////////////
+
+        public void PageSetActive<T>() 
+            where T: class, IPage
         {
             PageActive = Cache.Get<T>();
             PageActive.Activate(true);
             Log(Label, "Page [" + PageActive.Label + "] was activated.");
+        }
+        
+        public void PageSetActive(IPage page)
+        {
+            if(Cache.Contains(page))
+                PageActive = page;
+            else
+                LogWarning(Label, "Page [" + PageActive.Label + "] cannot be activated. Cache is not contains this page!");
+
         }
 
 #endregion

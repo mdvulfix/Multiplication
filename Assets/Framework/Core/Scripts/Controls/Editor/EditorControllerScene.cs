@@ -28,7 +28,7 @@ namespace Framework.Core
             
             if(GUILayout.Button("Menu")|| Input.GetKeyUp(KeyCode.L))
             {
-                SceneTurn<SceneMenu>();
+                SceneGet<SceneMenu, PageMenu>();
             }
             if(GUILayout.Button("<<")|| Input.GetKeyUp(KeyCode.P))
             {
@@ -40,30 +40,42 @@ namespace Framework.Core
             }
             if(GUILayout.Button("Score")|| Input.GetKeyUp(KeyCode.M))
             {
-                SceneTurn<SceneScore>();
+                SceneGet<SceneScore, PageScore>();
             }
             GUILayout.EndHorizontal();
 
         
         }
         
-        private void SceneTurn<TScene>() where TScene: class, IScene
+        private void SceneGet<TScene, TPage>() 
+            where TScene: class, IScene
+            where TPage: class, IPage
         {
-            instance.SceneTurn<TScene>(waitForSceneExit: true);
+            instance.SceneEnterNext<TScene, TPage>(delay: true);
 
         }
 
         private void NextScene()
         {
-            var sceneType = instance.Cache.GetNext(instance.SceneActive.GetType()).GetType();
-            instance.SceneTurn(sceneType: sceneType, waitForSceneExit: true);
+            var sceneNext = instance.Cache.GetNext(instance.SceneActive.GetType());
+            var sceneNextType = sceneNext.GetType();
+
+            var pageDefault = sceneNext.DataSceneLoading.PageDefault;
+            var pageDefaultType = pageDefault.GetType();
+            
+            instance.SceneEnterNext(sceneType: sceneNextType, pageType: pageDefaultType, delay: true);
 
         }
 
         private void PrevScene()
         {
-            var sceneType = instance.Cache.GetPrev(instance.SceneActive.GetType()).GetType();
-            instance.SceneTurn(sceneType: sceneType, waitForSceneExit: true);
+            var sceneNext = instance.Cache.GetPrev(instance.SceneActive.GetType());
+            var sceneNextType = sceneNext.GetType();
+
+            var pageDefault = sceneNext.DataSceneLoading.PageDefault;
+            var pageDefaultType = pageDefault.GetType();
+            
+            instance.SceneEnterNext(sceneType: sceneNextType, pageType: pageDefaultType, delay: true);
 
         }
     }

@@ -12,9 +12,9 @@ namespace Framework.Core
         
         T Add(T instance);
 
-        T Get();
         T Get<TValue>() where TValue: T;
         T Get(Type type);
+        T Get(T value);
 
         T GetNext();
         T GetNext(Type type);
@@ -23,6 +23,8 @@ namespace Framework.Core
         T GetPrev(Type type);
 
         bool IsEmpty();
+        bool Contains(T value);
+
         List<T> GetAll();
 
     }
@@ -54,19 +56,6 @@ namespace Framework.Core
             return instance;
         }
 
-        public T Get()
-        {
-            T instance = null;
-            Type type = typeof(T);
-            if(Store.TryGetValue(type, out instance))
-                return (T)instance;
-            else     
-            {
-                LogWarning(Label, "Cache [" + typeof(T).Name + "] is empty!");
-                return null;
-            }
-        }
-
         public T Get<TValue>() where TValue: T
         {
             T instance = null;
@@ -91,6 +80,25 @@ namespace Framework.Core
                 LogWarning(Label, "Cache [" + typeof(T).Name + "] is empty!");
                 return null;
             }
+        }
+
+        public T Get(T instance)
+        {
+            Type type = typeof(T);
+            if(Store.ContainsKey(type))
+            {
+                var valueArr = new List<object>(Store.Values);
+                
+                if(valueArr.Contains(instance))
+                {
+                    var index = valueArr.IndexOf(instance);
+                    return valueArr[index] as T;
+                }
+
+            }
+            
+            LogWarning(Label, "Cache [" + typeof(T).Name + "] is not contains [" + instance + "]!");
+            return null;
         }
 
         public T GetNext()
@@ -185,6 +193,19 @@ namespace Framework.Core
                 LogWarning(Label, "Cache " + typeof(T) + " is empty!");
                 return null;
             }
+        }
+
+        public bool Contains(T instance)
+        {
+            Type type = typeof(T);
+            if(Store.ContainsKey(type))
+            {
+                var valueArr = new List<object>(Store.Values);
+                return valueArr.Contains(instance);
+            }
+
+            LogWarning(Label, "Cache [" + typeof(T).Name + "] is not contains [" + instance + "]!");
+            return false;
         }
 
         public bool IsEmpty()

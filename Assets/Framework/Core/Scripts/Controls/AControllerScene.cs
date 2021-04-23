@@ -20,19 +20,25 @@ namespace Framework.Core
     {
         IScene SceneActive {get; }
         
-        void SceneTurn<TScene, TPage>(bool delay = false) 
+        void SceneEnterNext<TScene, TPage>(bool delay = false) 
             where TScene: class, IScene
             where TPage: class, IPage;
         
-        void SceneTurn(Type sceneType, Type pageType, bool delay = false);
+        void SceneEnterNext(Type sceneType, Type pageType, bool delay = false);
+
+        void SceneEnter<TScene, TPage>() 
+            where TScene: class, IScene
+            where TPage: class, IPage;
+        
+        void SceneEnter(Type sceneType, Type pageType);
 
     } 
     
     [Serializable]
     public abstract class AControllerScene: AController<IScene>, IControllerScene
     {
-        public IScene           SceneActive     {get; private set;}       
-        public IControllerPage  ControllerPage  {get; protected set;}   
+        public IScene SceneActive     {get; private set;}       
+
        
 #region Start&Update
 
@@ -40,92 +46,75 @@ namespace Framework.Core
 
 #region SceneManagement
     
-        public void SceneTurn<TScene, TPage>(bool delay = false) 
+        public void SceneEnterNext<TScene, TPage>(bool delay = false) 
             where TScene: class, IScene
             where TPage: class, IPage
         {
-            SceneTurn(typeof(TScene), typeof(TPage), delay);
+            SceneEnterNext(typeof(TScene), typeof(TPage), delay);
         }
        
-        public void SceneTurn(Type sceneType, Type pageType, bool delay = false)
+        public void SceneEnterNext(Type sceneNextType, Type pageNextType, bool delay = false)
         {
-            var sceneNext = Cache.Get(sceneType);
-            var sceneNextType = sceneNext.GetType();
+            var sceneNext = Cache.Get(sceneNextType);
+            var pageNext = sceneNext.Cache.Get(pageNextType);
 
-            var pageNext = sceneNext.Cache.Get(sceneType);
-            var pageNextType = pageNext.GetType();
-            
             if(SceneActive == null)
             {
                 LogWarning(Label, "You are trying to turn a scene [" + SceneActive.Label + "] that has not been registered!");
                 return;
             }
             
-            var pageActive = SceneActive.DataSceneLoad.PageActive;
-            if(pageActive == null)
+            if(SceneActive.DataStats.IsActive)
             {
-                LogWarning(Label, "You are trying to turn a page [" + pageActive.Label + "] that has not been registered!");
-                return;
-            }
-            
-            if(pageActive.DataStats.IsActive)
-            {
-                pageActive.Activate(false);
-                Log(Label, "[" + pageActive.Label + "] was deactivated!");
-
-                if(SceneActive.DataStats.IsActive && SceneActive!=sceneNext)
-                {
-                    SceneActive.Activate(false);
-                    Log(Label, "[" + SceneActive.Label + "] was deactivated!");
                 
-                }
+                PageExit(pageNext);
+                SceneActive.Activate(false);
+                Log(Label, "[" + SceneActive.Label + "] was deactivated!");
             }
-            
+
+
             if(delay)
             {
-                
-                
-                
-                
-                
-                
-                
-                
                 StopCoroutine("WaitForSceneExit");
-                StartCoroutine(WaitForSceneExit(sceneNextType));
+                StartCoroutine(WaitForSceneExit(sceneNextType, pageNextType));
                 //Log("Animation is enabled on page [ " + Name + " ]");
             }
             else
-                SceneGetNext(sceneNextType, pageNextType);
+            {
+                SceneEnter(sceneNextType, pageNextType);
+            }
+                
         }
                
-        public void SceneGetNext<TScene, TPage>() 
+        public void SceneEnter<TScene, TPage>() 
             where TScene: class, IScene
             where TPage: class, IPage
         {
-            SceneGetNext(typeof(TScene), typeof(TPage));
+            SceneEnter(typeof(TScene), typeof(TPage));
         }  
     
-        public void SceneGetNext(Type sceneType, Type pageType)
+        public void SceneEnter(Type sceneType, Type pageType)
         {
             var sceneNext = Cache.Get(sceneType);
-            var pageNext = sceneNext.Cache.Get(sceneType);
+            var pageNext = sceneNext.Cache.Get(pageType);
             
             if(sceneNext==null)
             {
-                LogWarning(Label, "You are trying to turn a page on [" + sceneNext.Label + "] that has not been registered!");
+                LogWarning(Label, "You are trying to turn a scene on [" + sceneNext.Label + "] that has not been registered!");
                 return;
             }
     
             SceneActive = sceneNext.Activate(true);
-            SceneActive.DataSceneLoad.PageActive = pageNext.Activate(true);
+            SceneActive.DataSceneLoading.PageActive = pageNext;
             
+            PageEnter(pageNext);
             Log(Label, "[" + SceneActive.Label + "] was activated!");
         }
 
         
-        private IEnumerator WaitForSceneExit(Type sceneType)
+        private IEnumerator WaitForSceneExit(Type sceneType, Type pageType)
         {
+            
             Log(Label, "Waiting for exit [" + SceneActive.Label + "]...");
             /*
             while (sceneActive.DataAnimation.TargetState != AScene.ANIMATOR_STATE_NONE)
@@ -133,94 +122,67 @@ namespace Framework.Core
                 yield return null;
             }
             */
-            yield return null;
-            SceneGetNext(sceneType);
+            yield return new WaitForSeconds(2f);
+            SceneEnter(sceneType, pageType);
+        
         }
-
-        protected void SceneSetActive<T>() where T: class, IScene
-        {
-            SceneActive = Cache.Get<T>();
-            SceneActive.Activate(true);
-            Log(Label, "Scene [" + SceneActive.Label + "] was activated.");
-        }
-
-
 #endregion
-
 
 #region PageManagement
-    
-        public void PageTurn<TPage>(bool delay = false) where TPage: class, IPage
-        {
-            PageTurn(typeof(TPage), delay);
-        }
-       
-        public void PageTurn(Type pageType, bool delay = false)
-        {
-            var pageNext = Cache.Get(pageType);
-            var pageNextType = pageNext.GetType();
-            
-            var pageActive = SceneActive.DataSceneLoad.PageActive;
-            
-            if(pageActive == null)
-            {
-                LogWarning(Label, "You are trying to turn a page [" + pageActive.Label + "] that has not been registered!");
-                return;
-            }
-    
-            if(pageActive.DataStats.IsActive)
-            {
-                pageActive.Activate(false);
-                Log(Label, "[" + pageActive.Label + "] was deactivated!");
 
-            }
+        private void PageEnter(IPage page = null, IControllerPage controller = null, ICache<IPage> cache = null)
+        {
+            
+            if(controller == null)
+                controller = GetAndConfigureControllerPage(cache);
                 
+            if(page == null)
+                page = SceneActive.DataSceneLoading.PageDefault;
 
-            if(delay)
-            {
-                StopCoroutine("WaitForPageExit");
-                StartCoroutine(WaitForPageExit(pageNextType));
-                //Log("Animation is enabled on page [ " + Name + " ]");
-            }
-            else
-                PageGetNext(pageNextType);
+            controller.PageEnter(page);
+            
         }
-               
-        public void PageGetNext<TPageNext>() where TPageNext: class, IPage
+        
+        private void PageExit(IPage page = null, IControllerPage controller = null, ICache<IPage> cache = null)
         {
-            PageGetNext(typeof(TPageNext));
-        }  
-    
-        public void PageGetNext(Type pageType)
-        {
-            var pageActive = SceneActive.DataSceneLoad.PageActive; 
-            var pageNext = Cache.Get(pageType);
             
-            if(pageNext==null)
-            {
-                LogWarning(Label, "You are trying to turn a page on [" + pageNext.Label + "] that has not been registered!");
-                return;
-            }
-    
-            pageActive = pageNext.Activate(true);
-            Log(Label, "[" + pageActive.Label + "] was activated!");
-        }
-              
-        protected IEnumerator WaitForPageExit(Type pageType)
-        {
-            var pageActive = SceneActive.DataSceneLoad.PageActive;
+            if(controller == null)
+                controller = GetAndConfigureControllerPage(cache);
+                
+            if(page == null)
+                page = SceneActive.DataSceneLoading.PageActive;
+
+            controller.PageExit(page);
             
-            Log(Label, "Waiting for exit [" + pageActive.Label + "]...");
-            while (pageActive.DataAnimation.TargetState != APage.ANIMATOR_STATE_NONE)
-            {
-                yield return null;
-            }
-            
-            PageGetNext(pageType);
         }
 
+        private void PageEnterNext(IPage page = null, IControllerPage controller = null, ICache<IPage> cache = null, bool delay = true)
+        {
+            if(controller == null)
+                controller = GetAndConfigureControllerPage(cache);
+                
+            if(page == null)
+                page = SceneActive.DataSceneLoading.PageActive;
+            
+            controller.PageEnterNext(page, delay);
+
+        }
+        
+        private IControllerPage GetAndConfigureControllerPage(ICache<IPage> cache = null)
+        {
+            var controller = Session.GetController<ControllerPage>();
+            controller.PageSetActive(SceneActive.DataSceneLoading.PageActive);
+
+            if(cache == null)
+                controller.GetCache(SceneActive.Cache);
+            else   
+                controller.GetCache(cache);
+
+            return controller;
+        }
 
 #endregion
+
     }
 
 }

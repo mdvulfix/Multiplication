@@ -21,7 +21,7 @@ namespace Framework
             if(!DataCheck<IDataStats>(DataStats))
                 return;
             
-            if(!DataCheck<IDataSceneLoad>(DataSceneLoad))
+            if(!DataCheck<IDataSceneLoading>(DataSceneLoading))
                 return;
             
             
@@ -48,12 +48,24 @@ namespace Framework
         public override IConfigurable Configure()
         {
             
-            DataSceneLoad.SceneBuildId = BUILD_ID;
-            DataSceneLoad.PageLoading = pageLoading;
-            DataSceneLoad.OnLoadCallback = null;
+            DataSceneLoading.SceneBuildId = BUILD_ID;
+            DataSceneLoading.PageDefault = pageLogin;
+            DataSceneLoading.OnLoadCallback = null;
 
+            if(Cache.IsEmpty())
+            {
+                LogWarning(Label, LogFailedConfigure("Cache is empty!"));
+                return null;
+            }
+            else
+            {
+                foreach (var instance in Cache.GetAll())
+                {
+                    instance.Configure();
+                }
+            }
+            
             DataStats.IsConfigerd = true;
-
             Log(Label, LogSuccessfulConfigure());
             return this;
         }

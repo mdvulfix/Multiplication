@@ -6,7 +6,7 @@ using Framework.Core.Handlers;
 
 namespace Framework.Core
 {   
-    public interface IPage: ISceneObject, IConfigurable, IDebug, IHaveCache<IPageDataStruct>
+    public interface IPage: ISceneObject, IConfigurable, IDebug
     {   
         IDataStats      DataStats       {get; set;}
         IDataAnimation  DataAnimation   {get; set;}
@@ -24,9 +24,7 @@ namespace Framework.Core
         public static readonly string ANIMATOR_STATE_NONE = "None";
         public static readonly string ANIMATOR_STATE_ON = "On";
         public static readonly string ANIMATOR_STATE_OFF = "Off";
-        
-        public ICache<IPageDataStruct>  Cache           {get; protected set;} = new Cache<IPageDataStruct>("Page: Cache"); 
-        
+            
         public bool                     UseDebug        {get; set;} = false;
         public IDataStats               DataStats       {get => dataStats;      set => dataStats = value as DataStats;}
         public IDataAnimation           DataAnimation   {get => dataAnimation;  set => dataAnimation = value as DataAnimation;}
@@ -136,26 +134,6 @@ namespace Framework.Core
                 
             }
         }
-        
-
-#region Cache
-
-        public IPageDataStruct SetToCache(IPageDataStruct instance)
-        {
-            Cache.Add(instance);
-            return instance;
-        }
-
-        public List<IPageDataStruct> SetToCache(List<IPageDataStruct> instances)
-        {
-            foreach (var instance in instances)
-            {
-                SetToCache(instance);
-            }
-            return instances;
-        }
-
-#endregion 
 
 #region Logs
 

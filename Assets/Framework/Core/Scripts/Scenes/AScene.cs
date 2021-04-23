@@ -8,8 +8,8 @@ namespace Framework.Core
 {
     public interface IScene: ISceneObject, IConfigurable, IDebug, IHaveCache<IPage>
     {
-        IDataStats      DataStats       {get; }
-        IDataSceneLoad  DataSceneLoad   {get; }
+        IDataStats          DataStats       {get; }
+        IDataSceneLoading   DataSceneLoading   {get; }
 
         IScene Activate(bool active);
     }
@@ -18,17 +18,17 @@ namespace Framework.Core
     public abstract class AScene: ASceneObject, IScene
     {
         
-        public bool             UseDebug        {get; set;} = true;
-        public IDataStats       DataStats       {get => dataStats;      private set => dataStats = value as DataStats;}
-        public IDataSceneLoad   DataSceneLoad   {get => dataSceneLoad;  private set => dataSceneLoad = value as DataSceneLoad;}
+        public bool                 UseDebug            {get; set;} = true;
+        public IDataStats           DataStats           {get => dataStats;      private set => dataStats = value as DataStats;}
+        public IDataSceneLoading    DataSceneLoading    {get => dataSceneLoading;  private set => dataSceneLoading = value as DataSceneLoading;}
                 
-        public ICache<IPage>    Cache           {get; protected set;} = new Cache<IPage>("Scene: Cache"); 
+        public ICache<IPage>  Cache {get; protected set;} = new Cache<IPage>("Scene: Cache"); 
         
         [SerializeField] protected bool isProject;
         
         [Header("Data")]
         [SerializeField] private DataStats dataStats;
-        [SerializeField] private DataSceneLoad dataSceneLoad;
+        [SerializeField] private DataSceneLoading dataSceneLoading;
         
         
 #region Configure
@@ -48,7 +48,7 @@ namespace Framework.Core
 
         public IScene Activate(bool activate)
         {
-            if(!SceneChange(scene: DataSceneLoad.SceneBuildId, isLoading: activate))
+            if(!SceneChange(scene: DataSceneLoading.SceneBuildId, isLoading: activate))
             {
                 LogWarning(Label, "Activation is faild!");
                 return null;
@@ -80,9 +80,10 @@ namespace Framework.Core
         
         private IEnumerator SceneLoadAsync(ESceneBuildId scene)
         {
-            yield return new WaitForSeconds(4f);
+            yield return new WaitForSeconds(2f);
             
             var operation =  SceneManager.LoadSceneAsync((int)scene, LoadSceneMode.Additive);
+            
             while (!operation.isDone)
             {
                 yield return null;
@@ -130,6 +131,11 @@ namespace Framework.Core
 
 
 #region Cache
+
+        public void GetCache(ICache<IPage> cache)
+        {
+            Cache = cache;
+        }
 
         public IPage SetToCache(IPage instance)
         {

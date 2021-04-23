@@ -27,7 +27,7 @@ namespace Framework.Core
             
             if(GUILayout.Button("Loading")|| Input.GetKeyUp(KeyCode.L))
             {
-                PageTurn<PageLoading>();
+                PageGet<PageLoading>();
             }
             if(GUILayout.Button("<<")|| Input.GetKeyUp(KeyCode.P))
             {
@@ -39,30 +39,30 @@ namespace Framework.Core
             }
             if(GUILayout.Button("Menu")|| Input.GetKeyUp(KeyCode.M))
             {
-                PageTurn<PageMenu>();
+                PageGet<PageMenu>();
             }
             GUILayout.EndHorizontal();
 
         
         }
         
-        private void PageTurn<TPage>() where TPage: class, IPage
+        private void PageGet<TPage>() where TPage: class, IPage
         {
-            instance.PageTurn<TPage>(waitForPageExit: true);
+            instance.PageEnterNext<TPage>(delay: true);
 
         }
 
         private void NextPage()
         {
             var pageType = instance.Cache.GetNext(instance.PageActive.GetType()).GetType();
-            instance.PageTurn(pageType: pageType, waitForPageExit: true);
+            instance.PageEnterNext(pageType: pageType, delay: true);
 
         }
 
         private void PrevPage()
         {
             var pageType = instance.Cache.GetPrev(instance.PageActive.GetType()).GetType();
-            instance.PageTurn(pageType: pageType, waitForPageExit: true);
+            instance.PageEnterNext(pageType: pageType, delay: true);
 
         }
     }

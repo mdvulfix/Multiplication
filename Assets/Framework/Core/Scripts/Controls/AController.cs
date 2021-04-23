@@ -15,8 +15,13 @@ namespace Framework.Core
     {                
         public ICache<T> Cache {get; protected set;} = new Cache<T>("Controller: Cache");  
           
-#region SetToCache
+#region Cache
 
+        public void GetCache(ICache<T> cache)
+        {
+            Cache = cache;
+        }
+        
         public T SetToCache(T instance)
         {
             Cache.Add(instance);

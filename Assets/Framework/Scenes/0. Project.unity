@@ -546,8 +546,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0144eda0e0ddb394e87b7bd9ad5d8c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneBuildId: 2
-  pageLoading: {fileID: 950125175}
+  <Label>k__BackingField: 
+  <SceneBuildId>k__BackingField: 0
 --- !u!65 &212979844
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1906,7 +1906,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isProject: 1
   dataStats: {fileID: 527611228}
-  dataSceneLoad: {fileID: 212979843}
+  dataSceneLoading: {fileID: 0}
   pageLoading: {fileID: 950125175}
   pageRunTime: {fileID: 458363380}
   pagePause: {fileID: 1718960151}
@@ -2328,8 +2328,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0144eda0e0ddb394e87b7bd9ad5d8c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneBuildId: 1
-  pageLoading: {fileID: 1196825454}
+  <Label>k__BackingField: 
+  <SceneBuildId>k__BackingField: 0
 --- !u!65 &971755474
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2689,8 +2689,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0144eda0e0ddb394e87b7bd9ad5d8c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneBuildId: 3
-  pageLoading: {fileID: 1104754360}
+  <Label>k__BackingField: 
+  <SceneBuildId>k__BackingField: 0
 --- !u!65 &1045531539
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4299,7 +4299,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isProject: 1
   dataStats: {fileID: 278156970}
-  dataSceneLoad: {fileID: 1489972572}
+  dataSceneLoading: {fileID: 0}
   pageLoading: {fileID: 3661211494938434886}
 --- !u!1 &1489972570
 GameObject:
@@ -4352,8 +4352,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0144eda0e0ddb394e87b7bd9ad5d8c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneBuildId: 0
-  pageLoading: {fileID: 3661211494938434886}
+  <Label>k__BackingField: 
+  <SceneBuildId>k__BackingField: 0
 --- !u!65 &1489972573
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4732,7 +4732,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isProject: 1
   dataStats: {fileID: 1683092234}
-  dataSceneLoad: {fileID: 1045531538}
+  dataSceneLoading: {fileID: 0}
   pageLoading: {fileID: 1104754360}
   pageScore: {fileID: 912888681}
 --- !u!1 &1617991393
@@ -5355,7 +5355,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isProject: 1
   dataStats: {fileID: 1115775376}
-  dataSceneLoad: {fileID: 971755473}
+  dataSceneLoading: {fileID: 0}
   pageLoading: {fileID: 1196825454}
   pageLogin: {fileID: 101888614}
   pageMenu: {fileID: 1174337188}

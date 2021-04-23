@@ -49,6 +49,12 @@ namespace Framework.Core
         
 #region Cache
 
+        public void GetCache(ICache<IConfigurable> cache)
+        {
+            Cache = cache;
+
+        }
+
         public IConfigurable SetToCache(IConfigurable instance)
         {
             Cache.Add(instance);

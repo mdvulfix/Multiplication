@@ -74,9 +74,6 @@ namespace Framework
         
         }
 
-        public TController GetController<TController>() where TController: IController
-        {
-            return (TController)Cache.Get<TController>();
-        }
+
     }
 }

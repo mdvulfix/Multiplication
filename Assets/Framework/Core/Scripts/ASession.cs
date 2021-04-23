@@ -7,7 +7,8 @@ namespace Framework.Core
     
     public interface ISession: IAwakable, IUpdatable, IConfigurable, IDebug, IHaveCache<IController>
     {
-
+        TController GetController<TController>() 
+            where TController: IController;
     }
     
 
@@ -50,7 +51,23 @@ namespace Framework.Core
 
 #endregion
 
+#region Controllers
+
+        public TController GetController<TController>() 
+            where TController: IController
+        {
+            return (TController)Cache.Get<TController>();
+        }
+
+#endregion
+
+
 #region Cache
+
+        public void GetCache(ICache<IController> cache)
+        {
+            Cache = cache;
+        }
 
         public IController SetToCache(IController instance)
         {

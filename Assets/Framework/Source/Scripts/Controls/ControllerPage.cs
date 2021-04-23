@@ -36,17 +36,7 @@ namespace Framework
             
             if(isProject)
             {
-                //SetToCache(pageLoading);
-                //SetToCache(pageLogin);
-                //SetToCache(pageMenu);
-                //SetToCache(pageRunTime);
-                //SetToCache(pagePause);
-                //SetToCache(pageScore);
 
-                //foreach (var instance in Cache.GetAll())
-                //{
-                //    instance.Initialize();
-                //}
             }
 
             
@@ -58,21 +48,6 @@ namespace Framework
         public override IConfigurable Configure() 
         {                                     
             
-            if(Cache.IsEmpty())
-            {
-                LogWarning(Label, LogFailedConfigure("Cache is empty!"));
-                return null;
-            }
-            else
-            {
-                foreach (var page in Cache.GetAll())
-                {
-                    page.Configure();
-                }
-
-            }
-
-            //PageSetActive<PageLoading>();
             
             Log(Label, LogSuccessfulConfigure());
             return this;
