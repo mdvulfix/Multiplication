@@ -96,7 +96,13 @@ namespace Framework.Core
         public void SceneEnter(Type sceneType, Type pageType)
         {
             var sceneNext = Cache.Get(sceneType);
-            var pageNext = sceneNext.Cache.Get(pageType);
+            Log(Label, "[" + sceneNext.Label + "] was found in the cache! Hashcode is [" + sceneNext.GetHashCode() + "]");
+            
+            
+            //var pageNext = sceneNext.Cache.Get(pageType);
+            //Log(Label, "[" + pageNext.Label + "] was found in the cache! Hashcode is [" + pageNext.GetHashCode() + "]");
+
+
             
             if(sceneNext==null)
             {
@@ -105,9 +111,10 @@ namespace Framework.Core
             }
     
             SceneActive = sceneNext.Activate(true);
-            SceneActive.DataSceneLoading.PageActive = pageNext;
+            //SceneActive.DataSceneLoading.PageActive = pageNext;
             
-            PageEnter(pageNext);
+            
+            //PageEnter(pageNext);
             Log(Label, "[" + SceneActive.Label + "] was activated!");
         }
 
@@ -171,12 +178,13 @@ namespace Framework.Core
         private IControllerPage GetAndConfigureControllerPage(ICache<IPage> cache = null)
         {
             var controller = Session.GetController<ControllerPage>();
-            controller.PageSetActive(SceneActive.DataSceneLoading.PageActive);
-
+        
             if(cache == null)
                 controller.GetCache(SceneActive.Cache);
             else   
                 controller.GetCache(cache);
+
+            controller.PageSetActive(SceneActive.DataSceneLoading.PageActive);
 
             return controller;
         }

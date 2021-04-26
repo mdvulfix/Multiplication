@@ -12,7 +12,8 @@ namespace Framework.Core
         void PageSetActive<T>()
             where T: class, IPage;
 
-        void PageSetActive(IPage page);
+        void PageSetActive<T>(T page)
+            where T: class, IPage;
         
         void PageEnter<TPageNext>() 
             where TPageNext: class, IPage;
@@ -191,10 +192,15 @@ namespace Framework.Core
             Log(Label, "Page [" + PageActive.Label + "] was activated.");
         }
         
-        public void PageSetActive(IPage page)
+        public void PageSetActive<T>(T page) 
+            where T: class, IPage
         {
             if(Cache.Contains(page))
+            {
                 PageActive = page;
+                PageActive.Activate(true);
+                Log(Label, "Page [" + PageActive.Label + "] was activated.");
+            }
             else
                 LogWarning(Label, "Page [" + PageActive.Label + "] cannot be activated. Cache is not contains this page!");
 

@@ -48,7 +48,7 @@ namespace Framework.Core
 
         public IScene Activate(bool activate)
         {
-            if(!SceneChange(scene: DataSceneLoading.SceneBuildId, isLoading: activate))
+            if(!SceneChange(sceneBuildId: DataSceneLoading.GetIntBuildId(), isLoading: activate))
             {
                 LogWarning(Label, "Activation is faild!");
                 return null;
@@ -57,7 +57,7 @@ namespace Framework.Core
             return this;
         }
 
-        private bool SceneChange(ESceneBuildId scene, Action callback = null, bool isLoading = true)
+        private bool SceneChange(int sceneBuildId, Action callback = null, bool isLoading = true)
         {
 
             if(isLoading)
@@ -66,41 +66,60 @@ namespace Framework.Core
                 //DataSceneLoad.PageActive = DataSceneLoad.PageLoading.Activate(true);
                 
                 StopCoroutine("SceneLoadAsync");
-                StartCoroutine(SceneLoadAsync(scene));
+                StartCoroutine(SceneLoadAsync(sceneBuildId));
             }  
             else
             {   
                 StopCoroutine("SceneUnloadAsync");
-                StartCoroutine(SceneUnloadAsync(scene));
+                StartCoroutine(SceneUnloadAsync(sceneBuildId));
             }
 
             return true;
         }
         
         
-        private IEnumerator SceneLoadAsync(ESceneBuildId scene)
+        private IEnumerator SceneLoadAsync(int sceneBuildId)
         {
             yield return new WaitForSeconds(2f);
             
-            var operation =  SceneManager.LoadSceneAsync((int)scene, LoadSceneMode.Additive);
-            
+            var operation =  SceneManager.LoadSceneAsync(sceneBuildId, LoadSceneMode.Additive);
+
             while (!operation.isDone)
             {
                 yield return null;
             } 
 
-            Log(Label, " was activated.");
-        
+            Log(Label, "[" + sceneBuildId + "] was activated.");
+
+            var objs = SceneManager.GetSceneByBuildIndex(sceneBuildId).GetRootGameObjects();
+             
+            foreach (var obj in objs)
+            {
+                var objUI = obj.GetComponent<IUI>();
+                
+                if(objUI!=null)
+                {
+                    var pages = obj.GetComponentsInChildren<IPage>();
+                    foreach (var page in pages)
+                    {
+                        
+                        page.Initialize();               
+                        page.Configure();
+                        Log(Label, "Page [" + page.Label + "] was initialized and configured!.");
+                    }
+                    
+                }
+            }
         }
 
-        private IEnumerator SceneUnloadAsync(ESceneBuildId scene)
+        private IEnumerator SceneUnloadAsync(int sceneBuildId)
         {
             //DataSceneLoad.PageActive.Activate(false);
             //DataSceneLoad.PageActive = null;
 
             yield return new WaitForSeconds(2f);
 
-            var operation = SceneManager.UnloadSceneAsync((int)scene);
+            var operation = SceneManager.UnloadSceneAsync(sceneBuildId);
                 
             while (!operation.isDone)
             {
@@ -139,7 +158,8 @@ namespace Framework.Core
 
         public IPage SetToCache(IPage instance)
         {
-            Cache.Add(instance);
+            if(Cache.Add(instance)!=null)
+                Log(Label, "Page [" + instance.Label + "] was set to cache! Hashcode is [" + instance.GetHashCode() + "]");
             return instance;
         
         }   

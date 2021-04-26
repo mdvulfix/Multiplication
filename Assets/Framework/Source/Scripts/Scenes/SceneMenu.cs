@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using Framework.Core;
 
 namespace Framework
@@ -26,21 +27,26 @@ namespace Framework
             
             
             DataStats.GUID = 1;
-            DataStats.IsInitialized = true;
+            
             
             if(isProject)
             {
-                SetToCache(pageLoading);
-                SetToCache(pageLogin);
-                SetToCache(pageMenu);
+                
+                List<IPage> initializationList = new List<IPage>(3);
+                
+                initializationList.Add(pageLoading);
+                initializationList.Add(pageLogin);
+                initializationList.Add(pageMenu);
                     
-                foreach (var instance in Cache.GetAll())
+                foreach (var instance in initializationList)
                 {
                     instance.Initialize();
+                    SetToCache(instance);
                 }
 
             }
 
+            DataStats.IsInitialized = true;
             Log(Label, LogSuccessfulInitialize());
             //return this;
         }

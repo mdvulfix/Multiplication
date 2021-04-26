@@ -84,20 +84,14 @@ namespace Framework.Core
 
         public T Get(T instance)
         {
-            Type type = typeof(T);
-            if(Store.ContainsKey(type))
+            var valueArr = new List<object>(Store.Values);
+            if(valueArr.Contains(instance))
             {
-                var valueArr = new List<object>(Store.Values);
-                
-                if(valueArr.Contains(instance))
-                {
-                    var index = valueArr.IndexOf(instance);
-                    return valueArr[index] as T;
-                }
-
+                var index = valueArr.IndexOf(instance);
+                return valueArr[index] as T;
             }
-            
-            LogWarning(Label, "Cache [" + typeof(T).Name + "] is not contains [" + instance + "]!");
+
+            LogWarning(Label, "Cache [" + typeof(T).Name + "] is not contains [" + instance + "] with hashcode [" + instance.GetHashCode() + "]!");
             return null;
         }
 
@@ -196,14 +190,15 @@ namespace Framework.Core
         }
 
         public bool Contains(T instance)
-        {
-            Type type = typeof(T);
-            if(Store.ContainsKey(type))
+        {           
+           
+           var valueArr = new List<object>(Store.Values);
+           if(valueArr.Contains(instance))
             {
-                var valueArr = new List<object>(Store.Values);
-                return valueArr.Contains(instance);
+                Log(Label, "Cache [" + typeof(T).Name + "] is contains [" + instance + "]! HashCode is [" + instance.GetHashCode() + "]");
+                return true;
             }
-
+ 
             LogWarning(Label, "Cache [" + typeof(T).Name + "] is not contains [" + instance + "]!");
             return false;
         }

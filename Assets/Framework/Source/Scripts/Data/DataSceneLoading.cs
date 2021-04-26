@@ -13,6 +13,8 @@ namespace Framework
         
         Action          OnLoadCallback  {get; set;} 
 
+        int GetIntBuildId();
+
 
     }
 
@@ -34,5 +36,11 @@ namespace Framework
 
 
         }
+
+        public int GetIntBuildId()
+        {
+            return (int)SceneBuildId;
+        }
+
     }
 }
