@@ -16,8 +16,8 @@ namespace Framework
         {
             SetParams(OBJECT_NAME);
         
-            DataStats.GUID = 0;
-            DataStats.IsInitialized = true;
+            Stats.GUID = 0;
+            Stats.IsInitialized = true;
 
             Log(Label, "was sucsessfully initialized");
             //return this;
@@ -27,15 +27,15 @@ namespace Framework
         public override IConfigurable Configure()
         {
             
-            DataAnimation.UseAnimation = true;
-            DataAnimation.CurrentState = ANIMATOR_STATE_NONE;
-            DataAnimation.TargetState = ANIMATOR_STATE_NONE;
+            Animation.UseAnimation = true;
+            Animation.CurrentState = ANIMATOR_STATE_NONE;
+            Animation.TargetState = ANIMATOR_STATE_NONE;
             
-            DataAnimation.Animator = GetComponent<Animator>();
+            Animation.Animator = GetComponent<Animator>();
             
             //Activate(false);
             
-            DataStats.IsConfigerd = true;
+            Stats.IsConfigerd = true;
             Log(Label, "was sucsessfully configured");
             return this;
         }

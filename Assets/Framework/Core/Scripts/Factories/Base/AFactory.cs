@@ -27,7 +27,10 @@ namespace Framework.Core
     public abstract class AFactory<TCacheable>: AScriptableObject, IFactory<TCacheable>
         where TCacheable: ICacheable
     {      
-        public bool     UseDebug    {get; set;} = true;      
+        
+        
+        public bool         UseDebug    {get; set;} = true;  
+        public IDataStats   Stats   {get; set;}    
         
         
 #region Configure

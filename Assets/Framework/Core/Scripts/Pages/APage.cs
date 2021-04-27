@@ -8,8 +8,7 @@ namespace Framework.Core
 {   
     public interface IPage: ISceneObject, IConfigurable, IDebug
     {   
-        IDataStats      DataStats       {get; set;}
-        IDataAnimation  DataAnimation   {get; set;}
+        IDataAnimation  Animation   {get; set;}
         
         IPage Activate(bool active);
     }
@@ -26,8 +25,8 @@ namespace Framework.Core
         public static readonly string ANIMATOR_STATE_OFF = "Off";
             
         public bool                     UseDebug        {get; set;} = false;
-        public IDataStats               DataStats       {get => dataStats;      set => dataStats = value as DataStats;}
-        public IDataAnimation           DataAnimation   {get => dataAnimation;  set => dataAnimation = value as DataAnimation;}
+        public IDataStats               Stats       {get => dataStats;      set => dataStats = value as DataStats;}
+        public IDataAnimation           Animation   {get => dataAnimation;  set => dataAnimation = value as DataAnimation;}
         
         [SerializeField] 
         protected bool isProject;
@@ -53,12 +52,12 @@ namespace Framework.Core
         public IPage Activate(bool activate)
         {
             
-            if(DataAnimation.UseAnimation)
+            if(Animation.UseAnimation)
             {
                 if(activate)
                 {
                     
-                    DataStats.IsActive = SetActvie(true);
+                    Stats.IsActive = SetActvie(true);
                     Log(Label, " was activated.");
                     Animate(true);
                 }
@@ -70,7 +69,7 @@ namespace Framework.Core
             else
             {
                 Log(Label, "Animation is disabled on page [ " + Label + " ]");
-                DataStats.IsActive = SetActvie(activate);
+                Stats.IsActive = SetActvie(activate);
             }
                 
             return this;
@@ -79,14 +78,14 @@ namespace Framework.Core
         private void Animate (bool animate)
         {
             
-            if(DataAnimation.Animator == null)
+            if(Animation.Animator == null)
             {
                 LogWarning(Label, "Animator is not set!");
                 return;
             }
 
 
-            if(!DataStats.IsActive)
+            if(!Stats.IsActive)
             {
                 LogWarning(Label, "Page is not active!");
                 return;
@@ -102,34 +101,34 @@ namespace Framework.Core
         private IEnumerator AwaitAnimation (bool animate)
         {
 
-            DataAnimation.Animator.SetBool("On", animate);
+            Animation.Animator.SetBool("On", animate);
 
-            DataAnimation.TargetState = animate ? ANIMATOR_STATE_ON : ANIMATOR_STATE_OFF;
-            Log(Label, "Target state is ["  + DataAnimation.TargetState + "].");
+            Animation.TargetState = animate ? ANIMATOR_STATE_ON : ANIMATOR_STATE_OFF;
+            Log(Label, "Target state is ["  + Animation.TargetState + "].");
             
             //waiting for target state
-            while(!DataAnimation.Animator.GetCurrentAnimatorStateInfo(0).IsName(DataAnimation.TargetState))
+            while(!Animation.Animator.GetCurrentAnimatorStateInfo(0).IsName(Animation.TargetState))
             {
                 yield return null;
 
             }
         
             //waiting for target state is plaing
-            while(DataAnimation.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
+            while(Animation.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
             {
                 yield return null;
 
             }
 
-            DataAnimation.TargetState = ANIMATOR_STATE_NONE;
+            Animation.TargetState = ANIMATOR_STATE_NONE;
         
-            Log(Label, "Target state is ["  + DataAnimation.TargetState + "].");
+            Log(Label, "Target state is ["  + Animation.TargetState + "].");
             Log(Label, "was finised transition to " + (animate ? "On" : "Off") + " animation state!"); 
     
     
             if(!animate)
             {
-                DataStats.IsActive = SetActvie(false);
+                Stats.IsActive = SetActvie(false);
                 Log(Label, " was diactivated.");
                 
             }

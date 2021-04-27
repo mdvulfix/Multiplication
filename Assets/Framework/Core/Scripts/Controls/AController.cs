@@ -55,11 +55,15 @@ namespace Framework.Core
         public bool         UseDebug    {get; set;} = true;
         
         public ISession     Session     {get => session; set => session = value as Session;}
-        public IDataStats   DataStats   {get; set;}
+        public IDataStats   Stats       {get => dataStats; set => dataStats = value as DataStats;}
 
         
         [SerializeField] protected bool isProject;
         [SerializeField] protected Session session;
+        
+        [Header("Data")]
+        [SerializeField] protected DataStats dataStats;
+
 
 #region Configure
         

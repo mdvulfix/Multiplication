@@ -69,8 +69,8 @@ namespace Framework
 
             var instance = GetInstanceOf<T>(label, FindSceneObjectByName(APage.PARENT_OBJECT_NAME), prefab);   
         
-            instance.DataStats = SetData<DataStats>(DataStats.OBJECT_NAME, instance.gameObject);
-            instance.DataAnimation = SetData<DataAnimation>(DataAnimation.OBJECT_NAME, instance.gameObject);
+            instance.Stats = SetData<DataStats>(DataStats.OBJECT_NAME, instance.gameObject);
+            instance.Animation = SetData<DataAnimation>(DataAnimation.OBJECT_NAME, instance.gameObject);
             instance.Initialize();
 
             return instance;

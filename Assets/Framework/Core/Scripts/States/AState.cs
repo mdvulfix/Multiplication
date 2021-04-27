@@ -11,7 +11,7 @@ namespace Framework.Core
     {
         
         public bool         UseDebug    {get; set;} = true;
-        public IDataStats   DataStats   {get; set;}
+        public IDataStats   Stats   {get; set;}
 
         public abstract void Initialize();
         public abstract IConfigurable Configure();

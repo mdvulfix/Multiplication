@@ -8,8 +8,7 @@ namespace Framework.Core
 {
     public interface IScene: ISceneObject, IConfigurable, IDebug, IHaveCache<IPage>
     {
-        IDataStats          DataStats       {get; }
-        IDataSceneLoading   DataSceneLoading   {get; }
+        IDataSceneLoading   SceneLoading   {get; }
 
         IScene Activate(bool active);
     }
@@ -19,8 +18,8 @@ namespace Framework.Core
     {
         
         public bool                 UseDebug            {get; set;} = true;
-        public IDataStats           DataStats           {get => dataStats;      private set => dataStats = value as DataStats;}
-        public IDataSceneLoading    DataSceneLoading    {get => dataSceneLoading;  private set => dataSceneLoading = value as DataSceneLoading;}
+        public IDataStats           Stats           {get => dataStats;      private set => dataStats = value as DataStats;}
+        public IDataSceneLoading    SceneLoading    {get => dataSceneLoading;  private set => dataSceneLoading = value as DataSceneLoading;}
                 
         public ICache<IPage>  Cache {get; protected set;} = new Cache<IPage>("Scene: Cache"); 
         
@@ -48,7 +47,7 @@ namespace Framework.Core
 
         public IScene Activate(bool activate)
         {
-            if(!SceneChange(sceneBuildId: DataSceneLoading.GetIntBuildId(), isLoading: activate))
+            if(!SceneChange(sceneBuildId: SceneLoading.GetIntBuildId(), isLoading: activate))
             {
                 LogWarning(Label, "Activation is faild!");
                 return null;
@@ -62,7 +61,7 @@ namespace Framework.Core
 
             if(isLoading)
             {
-                DataStats.IsActive = SetActvie(true);
+                Stats.IsActive = SetActvie(true);
                 //DataSceneLoad.PageActive = DataSceneLoad.PageLoading.Activate(true);
                 
                 StopCoroutine("SceneLoadAsync");
@@ -126,7 +125,7 @@ namespace Framework.Core
                 yield return null;
             }    
 
-            DataStats.IsActive = SetActvie(false);
+            Stats.IsActive = SetActvie(false);
             Log(Label, " was diactivated.");
 
         }

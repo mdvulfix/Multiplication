@@ -64,7 +64,7 @@ namespace Framework.Core
                 return;
             }
             
-            if(SceneActive.DataStats.IsActive)
+            if(SceneActive.Stats.IsActive)
             {
                 
                 PageExit(pageNext);
@@ -144,7 +144,7 @@ namespace Framework.Core
                 controller = GetAndConfigureControllerPage(cache);
                 
             if(page == null)
-                page = SceneActive.DataSceneLoading.PageDefault;
+                page = SceneActive.SceneLoading.PageDefault;
 
             controller.PageEnter(page);
             
@@ -157,7 +157,7 @@ namespace Framework.Core
                 controller = GetAndConfigureControllerPage(cache);
                 
             if(page == null)
-                page = SceneActive.DataSceneLoading.PageActive;
+                page = SceneActive.SceneLoading.PageActive;
 
             controller.PageExit(page);
             
@@ -169,7 +169,7 @@ namespace Framework.Core
                 controller = GetAndConfigureControllerPage(cache);
                 
             if(page == null)
-                page = SceneActive.DataSceneLoading.PageActive;
+                page = SceneActive.SceneLoading.PageActive;
             
             controller.PageEnterNext(page, delay);
 
@@ -184,7 +184,7 @@ namespace Framework.Core
             else   
                 controller.GetCache(cache);
 
-            controller.PageSetActive(SceneActive.DataSceneLoading.PageActive);
+            controller.PageSetActive(SceneActive.SceneLoading.PageActive);
 
             return controller;
         }

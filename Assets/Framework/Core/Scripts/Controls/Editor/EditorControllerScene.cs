@@ -60,7 +60,7 @@ namespace Framework.Core
             var sceneNext = instance.Cache.GetNext(instance.SceneActive.GetType());
             var sceneNextType = sceneNext.GetType();
 
-            var pageDefault = sceneNext.DataSceneLoading.PageDefault;
+            var pageDefault = sceneNext.SceneLoading.PageDefault;
             var pageDefaultType = pageDefault.GetType();
             
             instance.SceneEnterNext(sceneType: sceneNextType, pageType: pageDefaultType, delay: true);
@@ -72,7 +72,7 @@ namespace Framework.Core
             var sceneNext = instance.Cache.GetPrev(instance.SceneActive.GetType());
             var sceneNextType = sceneNext.GetType();
 
-            var pageDefault = sceneNext.DataSceneLoading.PageDefault;
+            var pageDefault = sceneNext.SceneLoading.PageDefault;
             var pageDefaultType = pageDefault.GetType();
             
             instance.SceneEnterNext(sceneType: sceneNextType, pageType: pageDefaultType, delay: true);

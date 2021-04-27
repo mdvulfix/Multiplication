@@ -20,7 +20,7 @@ namespace Framework.Core
         public static readonly string OBJECT_NAME_UI = "UI";
         
         public bool                     UseDebug    {get; set;} = true;
-        public IDataStats               DataStats   {get; set;}
+        public IDataStats               Stats   {get; set;}
         
         public ICache<IConfigurable>    Cache       {get; protected set;} = new Cache<IConfigurable>("Builder: Cache");       
 

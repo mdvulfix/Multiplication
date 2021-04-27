@@ -95,7 +95,7 @@ namespace Framework.Core
                 return;
             }
     
-            if(pageActive.DataStats.IsActive)
+            if(pageActive.Stats.IsActive)
             {
                 pageActive.Activate(false);
                 Log(Label, "[" + pageActive.Label + "] was deactivated!");
@@ -120,7 +120,7 @@ namespace Framework.Core
                 return;
             }
     
-            if(PageActive.DataStats.IsActive)
+            if(PageActive.Stats.IsActive)
             {
                 PageActive.Activate(false);
                 Log(Label, "[" + PageActive.Label + "] was deactivated!");
@@ -147,7 +147,7 @@ namespace Framework.Core
                     return;
                 }
         
-                if(PageActive.DataStats.IsActive)
+                if(PageActive.Stats.IsActive)
                 {
                     PageActive.Activate(false);
                     Log(Label, "[" + PageActive.Label + "] was deactivated!");
@@ -174,7 +174,7 @@ namespace Framework.Core
         protected IEnumerator WaitForPageExit(Type pageType)
         {
             Log(Label, "Waiting for exit [" + PageActive.Label + "]...");
-            while (PageActive.DataAnimation.TargetState != APage.ANIMATOR_STATE_NONE)
+            while (PageActive.Animation.TargetState != APage.ANIMATOR_STATE_NONE)
             {
                 yield return null;
             }

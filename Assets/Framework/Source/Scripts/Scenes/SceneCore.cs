@@ -20,15 +20,15 @@ namespace Framework
         {
             SetParams(OBJECT_NAME);
             
-            if(!DataCheck<IDataStats>(DataStats))
+            if(!DataCheck<IDataStats>(Stats))
                 return;
             
-            if(!DataCheck<IDataSceneLoading>(DataSceneLoading))
+            if(!DataCheck<IDataSceneLoading>(SceneLoading))
                 return;
               
             
-            DataStats.GUID = 0;
-            DataStats.IsInitialized = true;
+            Stats.GUID = 0;
+            Stats.IsInitialized = true;
             
             if(isProject)
             {
@@ -47,9 +47,9 @@ namespace Framework
         public override IConfigurable Configure()
         {
             
-            DataSceneLoading.SceneBuildId = BUILD_ID;
-            DataSceneLoading.PageDefault = pageLoading;
-            DataSceneLoading.OnLoadCallback = null;
+            SceneLoading.SceneBuildId = BUILD_ID;
+            SceneLoading.PageDefault = pageLoading;
+            SceneLoading.OnLoadCallback = null;
         
             if(Cache.IsEmpty())
             {
@@ -64,7 +64,7 @@ namespace Framework
                 }
             }
             
-            DataStats.IsConfigerd = true;
+            Stats.IsConfigerd = true;
             Log(Label, LogSuccessfulConfigure());;
             return this;
         }

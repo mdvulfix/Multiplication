@@ -17,11 +17,14 @@ namespace Framework.Core
     {
         public static readonly string PARENT_OBJECT_NAME = ABuilder.OBJECT_NAME_SESSIONS; 
         
-        public bool                 UseDebug  {get; set;} = true;        
-        public IDataStats           DataStats {get; set;}
-        public ICache<IController>  Cache     {get; protected set;} = new Cache<IController>("Session: Cache"); 
+        public bool                 UseDebug    {get; set;} = true;        
+        public IDataStats           Stats       {get => dataStats; set => dataStats = value as DataStats;}
+        public ICache<IController>  Cache       {get; protected set;} = new Cache<IController>("Session: Cache"); 
 
         [SerializeField] protected bool isProject;
+        
+        [Header("Data")]
+        [SerializeField] protected DataStats dataStats;
 
 #region Configure
         
