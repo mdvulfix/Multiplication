@@ -2,9 +2,9 @@ using System;
 using UnityEngine;
 using UnityEditor;
 
-namespace Framework.Core
+namespace Core
 {
-
+    /*
     [CustomEditor(typeof(ControllerPage))]
     [CanEditMultipleObjects]
     public class EditorControllerPage: Editor
@@ -66,5 +66,5 @@ namespace Framework.Core
 
         }
     }
-
+    */
 }

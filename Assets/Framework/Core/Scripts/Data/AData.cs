@@ -1,20 +1,18 @@
 ﻿using System;
 
-namespace Framework.Core 
+namespace Core.Data
 {
     
-    public interface IData: ISceneObject
+    public interface IData
     {
-
 
     }
     
     
-    public abstract class AData : ASceneObject, IData
+    public abstract class AData: IData
     {
 
 
-        
     }
 
 

@@ -1,14 +1,9 @@
 using System;
 using UnityEngine;
 
-namespace Framework.Core
+namespace Core
 {   
-    
-    public interface ISceneObject
-    {   
-        string Label {get; }
-    }
-    
+        
     [Serializable]
     public abstract class ASceneObject : MonoBehaviour
     {   

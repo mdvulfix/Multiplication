@@ -1,8 +1,8 @@
 ﻿using System;
 using UnityEngine;
-using Framework.Core;
+using Core.Data;
 
-namespace Framework
+namespace Source.Data.Animation
 {
     public interface IDataAnimation: IData
     {

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 
-namespace Framework.Core
+namespace Core
 {
     public abstract class ASingleton<T> : ASceneObject where T : ASceneObject
     {

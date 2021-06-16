@@ -1,31 +1,16 @@
 using System;
 using UnityEngine;
 
-namespace Framework.Core
+namespace Core
 {   
-    
-    public interface IScriptableObject
-    {
-        string Label{get; }
-        
-    
-    
-    }
-    
     [Serializable]
-    public abstract class AScriptableObject : ScriptableObject, IScriptableObject
+    public abstract class AScriptableObject : ScriptableObject
     {   
         public string Label {get; private set;}
        
-
         public virtual void SetSceneObject(string label)
         {
             Label = label;
         }
-    
-    
-    
-    
     }
-
 }

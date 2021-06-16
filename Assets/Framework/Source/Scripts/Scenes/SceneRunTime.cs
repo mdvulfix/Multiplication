@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using Framework.Core;
+using Core.Scene;
 
-namespace Framework
+namespace Source.Scene
 {
     public class SceneRunTime : AScene
     {

@@ -1,18 +1,15 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-namespace Framework.Core
+namespace Core.Cache
 {
-    
-    public interface ICache<T>: ISimpleObject, IDebug where T: class, ICacheable
+    public interface ICache<T> where T: class
     {
-        Dictionary<Type, T> Store {get; }
-        
+
+        T Add<TValue>() where TValue : T, new();
         T Add(T instance);
 
-        T Get<TValue>() where TValue: T;
+        bool Get<TValue>(out T instance) where TValue: T;
         T Get(Type type);
         T Get(T value);
 
@@ -29,69 +26,62 @@ namespace Framework.Core
 
     }
 
-    public class Cache<T> : ICache<T>  where T: class, ICacheable
-    { 
-        public string               Label       {get; }
-        public bool                 UseDebug    {get; set;} = true;
-        public Dictionary<Type, T>  Store       {get; } = new Dictionary<Type, T>(100);
-    
-        
-        public Cache(string label)
-        {   
-            Label = label;
+    public class Cache<T> : ICache<T>  where T: class
+    {
+        private Dictionary<Type, T> m_Storage;
 
+        public Cache()
+        {   
+            m_Storage = new Dictionary<Type, T>(100);
+
+        }
+        
+        public T Add<TValue>() where TValue: T, new()
+        {
+            TValue instance = new TValue();
+
+            m_Storage.Add(typeof(TValue), instance);
+            return instance as T;
         }
         
         public T Add(T instance)
         {
-            
             if(instance==null)
-            {
-                LogWarning(Label, "Instance was not found!");
                 return null;
-
-            }
             
-            Store.Add(instance.GetType(), instance);
+            m_Storage.Add(instance.GetType(), instance);
             return instance;
         }
 
-        public T Get<TValue>() where TValue: T
+        public bool Get<TValue>(out T instance) where TValue: T
         {
-            T instance = null;
             Type type = typeof(TValue);
-            if(Store.TryGetValue(type, out instance))
-                return instance as T;
-            else
+            if (m_Storage.TryGetValue(type, out instance))
             {
-                LogWarning(Label, "Cache [" + typeof(T).Name + "] is empty!");
-                return null;
+                return true;
             }
-                
+            
+            return false;      
         }
         
         public T Get(Type type)
         {
             T instance = null;
-            if(Store.TryGetValue(type, out instance))
+            if(m_Storage.TryGetValue(type, out instance))
                 return instance as T;
-            else     
-            {
-                LogWarning(Label, "Cache [" + typeof(T).Name + "] is empty!");
-                return null;
-            }
+
+            return null;
         }
 
         public T Get(T instance)
         {
-            var valueArr = new List<object>(Store.Values);
+            var valueArr = new List<object>(m_Storage.Values);
             if(valueArr.Contains(instance))
             {
                 var index = valueArr.IndexOf(instance);
                 return valueArr[index] as T;
             }
 
-            LogWarning(Label, "Cache [" + typeof(T).Name + "] is not contains [" + instance + "] with hashcode [" + instance.GetHashCode() + "]!");
             return null;
         }
 
@@ -99,141 +89,96 @@ namespace Framework.Core
         {
             T instance = null;
             Type type = typeof(T);
-            if(Store.ContainsKey(type))
+            if(m_Storage.ContainsKey(type))
             {
-                var keyArr = new List<Type>(Store.Keys);
+                var keyArr = new List<Type>(m_Storage.Keys);
                 var current = keyArr.IndexOf(type);
                 var next = keyArr[++current];
                 
-                Store.TryGetValue(next, out instance);
+                m_Storage.TryGetValue(next, out instance);
                 return instance as T;
             }
-            else
-            {
-                LogWarning(Label, "Cache [" + typeof(T).Name + "] is empty!");
-                return null;
-            }       
+
+            return null;      
         }
         
         public T GetNext(Type type)
         {
             T instance = null;
-            if(Store.ContainsKey(type))
+            if(m_Storage.ContainsKey(type))
             {
-                var keyArr = new List<Type>(Store.Keys);
+                var keyArr = new List<Type>(m_Storage.Keys);
                 var current = keyArr.IndexOf(type);
                 var next = keyArr[++current];
                 
-                Store.TryGetValue(next, out instance);
+                m_Storage.TryGetValue(next, out instance);
                 return instance as T;
             }
-            else
-            {
-                LogWarning(Label, "Cache [" + typeof(T).Name + "] is empty!");
-                return null;
-            }         
+
+            return null;      
         }
 
         public T GetPrev()
         {
             T instance = null;
             Type type = typeof(T);
-            if(Store.ContainsKey(type))
+            if(m_Storage.ContainsKey(type))
             {
-                var keyArr = new List<Type>(Store.Keys);
+                var keyArr = new List<Type>(m_Storage.Keys);
                 var current = keyArr.IndexOf(type);
                 var next = keyArr[--current];
                 
-                Store.TryGetValue(next, out instance);
+                m_Storage.TryGetValue(next, out instance);
                 return instance as T;
             }
-            else
-            {
-                LogWarning(Label, "Cache [" + typeof(T).Name + "] is empty!");
-                return null;
-            }
 
+            return null;
         }
 
         public T GetPrev(Type type)
         {
             T instance = null;
-            if(Store.ContainsKey(type))
+            if(m_Storage.ContainsKey(type))
             {
-                var keyArr = new List<Type>(Store.Keys);
+                var keyArr = new List<Type>(m_Storage.Keys);
                 var current = keyArr.IndexOf(type);
                 var next = keyArr[--current];
                 
-                Store.TryGetValue(next, out instance);
+                m_Storage.TryGetValue(next, out instance);
                 return instance as T;
             }
-            else
-            {
-                LogWarning(Label, "Cache [" + typeof(T).Name + "] is empty!");
-                return null;
-            }
+
+            return null;
 
         }
 
         public List<T> GetAll()
         {
-            
             if(!IsEmpty())
             {
-                return new List<T>(Store.Values);
+                return new List<T>(m_Storage.Values);
             }
-            else
-            {
-                LogWarning(Label, "Cache " + typeof(T) + " is empty!");
-                return null;
-            }
+            
+            return null;
         }
 
         public bool Contains(T instance)
         {           
-           
-           var valueArr = new List<object>(Store.Values);
+           var valueArr = new List<object>(m_Storage.Values);
            if(valueArr.Contains(instance))
             {
-                Log(Label, "Cache [" + typeof(T).Name + "] is contains [" + instance + "]! HashCode is [" + instance.GetHashCode() + "]");
                 return true;
             }
  
-            LogWarning(Label, "Cache [" + typeof(T).Name + "] is not contains [" + instance + "]!");
             return false;
         }
 
         public bool IsEmpty()
         {
-            if(Store.Keys.Count> 0)
+            if(m_Storage.Keys.Count> 0)
                 return false;
 
-            LogWarning(Label, "Cache [" + typeof(T).Name + "] is empty!");
             return true;
         }
-
-#region DebugFunctions
-
-        public virtual void Log(string instance, string message)
-        {
-            if(UseDebug)
-            {
-                Debug.Log("["+ instance +"]: " + message);
-            }
-                
-        }
-
-        public virtual void LogWarning(string instance, string message)
-        {
-            if(UseDebug)
-            {
-                Debug.LogWarning("["+ instance +"]: " + message);
-            }
-        }
-
-#endregion
     }
-
-
-
 }

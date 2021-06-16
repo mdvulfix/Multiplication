@@ -4,20 +4,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Framework.Core
+namespace Core.Scene
 {
-    public interface IScene: ISceneObject, IConfigurable, IDebug, IHaveCache<IPage>
+    public interface IScene
     {
-        IDataSceneLoading   SceneLoading   {get; }
-
+        IDataLoading Loading { get; }
         IScene Activate(bool active);
     }
     
     [Serializable]
     public abstract class AScene: ASceneObject, IScene
     {
-        
-        public bool                 UseDebug            {get; set;} = true;
+
+        public string Label { get; private set; }
+        public bool UseDebug { get; set; } = true;
         public IDataStats           Stats           {get => dataStats;      private set => dataStats = value as DataStats;}
         public IDataSceneLoading    SceneLoading    {get => dataSceneLoading;  private set => dataSceneLoading = value as DataSceneLoading;}
                 
@@ -32,8 +32,7 @@ namespace Framework.Core
         
 #region Configure
 
-        public abstract void Initialize();
-        public abstract IConfigurable Configure();
+        public abstract void Init();
             
         protected virtual void SetParams(string label)
         {

@@ -1,117 +1,41 @@
-using System;
-using System.Collections.Generic;
-using UnityEngine;
+using Core.Cache;
 
-namespace Framework.Core 
+namespace Core.Session
 {
     
-    public interface ISession: IAwakable, IUpdatable, IConfigurable, IDebug, IHaveCache<IController>
+    public interface ISession: IAwakable
     {
-        TController GetController<TController>() 
-            where TController: IController;
-    }
-    
 
-    [Serializable]
+    }
+
+
     public abstract class ASession : ASceneObject, ISession
     {
-        public static readonly string PARENT_OBJECT_NAME = ABuilder.OBJECT_NAME_SESSIONS; 
-        
-        public bool                 UseDebug    {get; set;} = true;        
-        public IDataStats           Stats       {get => dataStats; set => dataStats = value as DataStats;}
-        public ICache<IController>  Cache       {get; protected set;} = new Cache<IController>("Session: Cache"); 
+        private ICache<IController> m_Controllers;
 
-        [SerializeField] protected bool isProject;
-        
-        [Header("Data")]
-        [SerializeField] protected DataStats dataStats;
-
-#region Configure
-        
-        public virtual void SetParams(string label)
-        {
-            Label = label;
-        }
-
-        public abstract void Initialize();
-        public abstract IConfigurable Configure();
-
-#endregion
-
-#region Start&Update
-        
         public void Awake()
         {
-            if(isProject)
-            {
-                OnAwake();
-            } 
+            Init();
         }
 
-        public abstract void OnAwake();
-        public abstract void OnStart();
-        public abstract void OnUpdate();
-
-#endregion
-
-#region Controllers
-
-        public TController GetController<TController>() 
-            where TController: IController
+        public virtual void Init()
         {
-            return (TController)Cache.Get<TController>();
+            m_Controllers = new Cache<IController>();
         }
 
-#endregion
-
-
-#region Cache
-
-        public void GetCache(ICache<IController> cache)
+        protected T Controller<T>()
+            where T: class, IController, new()
         {
-            Cache = cache;
-        }
-
-        public IController SetToCache(IController instance)
-        {
-            Cache.Add(instance);
-            return instance;
-        
-        }   
-
-        public List<IController> SetToCache(List<IController> instances)
-        {
-            foreach (var instance in instances)
-            {
-                SetToCache(instance);
+            IController controller;
+            
+            if (!m_Controllers.Get<T>(out controller))
+            { 
+                controller = m_Controllers.Add<T>();
+                controller.Init();
             }
-            return instances;
+
+            return controller as T;
         }
 
-#endregion
-
-#region Debug
-
-        public virtual void Log(string instance, string message)
-        {
-            if(UseDebug)
-            {
-                Debug.Log("["+ instance +"]: " + message);
-            }
-                
-        }
-
-        public virtual void LogWarning(string instance, string message)
-        {
-            if(UseDebug)
-            {
-                Debug.LogWarning("["+ instance +"]: " + message);
-            }
-        }
-
-#endregion
-    
     }
-
-
 }

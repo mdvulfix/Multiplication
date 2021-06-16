@@ -3,9 +3,9 @@ using UnityEngine;
 using UnityEditor;
 
 
-namespace Framework.Core
+namespace Core
 {
-
+    /*
     [CustomEditor(typeof(ControllerScene))]
     [CanEditMultipleObjects]
     public class EditorControllerScene: Editor
@@ -79,5 +79,5 @@ namespace Framework.Core
 
         }
     }
-
+    */
 }

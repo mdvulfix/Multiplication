@@ -1,4 +1,4 @@
-﻿namespace Framework.Core
+﻿namespace Core
 {
     public interface IDebug
     {

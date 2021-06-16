@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using Framework.Core;
+using Core.Scene;
 
-namespace Framework
+namespace Source.Scene
 {
     public class SceneScore : AScene
     {
@@ -14,14 +14,14 @@ namespace Framework
         [SerializeField] private PageScore pageScore;
 
         
-        public override void Initialize()
+        public override void Init()
         {
             SetParams(OBJECT_NAME);
             
             if(!DataCheck<IDataStats>(Stats))
                 return;
             
-            if(!DataCheck<IDataSceneLoading>(SceneLoading))
+            if(!DataCheck<IDataLoading>(SceneLoading))
                 return;
             
             Stats.GUID = 3;

@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using Framework.Core;
+using Core.Scene;
 
-namespace Framework
+namespace Source.Scene
 {
     public class SceneMenu : AScene
     {
         public static readonly string OBJECT_NAME = "Scene: Menu";
-        public static readonly ESceneBuildId BUILD_ID = ESceneBuildId.Menu;
+        public static readonly SceneIndex BUILD_ID = ESceneBuildId.Menu;
         
         [Header("Pages")]
         [SerializeField] private PageLoading pageLoading;
@@ -15,14 +15,14 @@ namespace Framework
         [SerializeField] private PageMenu pageMenu;
         
         
-        public override void Initialize()
+        public override void Init(IDataScene data)
         {
             SetParams(OBJECT_NAME);
             
             if(!DataCheck<IDataStats>(Stats))
                 return;
             
-            if(!DataCheck<IDataSceneLoading>(SceneLoading))
+            if(!DataCheck<IDataLoading>(SceneLoading))
                 return;
             
             

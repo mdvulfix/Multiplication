@@ -1,8 +1,8 @@
-﻿namespace Framework.Core
+﻿namespace Core
 {
     public interface IAwakable
     {       
-        void OnAwake();
+        void Awake();
     
     }
 
