@@ -2,16 +2,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Core.Page;
-
-namespace Source.Page
+//using Core.Page;
+/*
+namespace Source.Scene.Page
 {
 
     public class PageLoading : APage
     {
         public static readonly string OBJECT_NAME = "Page: Loading";
         
-        public override void Init()
+        public override void SetData()
         {
             SetParams(OBJECT_NAME);
         
@@ -31,3 +31,4 @@ namespace Source.Page
 
     }
 }
+*/

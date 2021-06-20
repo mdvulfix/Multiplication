@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
-using Core.Page.Controller;
-
-namespace Source.Page.Controller
+using Core.Scene.Page;
+/*
+namespace Source.Scene.Page
 {    
     public class PageControllerDefault: APageController
     {       
@@ -12,3 +12,4 @@ namespace Source.Page.Controller
         } 
     }
 }
+*/

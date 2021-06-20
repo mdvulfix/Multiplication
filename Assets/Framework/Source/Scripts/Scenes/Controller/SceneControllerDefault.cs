@@ -1,9 +1,8 @@
-using Core.Scene.Controller;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Core.Scene.Controller;
 
-
-
+/*
 namespace Source.Scene.Controller
 {
     public class SceneControllerDefault: ASceneController
@@ -63,3 +62,4 @@ namespace Source.Scene.Controller
     }
 
 }
+*/

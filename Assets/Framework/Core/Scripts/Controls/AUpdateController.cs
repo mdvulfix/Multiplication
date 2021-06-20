@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-namespace Framework.Core
+namespace Core.Update.Controller
 {
     public interface IUpdateController: IController 
     {

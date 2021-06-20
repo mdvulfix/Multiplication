@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using Framework.Core;
-
+using Core;
+/*
 namespace Framework
 {
     [CreateAssetMenu(fileName = "FactoryScene", menuName = "Factories/Scene/Default")]
@@ -56,3 +56,4 @@ namespace Framework
 
     }
 }
+*/

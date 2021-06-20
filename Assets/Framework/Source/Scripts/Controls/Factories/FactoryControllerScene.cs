@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Framework.Core;
 
-namespace Framework
+/*
+namespace Source.Factory
 {   
     [CreateAssetMenu(fileName = "FactoryControllerScene", menuName = "Factories/Controllers/Scene/Default")]
     public class FactoryControllerScene : AFactory<IControllerScene>, IHaveFactory
@@ -95,3 +95,4 @@ namespace Framework
 
     }
 }
+*/

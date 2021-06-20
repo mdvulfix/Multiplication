@@ -1,7 +1,6 @@
-﻿using Core.Data;
-using Core.Scene.State;
+﻿using Core.Scene.State;
 
-namespace Framework.Data.Stats
+namespace Core.Data.Stats
 {
     public interface IDataStats: IData
     {

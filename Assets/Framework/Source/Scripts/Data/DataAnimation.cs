@@ -1,8 +1,7 @@
 ﻿using System;
 using UnityEngine;
-using Core.Data;
 
-namespace Source.Data.Animation
+namespace Core.Data.Scene
 {
     public interface IDataAnimation: IData
     {

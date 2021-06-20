@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Framework.Core;
 
-namespace Framework
+/*namespace Framework
 {   
-    /*
+    
     [CreateAssetMenu(fileName = "FactoryControllerCamera", menuName = "Factories/Controllers/Camera")]
     public class FactoryControllerCamera : AFactory
     {
@@ -20,6 +19,6 @@ namespace Framework
     
     
     }
-    */
+    
 }   
-
+*/

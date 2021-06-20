@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-
-namespace Framework.Core.Handlers
+/*
+namespace Core.Handlers
 {
 
     public static class HandlerDataStruct
@@ -17,3 +17,4 @@ namespace Framework.Core.Handlers
 
     }
 }
+*/

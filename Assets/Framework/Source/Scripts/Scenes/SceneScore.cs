@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using Core.Scene;
-
+/*
 namespace Source.Scene
 {
     public class SceneScore : AScene
@@ -71,3 +71,4 @@ namespace Source.Scene
 
     }
 }
+*/

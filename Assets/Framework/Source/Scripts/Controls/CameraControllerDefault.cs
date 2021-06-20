@@ -1,7 +1,7 @@
 using UnityEngine;
 using Core.Camera.Controller;
 
-namespace Framework.Camera.Controller
+namespace Source.Camera.Controller
 {
     /*
     public class CameraControllerDefault : ACameraController

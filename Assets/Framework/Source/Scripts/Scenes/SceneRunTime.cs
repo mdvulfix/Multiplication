@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using Core.Scene;
-
+/*
 namespace Source.Scene
 {
     public class SceneRunTime : AScene
@@ -74,3 +74,4 @@ namespace Source.Scene
 
     }
 }
+*/

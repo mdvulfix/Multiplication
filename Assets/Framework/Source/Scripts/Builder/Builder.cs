@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using Framework.Core;
-
+/*
 namespace Framework
 {
     //[ExecuteInEditMode]
@@ -97,3 +97,4 @@ namespace Framework
 
     }
 }
+*/

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using Framework.Core;
-using Framework.Core.Handlers;
-
+using Core;
+//using Core.Handlers;
+/*
 namespace Framework
 {   
-    /*
+    
     [CreateAssetMenu(fileName = "FactoryPage", menuName = "Factories/Page/Default")]
     public class FactoryPage : AFactory<IPage> //, IHaveFactory
     {
@@ -81,5 +81,6 @@ namespace Framework
 
     }
 
-    */
+    
 }
+*/

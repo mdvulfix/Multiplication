@@ -2,8 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Core.Page;
-
+//using Core.Page;
+/*
 namespace Source.Page
 {
     public class PageMenu : APage
@@ -26,3 +26,4 @@ namespace Source.Page
         }
     } 
 }
+*/

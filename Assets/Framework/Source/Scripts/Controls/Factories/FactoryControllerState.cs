@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Framework.Core;
 
+
+/*
 namespace Framework
 {   
     [CreateAssetMenu(fileName = "FactoryControllerState", menuName = "Factories/Controllers/State/Default")]
@@ -96,3 +97,4 @@ namespace Framework
 
     }
 }
+*/

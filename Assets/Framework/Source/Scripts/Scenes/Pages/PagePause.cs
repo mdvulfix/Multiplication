@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using Core.Page;
-
+//using Core.Page;
+/*
 namespace Source.Page
 {
     public class PagePause : APage
@@ -24,3 +24,4 @@ namespace Source.Page
         }
     } 
 }
+*/

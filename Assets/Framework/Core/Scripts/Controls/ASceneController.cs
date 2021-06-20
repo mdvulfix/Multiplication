@@ -3,14 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UScene = UnityEngine.SceneManagement.Scene;
 using Core.Scene;
-using Core.Page;
+using Core.Scene.Page;
 using Core.Cache;
+using System.Threading.Tasks;
+using System.Threading;
+using Core.Scene.State;
+using Source.Scene.State;
+using Sourse.Scene.State;
 
 namespace Core.Scene.Controller
 {
     public interface ISceneController: IController
     {
+        IHandler Handler { get; }
+        
         void SceneLoad<TScene>()
             where TScene : IScene;
 
@@ -29,18 +37,46 @@ namespace Core.Scene.Controller
     [Serializable]
     public abstract class ASceneController: AController, ISceneController
     {
-        public IScene SceneCurrent { get; private set; }
-
-        protected static Dictionary<Type, SceneIndex> m_Indexes;
+        private static readonly int INITIALIZATION_INDEX_TYPEOF_IHANDLER = 0; 
+        
+        protected static Dictionary<Type, SceneIndex> m_SceneIndexes;
+        
+        protected static Cache<IScene> m_SceneInitialized;
         protected static Cache<IScene> m_SceneLoaded;
         protected static Cache<IScene> m_SceneActivated;
+
+        public IScene   SceneCurrent { get; private set; }
+        public IHandler Handler { get; private set; }
+
+        private Task            m_LoadingTask;
+        private AsyncOperation  m_LoadingOperation;
+        
+        private UScene m_LoadingScene;
+        private Type   m_LoadingSceneType;
+
+        private CancellationTokenSource m_TokenSource;
+        
+        public ASceneController()
+        {
+
+        }
+
+        public override void Initialize(params object[] args)
+        { 
+            m_SceneIndexes = new Dictionary<Type, SceneIndex>(10);
+
+            m_SceneInitialized = new Cache<IScene>();
+            m_SceneLoaded = new Cache<IScene>();
+            m_SceneActivated = new Cache<IScene>();
+        }
+
 
 
         public void SceneLoad<TScene>()
             where TScene: IScene
         {
             SceneIndex index;
-            if (GetSceneByIndex<T>(out index))
+            if (GetSceneByIndex<TScene>(out index))
             {
                 SceneLoadAsync(index);
             }
@@ -79,6 +115,313 @@ namespace Core.Scene.Controller
         }
     
 
+        private void OnEnable()
+        {
+            //Handler.StateUpdated += Dispose;
+        }
+        
+        private void OnDisable()
+        {
+            //Handler.StateUpdated -= Dispose;
+        }
+
+        
+        private void Dispose(bool state)
+        {
+            if (state == false)
+            {
+                Debug.Log("Scene controller disposed");
+                m_TokenSource.Cancel();
+                m_TokenSource.Dispose(); 
+            }
+
+            
+        }
+        
+        private async void SceneLoadAsync(SceneIndex index)
+        {
+            var buildIndex = (int)index;
+            m_LoadingOperation = SceneManager.LoadSceneAsync(buildIndex, LoadSceneMode.Additive);
+
+            m_TokenSource = new CancellationTokenSource();
+            var token = m_TokenSource.Token;
+
+            try
+            {
+                await ChackLoadingOperationStatus(m_LoadingOperation, token);
+                await TrySceneLoadAsync(index, token);
+                
+                Debug.Log("Scene loading is done!");
+            }
+            catch (OperationCanceledException ex)
+            {
+                Debug.Log(string.Format("Задача {0} завершена по причине {1}: ", nameof(SceneLoadAsync), ex.Message));
+            } 
+
+            m_LoadingScene = SceneManager.GetSceneByBuildIndex(buildIndex);
+            
+            m_TokenSource.Cancel();
+
+        }
+
+        private async void SceneEnterAsync(SceneIndex index) 
+        {
+            m_TokenSource = new CancellationTokenSource();
+            var token = m_TokenSource.Token;
+    
+            try
+            {
+                await TrySceneEnterAsync(index, token);
+            }
+            catch (OperationCanceledException ex)
+            {
+
+                Debug.Log(string.Format("Задача {0} завершена по причине {1}: ", nameof(SceneEnterAsync), ex.Message));
+            } 
+            
+            m_TokenSource.Cancel();
+        }
+
+
+        private async Task ChackLoadingOperationStatus(AsyncOperation operation, CancellationToken token)
+        {
+            while (!operation.isDone)
+            {
+                Debug.Log("Scene is loading async!");
+                await Task.Delay(1000);
+
+                if (token.IsCancellationRequested)
+                    break;
+            }
+        }
+
+        private async Task TrySceneLoadAsync(SceneIndex index, CancellationToken token)
+        {
+            IScene scene = null;
+            while(!GetInitialized(index, out scene))
+            {
+                Debug.Log("Trying to get initialized scene...");
+                await Task.Delay(1000);
+
+                if (token.IsCancellationRequested)
+                    break;;
+            }
+        
+            scene.Load();
+
+            while(!SceneCheckState<StateConfigure>(scene))
+            {
+                await Task.Delay(100);
+
+                if (token.IsCancellationRequested)
+                    break;;
+            }
+            Debug.Log("Scene load is done!");
+            
+        }
+
+        private async Task TrySceneEnterAsync(SceneIndex index, CancellationToken token)
+        {
+            IScene scene = null;
+            while(!GetLoaded(index, out scene))
+            {
+                Debug.Log("Trying to get initialized scene...");
+                await Task.Delay(1000);
+
+                if (token.IsCancellationRequested)
+                    break;;
+            }
+
+            scene.Enter();
+
+            while(!SceneCheckState<StateActivate>(scene))
+            {
+                await Task.Delay(100);
+                
+                if (token.IsCancellationRequested)
+                    break;;
+            }
+
+            Debug.Log("Scene enter is done!");
+        }
+     
+        private bool SceneCheckState<TState>(IScene scene)
+            where TState: class, IState
+        {
+            if(scene.StateCurrent is TState)
+                return true;
+            else
+                return false;
+        }
+
+        public bool AddInitialized(IScene scene)
+        {            
+            var index = scene.Data.Index;
+            
+            if(m_ScenesInitialized.ContainsKey(index))
+            {
+                Debug.Log("Scene already registered.");    
+                return false;           
+            }
+            
+            m_ScenesInitialized.Add(index, scene);
+            
+            //Subscribe(true, scene);
+
+            Debug.Log("Scene was add to initialized list.");
+            return true;
+        }
+
+        public bool RemoveInitialized(IScene scene)
+        {
+            var index = scene.Data.Index;
+                
+            if(m_ScenesInitialized.ContainsKey(index))
+            {
+                Debug.Log("Scene was not registered.");
+                return false;  
+            }
+            
+            m_ScenesInitialized.Remove(index);
+            
+            //Subscribe(false, scene);
+           
+            Debug.Log("Scene removed.");
+            return true;  
+            
+        }
+
+
+        public bool AddLoaded(IScene scene)
+        {            
+            var index = scene.Data.Index;
+            
+            if(m_ScenesLoaded.ContainsKey(index))
+            {
+                Debug.Log("Scene already registered.");    
+                return false;           
+            }
+            
+            m_ScenesLoaded.Add(index, scene);
+            
+            Subscribe(true, scene);
+
+            Debug.Log("Scene was add to loaded list.");
+            return true;
+        }
+
+        public bool RemoveLoaded(IScene scene)
+        {
+            var index = scene.Data.Index;
+                
+            if(m_ScenesLoaded.ContainsKey(index))
+            {
+                Debug.Log("Scene was not registered.");
+                return false;  
+            }
+            
+            m_ScenesLoaded.Remove(index);
+            
+            //Subscribe(false, scene);
+           
+           Debug.Log("Scene removed.");
+            return true;  
+            
+        }
+
+
+        public bool AddActivated(IScene scene)
+        {            
+            var index = scene.Data.Index;
+            
+            if(m_ScenesActivated.ContainsKey(index))
+            {
+                Debug.Log("Scene already registered.");    
+                return false;           
+            }
+            
+            m_ScenesActivated.Add(index, scene);
+            
+            //Subscribe(true, scene);
+
+            Debug.Log("Scene was add to activated list.");
+            return true;
+        }
+
+        public bool RemoveActivated(IScene scene)
+        {
+            var index = scene.Data.Index;
+                
+            if(m_ScenesActivated.ContainsKey(index))
+            {
+                Debug.Log("Scene was not registered.");
+                return false;  
+            }
+            
+            m_ScenesActivated.Remove(index);
+            
+            //Subscribe(false, scene);
+           
+           Debug.Log("Scene removed.");
+            return true;  
+            
+        }
+
+
+        public bool GetInitialized(SceneIndex index, out IScene scene) 
+        {
+            if(m_ScenesInitialized.TryGetValue(index, out scene))
+            {
+                return true;
+            }
+
+            Debug.Log("Scene is not initialize!");
+            scene = null;
+            return false;
+        }
+
+        public bool GetLoaded(SceneIndex index, out IScene scene) 
+        {
+            if(m_ScenesLoaded.TryGetValue(index, out scene))
+            {
+                return true;
+            }
+
+            Debug.Log("Scene is not load!");
+            scene = null;
+            return false;
+        }
+
+        public bool GetActivated(SceneIndex index, out IScene scene) 
+        {
+            if(m_ScenesActivated.TryGetValue(index, out scene))
+            {
+                return true;
+            }
+
+            Debug.Log("Scene is not active!");
+            scene = null;
+            return false;
+        }
+
+
+        //private void Subscribe(bool subscribe, IScene scene)
+        //{
+        //    if(subscribe)
+        //        scene.StateUpdated += SceneStateUpdated;
+        //    else
+        //       scene.StateUpdated -= SceneStateUpdated;
+        //}
+
+        //protected virtual void SceneStateUpdated(ISceneEventArgs args)
+        //{
+        //
+        //
+        //}
+
+
+
+/*
         public void SceneEnterNext<TScene, TPage>(bool delay = false) 
             where TScene: class, IScene
             where TPage: class, IPage
@@ -156,21 +499,21 @@ namespace Core.Scene.Controller
         {
             
             Log(Label, "Waiting for exit [" + SceneActive.Label + "]...");
-            /*
+            
             while (sceneActive.DataAnimation.TargetState != AScene.ANIMATOR_STATE_NONE)
             {
                 yield return null;
             }
-            */
+            
             yield return new WaitForSeconds(2f);
             SceneEnter(sceneType, pageType);
         
         }
-
+*/
         private bool GetSceneByIndex<T>(out SceneIndex index)
             where T: IScene
         {
-            if (!m_Indexes.TryGetValue(typeof(T), out index))
+            if (!m_SceneIndexes.TryGetValue(typeof(T), out index))
             {
                 Debug.Log("Index was not found!");
                 return false;

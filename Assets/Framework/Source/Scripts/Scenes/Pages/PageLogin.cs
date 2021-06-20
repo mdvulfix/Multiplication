@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Core.Page;
-
+//using Core.Page;
+/*
 namespace Source.Page
 {
     public class PageLogin : APage
@@ -29,3 +29,4 @@ namespace Source.Page
         }
     } 
 }
+*/

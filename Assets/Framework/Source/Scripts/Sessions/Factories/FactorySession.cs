@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using Framework.Core;
 
+/*
 namespace Framework
 {
     [CreateAssetMenu(fileName = "FactorySession", menuName = "Factories/Session/Default")]
@@ -53,3 +53,4 @@ namespace Framework
 
     }
 }
+*/

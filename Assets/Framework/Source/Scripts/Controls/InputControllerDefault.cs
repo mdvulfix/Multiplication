@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
 using Core.Input.Controller;
-
-namespace Framework.Input.Controller
+/*
+namespace Source.Input.Controller
 {
     public class InputControllerDefault : AInputController
     {
@@ -11,13 +11,13 @@ namespace Framework.Input.Controller
         private KeyCode m_FadeIn;
         private KeyCode m_FadeOut;
 
-        private ControllerPage m_ControllerPage;
+        private IPageController m_PageController;
         
         public override void Init()
         {
             m_FadeIn = KeyCode.I;
             m_FadeOut = KeyCode.O;
-            m_ControllerPage = session.GetController<ControllerPage>();
+            m_PageController = session.GetController<PageController>();
         } 
         
         
@@ -50,3 +50,4 @@ namespace Framework.Input.Controller
         
     }
 }
+*/

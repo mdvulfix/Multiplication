@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-namespace Framework.Core.Handlers
+/*
+namespace Core.Handlers
 {
 
     public static class HandlerSceneObject
@@ -37,3 +38,4 @@ namespace Framework.Core.Handlers
 
     }
 }
+*/

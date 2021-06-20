@@ -1,52 +1,107 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core.Cache;
+using Core.Data.Scene;
+using Core.Data.Stats;
+using Core.Events;
+using Core.Scene.Page;
+using Core.Scene.State;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Core.Scene
 {
-    public interface IScene
+    public interface IScene: IAwakable
     {
-        IDataLoading Loading { get; }
-        IScene Activate(bool active);
+        event Action<ISceneEventArgs> StateUpdated;
+        
+        SceneIndex  Index { get; }
+        IState      StateCurrent { get; }
+       
+        void Initialize(params object[] args);
+
+        void Load();
+        void Enter();
+        void Play();
+        void Pause();
+        void Exit();
+        void Unload();
+
+        void SetState<TState>() 
+            where TState: class, IState;
     }
-    
+
     [Serializable]
-    public abstract class AScene: ASceneObject, IScene
+    public abstract class AScene : ASceneObject, IScene
     {
+        public event Action<ISceneEventArgs> StateUpdated;
+        
+        public SceneIndex   Index { get; private set; }
+        public IState       StateCurrent { get; private set; }
 
-        public string Label { get; private set; }
-        public bool UseDebug { get; set; } = true;
-        public IDataStats           Stats           {get => dataStats;      private set => dataStats = value as DataStats;}
-        public IDataSceneLoading    SceneLoading    {get => dataSceneLoading;  private set => dataSceneLoading = value as DataSceneLoading;}
-                
-        public ICache<IPage>  Cache {get; protected set;} = new Cache<IPage>("Scene: Cache"); 
+        private ICache<IPage>       m_Pages;
+        private ICache<IController> m_Controllers; 
         
-        [SerializeField] protected bool isProject;
-        
-        [Header("Data")]
-        [SerializeField] private DataStats dataStats;
-        [SerializeField] private DataSceneLoading dataSceneLoading;
-        
-        
-#region Configure
+        //public IPage            PageStart { get; private set; }
+        //public IPage            PageActive { get; private set; }
 
-        public abstract void Init();
-            
-        protected virtual void SetParams(string label)
+        private IStateController    m_StateController;
+        
+
+
+        public void Awake()
         {
-            Label = label;
+            Initialize();
         }
 
 
-#endregion
+        public void Initialize(params object[] args)
+        {
+            m_Pages = new Cache<IPage>();
+            
+        
+        }
 
-#region SceneManagenent
+        public void SetState<TState>() 
+            where TState: class, IState
+        {
+            if(m_StateController.Get<TState>(out m_StateCurrent))
+            {
+                m_StateCurrent.Execute();
+                StateUpdated?.Invoke(new SceneEventArgs(this, m_StateCurrent, true));
+            }
+        }
+        
 
+        public abstract void Load();
+        public abstract void Enter();
+        public abstract void Play();
+        public abstract void Pause();
+        public abstract void Exit();
+        public abstract void Unload();
+
+        
+        protected T ControllerSetAndGet<T>()
+            where T: class, IController, new()
+        {
+            IController controller = null;
+
+            if(m_Controllers.Get<T>(out controller))
+                return controller as T;
+
+            
+            controller = new T();
+            controller.Initialize(this);
+            m_Controllers.Add(controller);
+
+            return controller as T;
+        }
+
+/*
         public IScene Activate(bool activate)
         {
-            if(!SceneChange(sceneBuildId: SceneLoading.GetIntBuildId(), isLoading: activate))
+            if(!SceneChange(sceneBuildId: Loading.GetIntBuildId(), isLoading: activate))
             {
                 LogWarning(Label, "Activation is faild!");
                 return null;
@@ -129,7 +184,6 @@ namespace Core.Scene
 
         }
 
-#endregion
 
 #region Data
 
@@ -213,6 +267,26 @@ namespace Core.Scene
         }
 
 #endregion
-    
+    */
     }
+
+
+    public class SceneEventArgs: EventArgs, ISceneEventArgs
+    {
+        public IScene   Scene           {get; private set;}
+        public IState   State           {get; private set;}
+        public bool     IsRegistered    {get; private set;}
+
+        public SceneEventArgs(IScene scene, IState state, bool isRegistered)
+        {
+            Scene = scene;
+            State = state;
+            IsRegistered = isRegistered;
+        }
+    }
+
+
+
+
+
 }

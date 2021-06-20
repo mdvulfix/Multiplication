@@ -2,9 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Core.Handlers;
+using Core.Data.Stats;
+using Core.Data.Scene;
 
-namespace Core.Page
+namespace Core.Scene.Page
 {   
     public interface IPage
     {   
@@ -18,37 +19,20 @@ namespace Core.Page
     public abstract class APage: ASceneObject, IPage
     {       
         
-        public static readonly string PARENT_OBJECT_NAME = ABuilder.OBJECT_NAME_UI;
+        //public static readonly string PARENT_OBJECT_NAME = ABuilder.OBJECT_NAME_UI;
 
         public static readonly string ANIMATOR_STATE_NONE = "None";
         public static readonly string ANIMATOR_STATE_ON = "On";
         public static readonly string ANIMATOR_STATE_OFF = "Off";
             
-        public string                   Label       { get; private set; }
-        public bool                     UseDebug    {get; set;} = false;
-        public IDataStats               Stats       {get => dataStats;      set => dataStats = value as DataStats;}
-        public IDataAnimation           Animation   {get => dataAnimation;  set => dataAnimation = value as DataAnimation;}
-        
-        [SerializeField] 
-        protected bool isProject;
+        public IDataAnimation Animation   { get; set; }
 
-        [Header("Data")]
-        [SerializeField] protected DataStats      dataStats;
-        [SerializeField] protected DataAnimation  dataAnimation;
-        
+        [SerializeField]
+        private bool m_IsDebug;
 
 
- #region Configure
-        
-        protected virtual void SetParams(string label)
-        {
-            Label = label;
-        }
-        
         public abstract void Init();
 
-
-#endregion
 
         public IPage Activate(bool activate)
         {
@@ -58,7 +42,7 @@ namespace Core.Page
                 if(activate)
                 {
                     
-                    Stats.IsActive = SetActvie(true);
+                    //Stats.IsActive = SetActvie(true);
                     Log(Label, " was activated.");
                     Animate(true);
                 }
@@ -70,7 +54,7 @@ namespace Core.Page
             else
             {
                 Log(Label, "Animation is disabled on page [ " + Label + " ]");
-                Stats.IsActive = SetActvie(activate);
+                //Stats.IsActive = SetActvie(activate);
             }
                 
             return this;
@@ -86,11 +70,11 @@ namespace Core.Page
             }
 
 
-            if(!Stats.IsActive)
-            {
-                LogWarning(Label, "Page is not active!");
-                return;
-            }
+            //if(!Stats.IsActive)
+            //{
+            //    LogWarning(Label, "Page is not active!");
+            //    return;
+            //}
 
             
     
@@ -129,7 +113,7 @@ namespace Core.Page
     
             if(!animate)
             {
-                Stats.IsActive = SetActvie(false);
+                //Stats.IsActive = SetActvie(false);
                 Log(Label, " was diactivated.");
                 
             }
@@ -139,7 +123,7 @@ namespace Core.Page
 
         public virtual void Log(string instance, string message)
         {
-            if(UseDebug)
+            if(m_IsDebug)
             {
                 Debug.Log("["+ instance +"]: " + message);
             }
@@ -148,7 +132,7 @@ namespace Core.Page
 
         public virtual void LogWarning(string instance, string message)
         {
-            if(UseDebug)
+            if(m_IsDebug)
             {
                 Debug.LogWarning("["+ instance +"]: " + message);
             }
@@ -175,6 +159,7 @@ namespace Core.Page
         }
 
 #endregion
+
     }
 
 

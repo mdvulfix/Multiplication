@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Core.Scene;
-
+/*
 namespace Source.Scene
 {
     public class SceneMenu : AScene
@@ -77,3 +77,4 @@ namespace Source.Scene
         }
     }
 }
+*/

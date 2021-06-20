@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core.Scene.Page;
 using UnityEngine;
 
+/*
 namespace Core.Page.Controller
 {    
     public interface IPageController: IController
@@ -203,3 +205,4 @@ namespace Core.Page.Controller
         }
     }
 }
+*/
