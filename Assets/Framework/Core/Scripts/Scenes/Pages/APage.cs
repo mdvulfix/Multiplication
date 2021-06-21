@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Core.Data.Stats;
 using Core.Data.Scene;
 
 namespace Core.Scene.Page

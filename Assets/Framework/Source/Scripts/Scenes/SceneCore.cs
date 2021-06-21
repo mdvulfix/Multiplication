@@ -1,20 +1,21 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using Core.Scene;
 
 namespace Source.Scene
 {
-    public class SceneScore : AScene
+    public class SceneCore : AScene
     {
-        public static readonly string OBJECT_NAME = "Scene: Score";
-        public static readonly SceneIndex BUILD_ID = SceneIndex.Score;
+        public static readonly string OBJECT_NAME = "Scene: Menu";
+        public static readonly SceneIndex BUILD_ID = SceneIndex.Core;
+        
+        //[Header("Pages")]
+        //[SerializeField] private PageLoading pageLoading;
+        //[SerializeField] private PageLogin pageLogin;
+        //[SerializeField] private PageMenu pageMenu;
         
         /*
-        [Header("Pages")]
-        [SerializeField] private PageLoading pageLoading;
-        [SerializeField] private PageScore pageScore;
-
-        
-        public override void Init()
+        public override void Init(IDataScene data)
         {
             SetParams(OBJECT_NAME);
             
@@ -24,21 +25,28 @@ namespace Source.Scene
             if(!DataCheck<IDataLoading>(SceneLoading))
                 return;
             
-            Stats.GUID = 3;
-            Stats.IsInitialized = true;
+            
+            Stats.GUID = 1;
+            
             
             if(isProject)
             {
-                SetToCache(pageLoading);
-                SetToCache(pageScore);
+                
+                List<IPage> initializationList = new List<IPage>(3);
+                
+                initializationList.Add(pageLoading);
+                initializationList.Add(pageLogin);
+                initializationList.Add(pageMenu);
                     
-                foreach (var instance in Cache.GetAll())
+                foreach (var instance in initializationList)
                 {
                     instance.Initialize();
+                    SetToCache(instance);
                 }
 
             }
 
+            Stats.IsInitialized = true;
             Log(Label, LogSuccessfulInitialize());
             //return this;
         }
@@ -47,9 +55,9 @@ namespace Source.Scene
         {
             
             SceneLoading.SceneBuildId = BUILD_ID;
-            SceneLoading.PageDefault = pageScore;
+            SceneLoading.PageDefault = pageLogin;
             SceneLoading.OnLoadCallback = null;
-            
+
             if(Cache.IsEmpty())
             {
                 LogWarning(Label, LogFailedConfigure("Cache is empty!"));
@@ -68,6 +76,5 @@ namespace Source.Scene
             return this;
         }
         */
-
     }
 }

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Core.Cache
+namespace Core
 {
     public interface ICache<T> where T: class
     {

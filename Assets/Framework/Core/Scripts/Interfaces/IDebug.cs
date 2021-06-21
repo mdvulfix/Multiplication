@@ -2,7 +2,7 @@
 {
     public interface IDebug
     {
-        bool UseDebug {get; set;}
+        bool IsDebug {get; set;}
         
         void Log(string instance, string message);
         void LogWarning(string instance, string message);

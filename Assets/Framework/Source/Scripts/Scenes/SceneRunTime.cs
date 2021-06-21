@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using Core.Scene;
-/*
+
 namespace Source.Scene
 {
     public class SceneRunTime : AScene
     {
         public static readonly string OBJECT_NAME = "Scene: RunTime";
-        public static readonly ESceneBuildId BUILD_ID = ESceneBuildId.RunTime;
+        public static readonly SceneIndex BUILD_ID = SceneIndex.RunTime;
         
-        
+        /*
         [Header("Pages")]
         [SerializeField] private PageLoading pageLoading;
         [SerializeField] private PageRunTime pageRunTime;
@@ -70,8 +70,7 @@ namespace Source.Scene
             
             return this;
         }
-
+        */
 
     }
 }
-*/

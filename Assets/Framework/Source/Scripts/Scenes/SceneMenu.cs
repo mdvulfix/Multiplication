@@ -1,20 +1,20 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Core.Scene;
-/*
+
 namespace Source.Scene
 {
     public class SceneMenu : AScene
     {
         public static readonly string OBJECT_NAME = "Scene: Menu";
-        public static readonly SceneIndex BUILD_ID = ESceneBuildId.Menu;
+        public static readonly SceneIndex BUILD_ID = SceneIndex.Menu;
         
-        [Header("Pages")]
-        [SerializeField] private PageLoading pageLoading;
-        [SerializeField] private PageLogin pageLogin;
-        [SerializeField] private PageMenu pageMenu;
+        //[Header("Pages")]
+        //[SerializeField] private PageLoading pageLoading;
+        //[SerializeField] private PageLogin pageLogin;
+        //[SerializeField] private PageMenu pageMenu;
         
-        
+        /*
         public override void Init(IDataScene data)
         {
             SetParams(OBJECT_NAME);
@@ -75,6 +75,6 @@ namespace Source.Scene
             Log(Label, LogSuccessfulConfigure());
             return this;
         }
+        */
     }
 }
-*/

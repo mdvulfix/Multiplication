@@ -1,35 +1,47 @@
 using System;
-using UnityEngine;
-using Core.Session;
-using Core.Scene;
-using Core.Input;
-using Source.Scene;
-//using Source.Input;
+using Core;
+using Core.State;
+using Source.State;
 
-
-namespace Source.Session 
+namespace Source 
 {
     [Serializable]
     public class SessionDefault : ASession
     {
-        private ISceneController m_SceneController;
-        //private IInputController m_InputController;
-
-        public override void Initialize(params object[] args) 
+        
+        
+        protected override void OnAwake()
         {
-            m_SceneController = ControllerSetAndGet<SceneControllerDefault>();
-            //m_InputController = Controller<InputControllerDefault>();
+
+            var stateController = new StateControllerDefault();
+            var stateControllerParams = new ParamsStateController(this);
+
+            stateController.
+            
+            var sessionParams = new ParamsInitialize<ISession>(this);
+
+
+
+
         }
-
-        public override void OnAwake()
+        
+        
+        
+        protected override void OnInitialize()
         {
-
+            
+            
+            
+            AddState<StateInitialize>();
+            AddState<StateRegister>();
+            AddState<StatePlaying>();
+            AddState<StateWin>();
+            AddState<StateDie>();
         }
        
-        public override void OnStart()
+        protected override void OnStart()
         {
-            //m_SceneCurrent.Load();
-            m_SceneController.SceneLoad(SceneIndex.Menu);
+            Load();
         }
 
     }

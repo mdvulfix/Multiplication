@@ -1,8 +1,4 @@
-﻿using System;
-using Core.Scene;
-
-
-namespace Core.Events
+﻿namespace Core
 {
     
     public interface IEventArgs
@@ -12,15 +8,8 @@ namespace Core.Events
     
     public interface IEventArgs<T>
     {
-        
+        T Handler {get; }
     }
-
-    public interface ISceneEventArgs: IEventArgs<IScene>
-    {
-        IScene Scene {get; }
-        
-    }
-
 
 
 

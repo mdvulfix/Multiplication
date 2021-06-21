@@ -1,39 +1,41 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Core.Scene.Controller;
+using Core;
+using Core.Scene;
 
-/*
+
 namespace Source.Scene.Controller
 {
     public class SceneControllerDefault: ASceneController
     {  
-        public override void Init()
-        {
-            m_Indexes = new Dictionary<Type, SceneIndex>(10);
+
         
-            m_Indexes.Add(typeof(SceneCore), SceneIndex.Core);
-            m_Indexes.Add(typeof(SceneMenu), SceneIndex.Menu);
-            m_Indexes.Add(typeof(SceneRunTime), SceneIndex.RunTime);
+        public override void Initialize(IScene handler, ICache<IScene> cache = null, params object[] args)
+        {        
+            m_SceneIndexes.Add(typeof(SceneCore), SceneIndex.Core);
+            m_SceneIndexes.Add(typeof(SceneMenu), SceneIndex.Menu);
+            m_SceneIndexes.Add(typeof(SceneRunTime), SceneIndex.RunTime);
 
 
-            if(isProject)
-            {
-                SetToCache(sceneCore);
-                SetToCache(sceneMenu);
-                SetToCache(sceneRunTime);
-                SetToCache(sceneScore);
+            //if(isProject)
+            //{
+            //    SetToCache(sceneCore);
+            //    SetToCache(sceneMenu);
+            //    SetToCache(sceneRunTime);
+            //    SetToCache(sceneScore);
 
-                foreach (var instance in Cache.GetAll())
-                {
-                    instance.Init();
-                }
-            }
+            //    foreach (var instance in Cache.GetAll())
+            //    {
+            //        instance.Init();
+            //    }
+           // }
 
-            Log(Label, LogSuccessfulInitialize());
+            //Log(Label, LogSuccessfulInitialize());
             //return this;
         
         } 
         
+        /*
         public override IConfigurable Configure() 
         {                                     
             
@@ -57,9 +59,8 @@ namespace Source.Scene.Controller
             return this;
         }
 
-
+    */
 
     }
 
 }
-*/

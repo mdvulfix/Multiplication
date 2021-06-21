@@ -1,57 +1,68 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Core.Cache;
-using Core.Data.Scene;
-using Core.Data.Stats;
-using Core.Events;
-using Core.Scene.Page;
-using Core.Scene.State;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Core;
+using Core.Scene.Page;
+using Core.State;
 
 namespace Core.Scene
 {
     public interface IScene: IAwakable
     {
-        event Action<ISceneEventArgs> StateUpdated;
-        
+        event Action<IEventArgs<IScene>> StateUpdated;
+
+        //ISession    Session { get; }
         SceneIndex  Index { get; }
-        IState      StateCurrent { get; }
+        //IState      StateCurrent { get; }
        
         void Initialize(params object[] args);
 
-        void Load();
-        void Enter();
-        void Play();
-        void Pause();
-        void Exit();
-        void Unload();
+        void Load<TScene>()
+            where TScene: IScene;
 
-        void SetState<TState>() 
-            where TState: class, IState;
+        void Enter<TScene>()
+            where TScene: IScene;
+
+        void Play<TScene>()
+            where TScene: IScene;
+
+        void Pause<TScene>()
+            where TScene: IScene;
+
+        void Exit<TScene>()
+            where TScene: IScene;
+
+        void Close<TScene>()
+            where TScene: IScene;
+
+
     }
 
     [Serializable]
     public abstract class AScene : ASceneObject, IScene
     {
-        public event Action<ISceneEventArgs> StateUpdated;
+        public event Action<IEventArgs<IScene>> StateUpdated;
         
+        //public ISession     Session { get; private set; }
         public SceneIndex   Index { get; private set; }
-        public IState       StateCurrent { get; private set; }
+        
 
         private ICache<IPage>       m_Pages;
-        private ICache<IController> m_Controllers; 
         
         //public IPage            PageStart { get; private set; }
         //public IPage            PageActive { get; private set; }
 
         private IStateController    m_StateController;
+        private ISceneController    m_SceneController;
         
 
 
         public void Awake()
         {
+            
+            
             Initialize();
         }
 
@@ -59,43 +70,43 @@ namespace Core.Scene
         public void Initialize(params object[] args)
         {
             m_Pages = new Cache<IPage>();
-            
-        
+
         }
 
-        public void SetState<TState>() 
-            where TState: class, IState
+        public virtual void Load<TScene>()
+            where TScene : IScene
         {
-            if(m_StateController.Get<TState>(out m_StateCurrent))
-            {
-                m_StateCurrent.Execute();
-                StateUpdated?.Invoke(new SceneEventArgs(this, m_StateCurrent, true));
-            }
+            m_SceneController.SceneLoad<TScene>();
         }
-        
 
-        public abstract void Load();
-        public abstract void Enter();
-        public abstract void Play();
-        public abstract void Pause();
-        public abstract void Exit();
-        public abstract void Unload();
-
-        
-        protected T ControllerSetAndGet<T>()
-            where T: class, IController, new()
+        public virtual void Enter<TScene>()
+            where TScene: IScene
         {
-            IController controller = null;
+            m_SceneController.SceneEnter<TScene>();
+        }
 
-            if(m_Controllers.Get<T>(out controller))
-                return controller as T;
+        public virtual void Play<TScene>()
+            where TScene: IScene
+        {
+            m_SceneController.ScenePLay<TScene>();
+        }
 
-            
-            controller = new T();
-            controller.Initialize(this);
-            m_Controllers.Add(controller);
+        public virtual void Pause<TScene>()
+            where TScene: IScene
+        {
+            m_SceneController.ScenePause<TScene>();
+        }
 
-            return controller as T;
+        public virtual void Exit<TScene>()
+            where TScene: IScene
+        {
+            m_SceneController.SceneExit<TScene>();
+        }
+
+        public virtual void Close<TScene>()
+            where TScene: IScene
+        {
+            m_SceneController.SceneClose<TScene>();
         }
 
 /*
@@ -269,18 +280,15 @@ namespace Core.Scene
 #endregion
     */
     }
-
-
-    public class SceneEventArgs: EventArgs, ISceneEventArgs
+    
+    public class SceneEventArgs: EventArgs, IEventArgs<IScene>
     {
-        public IScene   Scene           {get; private set;}
-        public IState   State           {get; private set;}
+        public IScene   Handler         {get; private set;}
         public bool     IsRegistered    {get; private set;}
 
-        public SceneEventArgs(IScene scene, IState state, bool isRegistered)
+        public SceneEventArgs(IScene handler, bool isRegistered)
         {
-            Scene = scene;
-            State = state;
+            Handler = handler;
             IsRegistered = isRegistered;
         }
     }
