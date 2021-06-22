@@ -1,5 +1,5 @@
-﻿using Core.Scene.State;
-
+﻿
+/*
 namespace Core.Data.Stats
 {
     public interface IDataStats: IData
@@ -14,3 +14,4 @@ namespace Core.Data.Stats
 
     }
 }
+*/

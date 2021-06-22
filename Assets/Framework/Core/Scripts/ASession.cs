@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Core.Scene;
 using Core.State;
+
 
 namespace Core
 {
@@ -17,16 +19,16 @@ namespace Core
         void Close();
 
 
-        void SetState<TState>() 
-            where TState: class, IState;
+        void SetState<TState>()
+            where TState : class, IState, new();
     }
 
     public abstract class ASession : ASceneObject, ISession
     {
         
-        private readonly int PARAMS_SESSION = 0;
+        private readonly int PARAMS_INITIALIZATION = 0;
         
-        public event Action<bool, string> StateUpdated;
+        public event Action<IStateEventArgs> StateUpdated;
 
         public List<IScene> ScenesLoaded { get => m_ScenesLoaded; }
         public List<IScene> ScenesActivated { get => m_ScenesActivated; }
@@ -45,7 +47,6 @@ namespace Core
         private void Awake()
         {
             OnAwake();
-            Initialize();
         }
 
         private void Start()
@@ -67,16 +68,15 @@ namespace Core
 
         protected void Initialize(params object[] args)
         {
-            var parametrs = (ParamsSession)args[PARAMS_SESSION];
+            var parametrs = args[PARAMS_INITIALIZATION] as ISessionInitializationParams;
             m_StateController = parametrs.StateController;
+            m_SceneController = parametrs.SceneController;
 
 
             m_ScenesLoaded = new List<IScene>(10);
             m_ScenesActivated = new List<IScene>(10);
 
-
-            //TODO: Dependency injection;
-            //m_SceneController = new SceneControllerDefault();
+            Debug.Log("Session was initialized!");
 
         }
 
@@ -126,36 +126,16 @@ namespace Core
             //Debug.Log("Сцена не открыта.");
         }
 
-        protected bool SetState<T>() where T: class, IState, new()
+        public void SetState<TState>() 
+            where TState: class, IState, new()
         {
-            
-            m_State = m_StateController.Sta
-            
-            state.Initialize(this);
-            m_States.Add(state);
-            
-            return true;
+            m_State = m_StateController.State<TState>();
+            m_State.Execute();
+
+            StateUpdated?.Invoke(new StateEventArgs(m_State, string.Format("State {0} was updated!", m_State)));
 
         }
 
-        protected bool GetState<T>(out IState state) where T: class, IState
-        {
-            state = null;
-            if(m_States.Get<T>(out state))
-                return true;
-
-            return false;
-        }
-
-        protected void SetState<TState>() 
-            where TState: class, IState
-        {
-            if(m_StateController.Get<TState>(out m_State))
-            {
-                m_State.Execute();
-                StateUpdated?.Invoke(new SceneEventArgs(this, m_StateCurrent, true));
-            }
-        }
 
 
         private bool SceneCheckState<TState>(IScene scene)
@@ -170,23 +150,11 @@ namespace Core
     }
 
 
-    public interface IParams<T>
+    public interface ISessionInitializationParams
     { 
-
+        IStateController StateController { get; }
+        ISceneController SceneController { get; }
     }
-
-
-    public struct ParamsSession: IParams<ISession>
-    { 
-        public IStateController StateController { get; private set; }
-
-        public ParamsSession(IStateController stateController)
-        {
-            StateController =  stateController;
-        }
-
-    }
-
 
 }
 

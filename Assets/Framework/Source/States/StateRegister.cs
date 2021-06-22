@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using Core.State;
-
+using Source.Scene;
 
 namespace Source.State
 {
@@ -14,6 +14,8 @@ namespace Source.State
     {
         public override void Execute()
         {
+            
+            //m_SceneController.SceneEnter<SceneMenu>();
             OnExecuted(this);
         
         }

@@ -9,15 +9,11 @@ using Core.State;
 
 namespace Core.Scene
 {
-    public interface IScene: IAwakable
+    public interface IScene
     {
         event Action<IEventArgs<IScene>> StateUpdated;
 
-        //ISession    Session { get; }
         SceneIndex  Index { get; }
-        //IState      StateCurrent { get; }
-       
-        void Initialize(params object[] args);
 
         void Load<TScene>()
             where TScene: IScene;
@@ -36,7 +32,6 @@ namespace Core.Scene
 
         void Close<TScene>()
             where TScene: IScene;
-
 
     }
 
@@ -57,17 +52,29 @@ namespace Core.Scene
         private IStateController    m_StateController;
         private ISceneController    m_SceneController;
         
-
-
-        public void Awake()
+        private void Awake()
         {
-            
-            
-            Initialize();
+            OnAwake();
+
+        }
+
+        private void Start()
+        {
+            OnStart();
+        }
+
+        protected virtual void OnAwake()
+        {
+
+        }
+
+        protected virtual void OnStart()
+        {
+
         }
 
 
-        public void Initialize(params object[] args)
+        protected virtual void Initialize(params object[] args)
         {
             m_Pages = new Cache<IPage>();
 
@@ -88,7 +95,7 @@ namespace Core.Scene
         public virtual void Play<TScene>()
             where TScene: IScene
         {
-            m_SceneController.ScenePLay<TScene>();
+            m_SceneController.ScenePlay<TScene>();
         }
 
         public virtual void Pause<TScene>()

@@ -1,4 +1,6 @@
 ﻿using System;
+using Core.Scene;
+using UnityEngine;
 
 namespace Core.State
 {
@@ -7,7 +9,7 @@ namespace Core.State
     {
         event Action<IStateEventArgs> StateExecuted;
                 
-        void Initialize(ISession session, params object[] args);
+        void Initialize(params object[] args);
         
         void Execute();
         
@@ -22,19 +24,30 @@ namespace Core.State
     [Serializable]
     public abstract class AState: IState
     {
-        
+        private readonly int PARAMS_INITIALIZATION = 0;
+
         public event Action<IStateEventArgs> StateExecuted;
 
-        private ISession m_Session;
+        
+        protected ISession m_Session;
+        protected IStateController m_StateController;
+        protected ISceneController m_SceneController;
 
         public AState()
-        {
+        { 
 
         }
-        
-        public virtual void Initialize(ISession session, params object[] args)
+
+
+        public virtual void Initialize(params object[] args)
         {
-            m_Session = session;
+            var parametrs = (IStateInitializationParams)args[PARAMS_INITIALIZATION];
+            m_Session = parametrs.Session;
+            m_StateController = parametrs.StateController;
+            m_SceneController = parametrs.SceneController;
+
+            Debug.Log("State was initialized!");
+
         }
         
         public abstract void Execute();
@@ -47,7 +60,10 @@ namespace Core.State
 
         protected void OnExecuted(IState state)
         {
-            StateExecuted?.Invoke(new StateEventArgs(state, string.Format("State {0} was executed", state)));
+            var message = string.Format("State {0} was executed", state.GetType().Name);
+
+            StateExecuted?.Invoke(new StateEventArgs(state, message));
+            Debug.Log(message);
         }
     
     }
@@ -72,7 +88,13 @@ namespace Core.State
         }
     }
 
-
+    public interface IStateInitializationParams
+    { 
+        ISession Session { get; }
+        IStateController StateController { get; }
+        ISceneController SceneController { get; }
+        
+    }
 
 
 }

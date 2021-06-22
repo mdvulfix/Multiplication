@@ -4,19 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
-namespace Framework.Core
-{
-    public enum ESceneBuildId
-    {
-        Core,
-        Menu,
-        RunTime,
-        Score
-    
-    }
-    
-    public interface IControllerScene: IController<IScene>
+/*
+namespace Core.Scene
+{   
+    public interface ISceneController: IController<IScene>
     {
         IScene SceneActive {get; }
         
@@ -43,6 +34,7 @@ namespace Framework.Core
 #region Start&Update
 
 #endregion
+
 
 #region SceneManagement
     
@@ -122,12 +114,12 @@ namespace Framework.Core
         {
             
             Log(Label, "Waiting for exit [" + SceneActive.Label + "]...");
-            /*
-            while (sceneActive.DataAnimation.TargetState != AScene.ANIMATOR_STATE_NONE)
-            {
-                yield return null;
-            }
-            */
+            
+            //while (sceneActive.DataAnimation.TargetState != AScene.ANIMATOR_STATE_NONE)
+            //{
+            //    yield return null;
+            //}
+            
             yield return new WaitForSeconds(2f);
             SceneEnter(sceneType, pageType);
         
@@ -193,3 +185,4 @@ namespace Framework.Core
     }
 
 }
+*/

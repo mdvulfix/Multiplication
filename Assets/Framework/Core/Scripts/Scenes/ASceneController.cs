@@ -40,7 +40,7 @@ namespace Core.Scene
     [Serializable]
     public abstract class ASceneController: AController<IScene>, ISceneController
     {
-        private static readonly int INITIALIZATION_INDEX_TYPEOF_IHANDLER = 0; 
+        private readonly int PARAMS_INITIALIZATION = 0;
 
         public IScene SceneCurrent { get; private set; }
         
@@ -58,22 +58,20 @@ namespace Core.Scene
 
         private CancellationTokenSource m_TokenSource;
         
-        public ASceneController()
-        {
 
-        }
-
-
-        public override void Initialize(IScene handler, ICache<IScene> cache = null, params object[] args)
+        protected override void Initialize(params object[] args)
         { 
-            m_SceneIndexes = new Dictionary<Type, SceneIndex>(10);
-
             m_SceneInitialized = new Cache<IScene>();
             m_SceneLoaded = new Cache<IScene>();
             m_SceneActivated = new Cache<IScene>();
+            
+            var parametrs = (ISceneControllerInitializationParams)args[PARAMS_INITIALIZATION];
+            m_SceneIndexes = parametrs.SceneIndexes;
+            
+            Debug.Log("SceneController was initialized!");
         }
 
-        public override void Dispose()
+        protected override void Dispose()
         {
             Debug.Log("Scene controller disposed");
             m_TokenSource.Cancel();
@@ -122,7 +120,7 @@ namespace Core.Scene
             SceneIndex index;
             if (GetSceneByIndex<TScene>(out index))
             {
-                SceneEnterAsync(index);
+                //SceneEnterAsync(index);
             }
             
         }
@@ -167,7 +165,7 @@ namespace Core.Scene
             try
             {
                 await ChackLoadingOperationStatus(m_LoadingOperation, token);
-                await TrySceneLoadAsync(index, token);
+                //await TrySceneLoadAsync(index, token);
                 
                 Debug.Log("Scene loading is done!");
             }
@@ -182,6 +180,20 @@ namespace Core.Scene
 
         }
 
+        private async Task ChackLoadingOperationStatus(AsyncOperation operation, CancellationToken token)
+        {
+            while (!operation.isDone)
+            {
+                Debug.Log("Scene is loading async!");
+                await Task.Delay(1000);
+
+                if (token.IsCancellationRequested)
+                    break;
+            }
+        }
+
+
+        /*
         private async void SceneEnterAsync(SceneIndex index) 
         {
             m_TokenSource = new CancellationTokenSource();
@@ -199,19 +211,8 @@ namespace Core.Scene
             
             m_TokenSource.Cancel();
         }
+        
 
-
-        private async Task ChackLoadingOperationStatus(AsyncOperation operation, CancellationToken token)
-        {
-            while (!operation.isDone)
-            {
-                Debug.Log("Scene is loading async!");
-                await Task.Delay(1000);
-
-                if (token.IsCancellationRequested)
-                    break;
-            }
-        }
 
         private async Task TrySceneLoadAsync(SceneIndex index, CancellationToken token)
         {
@@ -225,6 +226,7 @@ namespace Core.Scene
                     break;;
             }
         
+            
             scene.Load();
 
             while(!SceneCheckState<StateConfigure>(scene))
@@ -250,6 +252,7 @@ namespace Core.Scene
                     break;;
             }
 
+            
             scene.Enter();
 
             while(!SceneCheckState<StateActivate>(scene))
@@ -261,21 +264,20 @@ namespace Core.Scene
             }
 
             Debug.Log("Scene enter is done!");
+            
         }
      
 
 
         public bool AddInitialized(IScene scene)
-        {            
-            var index = scene.Data.Index;
-            
-            if(m_ScenesInitialized.ContainsKey(index))
+        {                        
+            if(m_SceneInitialized.Contains(scene))
             {
                 Debug.Log("Scene already registered.");    
                 return false;           
             }
             
-            m_ScenesInitialized.Add(index, scene);
+            m_SceneInitialized.Add(scene);
             
             //Subscribe(true, scene);
 
@@ -285,16 +287,14 @@ namespace Core.Scene
 
         public bool RemoveInitialized(IScene scene)
         {
-            var index = scene.Data.Index;
-                
-            if(m_ScenesInitialized.ContainsKey(index))
+            if(m_SceneInitialized.Contains(scene))
             {
                 Debug.Log("Scene was not registered.");
                 return false;  
             }
-            
-            m_ScenesInitialized.Remove(index);
-            
+
+            m_SceneInitialized.Remove(scene);
+
             //Subscribe(false, scene);
            
             Debug.Log("Scene removed.");
@@ -305,17 +305,15 @@ namespace Core.Scene
 
         public bool AddLoaded(IScene scene)
         {            
-            var index = scene.Data.Index;
-            
-            if(m_ScenesLoaded.ContainsKey(index))
+            if(m_SceneLoaded.Contains(scene))
             {
                 Debug.Log("Scene already registered.");    
                 return false;           
             }
             
-            m_ScenesLoaded.Add(index, scene);
+            m_SceneLoaded.Add(scene);
             
-            Subscribe(true, scene);
+            //Subscribe(true, scene);
 
             Debug.Log("Scene was add to loaded list.");
             return true;
@@ -323,15 +321,14 @@ namespace Core.Scene
 
         public bool RemoveLoaded(IScene scene)
         {
-            var index = scene.Data.Index;
                 
-            if(m_ScenesLoaded.ContainsKey(index))
+            if(m_SceneLoaded.Contains(scene))
             {
                 Debug.Log("Scene was not registered.");
                 return false;  
             }
             
-            m_ScenesLoaded.Remove(index);
+            m_SceneLoaded.Remove(scene);
             
             //Subscribe(false, scene);
            
@@ -342,16 +339,14 @@ namespace Core.Scene
 
 
         public bool AddActivated(IScene scene)
-        {            
-            var index = scene.Data.Index;
-            
-            if(m_ScenesActivated.ContainsKey(index))
+        {                        
+            if(m_SceneActivated.Contains(scene))
             {
                 Debug.Log("Scene already registered.");    
                 return false;           
             }
             
-            m_ScenesActivated.Add(index, scene);
+            m_SceneActivated.Add(scene);
             
             //Subscribe(true, scene);
 
@@ -361,19 +356,17 @@ namespace Core.Scene
 
         public bool RemoveActivated(IScene scene)
         {
-            var index = scene.Data.Index;
-                
-            if(m_ScenesActivated.ContainsKey(index))
+            if(m_SceneActivated.Contains(scene))
             {
                 Debug.Log("Scene was not registered.");
                 return false;  
             }
             
-            m_ScenesActivated.Remove(index);
+            m_SceneActivated.Remove(scene);
             
             //Subscribe(false, scene);
            
-           Debug.Log("Scene removed.");
+            Debug.Log("Scene removed.");
             return true;  
             
         }
@@ -381,7 +374,7 @@ namespace Core.Scene
 
         public bool GetInitialized(SceneIndex index, out IScene scene) 
         {
-            if(m_ScenesInitialized.TryGetValue(index, out scene))
+            if(m_SceneInitialized.Get(index, out scene))
             {
                 return true;
             }
@@ -415,7 +408,7 @@ namespace Core.Scene
             return false;
         }
 
-
+*/
         //private void Subscribe(bool subscribe, IScene scene)
         //{
         //    if(subscribe)
@@ -534,5 +527,10 @@ namespace Core.Scene
         }
 
     }
+    
+    public interface ISceneControllerInitializationParams
+    { 
+        Dictionary<Type, SceneIndex> SceneIndexes { get; }
 
+    }
 }

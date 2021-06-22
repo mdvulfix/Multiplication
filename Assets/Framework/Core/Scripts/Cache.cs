@@ -9,6 +9,8 @@ namespace Core
         T Add<TValue>() where TValue : T, new();
         T Add(T instance);
 
+        bool Remove(T instance);
+
         bool Get<TValue>(out T instance) where TValue: T;
         T Get(Type type);
         T Get(T value);
@@ -39,9 +41,7 @@ namespace Core
         public T Add<TValue>() where TValue: T, new()
         {
             TValue instance = new TValue();
-
-            m_Storage.Add(typeof(TValue), instance);
-            return instance as T;
+            return Add(instance);
         }
         
         public T Add(T instance)
@@ -52,6 +52,21 @@ namespace Core
             m_Storage.Add(instance.GetType(), instance);
             return instance;
         }
+
+
+        
+        public bool Remove(T instance)
+        {
+            if(instance==null)
+                return false;
+            
+            m_Storage.Remove(instance.GetType());
+            return true;
+        }
+
+
+
+
 
         public bool Get<TValue>(out T instance) where TValue: T
         {

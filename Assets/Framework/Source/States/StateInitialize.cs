@@ -1,5 +1,7 @@
 using System;
+using Core;
 using Core.State;
+using Source.Scene;
 using UnityEngine;
 
 namespace Source.State
@@ -10,26 +12,18 @@ namespace Source.State
    }
     
     public class StateInitialize: AState, IStateInitialize
-    {       
-        
-        
-        private IStateController m_StateController;
-        
-        
-        
-        
-        
+    {
+
         public override void Execute()
         {
-
+            m_SceneController.SceneLoad<SceneMenu>();
             OnExecuted(this);
         }
 
         
         public override void Load()
         {
-            //Scene.SetState<StateConfigure>();
-            //OnUpdated("Конфигурация сцены [" + GetSceneNameViaType(Scene) + "] успешно выполнена.");
+            m_Session.SetState<StateRegister>();
         }
 
         public override void Play()

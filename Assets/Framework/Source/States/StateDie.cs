@@ -29,7 +29,6 @@ namespace Source.State
             //Debug.Log("Конфигурация сцены [" + Scene.GetType().Name + "] успешно выполнена.");
         }
       
-
         public override void Play()
         {
             //Scene.SetState<StateConfigure>();
