@@ -7,9 +7,9 @@ namespace Core.Scene.Page
 {   
     public interface IPage
     {   
-        IDataAnimation  Animation   {get; set;}
+        //IDataAnimation  Animation   {get; set;}
         
-        IPage Activate(bool active);
+        //IPage Activate(bool active);
     }
 
 
@@ -17,30 +17,60 @@ namespace Core.Scene.Page
     public abstract class APage: ASceneObject, IPage
     {       
         
+        private readonly int PARAMS_INITIALIZATION = 0;
         //public static readonly string PARENT_OBJECT_NAME = ABuilder.OBJECT_NAME_UI;
 
         public static readonly string ANIMATOR_STATE_NONE = "None";
         public static readonly string ANIMATOR_STATE_ON = "On";
         public static readonly string ANIMATOR_STATE_OFF = "Off";
-            
-        public IDataAnimation Animation   { get; set; }
+
+        private IDataAnimation m_DataAnimation;
 
         [SerializeField]
         private bool m_IsDebug;
 
 
-        public abstract void Init();
+        private void Awake()
+        {
+            OnAwake();
 
+        }
+
+        private void Start()
+        {
+            OnStart();
+        }
+
+        protected virtual void OnAwake()
+        {
+
+        }
+
+        protected virtual void OnStart()
+        {
+
+        }
+
+        protected virtual void Initialize(params object[] args)
+        {
+            //m_Pages = new Cache<IPage>();
+
+            var parametrs = (IPageInitializationParams)args[PARAMS_INITIALIZATION];
+            m_DataAnimation = parametrs.DataAnimation;
+
+            Debug.Log("Page was initialized!");
+
+        }
 
         public IPage Activate(bool activate)
         {
             
-            if(Animation.UseAnimation)
+            if(m_DataAnimation.UseAnimation)
             {
                 if(activate)
                 {
                     
-                    //Stats.IsActive = SetActvie(true);
+                    SetActvie(true);
                     Log(Label, " was activated.");
                     Animate(true);
                 }
@@ -52,16 +82,16 @@ namespace Core.Scene.Page
             else
             {
                 Log(Label, "Animation is disabled on page [ " + Label + " ]");
-                //Stats.IsActive = SetActvie(activate);
+                SetActvie(activate);
             }
                 
             return this;
         }
-         
+
         private void Animate (bool animate)
         {
             
-            if(Animation.Animator == null)
+            if(m_DataAnimation.Animator == null)
             {
                 LogWarning(Label, "Animator is not set!");
                 return;
@@ -84,34 +114,34 @@ namespace Core.Scene.Page
         private IEnumerator AwaitAnimation (bool animate)
         {
 
-            Animation.Animator.SetBool("On", animate);
+            m_DataAnimation.Animator.SetBool("On", animate);
 
-            Animation.TargetState = animate ? ANIMATOR_STATE_ON : ANIMATOR_STATE_OFF;
-            Log(Label, "Target state is ["  + Animation.TargetState + "].");
+            m_DataAnimation.TargetState = animate ? ANIMATOR_STATE_ON : ANIMATOR_STATE_OFF;
+            Log(Label, "Target state is ["  + m_DataAnimation.TargetState + "].");
             
             //waiting for target state
-            while(!Animation.Animator.GetCurrentAnimatorStateInfo(0).IsName(Animation.TargetState))
+            while(!m_DataAnimation.Animator.GetCurrentAnimatorStateInfo(0).IsName(m_DataAnimation.TargetState))
             {
                 yield return null;
 
             }
         
             //waiting for target state is plaing
-            while(Animation.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
+            while(m_DataAnimation.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
             {
                 yield return null;
 
             }
 
-            Animation.TargetState = ANIMATOR_STATE_NONE;
+            m_DataAnimation.TargetState = ANIMATOR_STATE_NONE;
         
-            Log(Label, "Target state is ["  + Animation.TargetState + "].");
+            Log(Label, "Target state is ["  + m_DataAnimation.TargetState + "].");
             Log(Label, "was finised transition to " + (animate ? "On" : "Off") + " animation state!"); 
     
     
             if(!animate)
             {
-                //Stats.IsActive = SetActvie(false);
+                SetActvie(false);
                 Log(Label, " was diactivated.");
                 
             }
@@ -158,9 +188,30 @@ namespace Core.Scene.Page
 
 #endregion
 
+    
     }
 
+    public interface IPageInitializationParams
+    { 
+        
+        IDataAnimation DataAnimation { get; }
 
+        //ISceneController SceneController { get; }
+    }
+
+    public struct PageInitializationParams: IPageInitializationParams
+    {
+        public IDataAnimation DataAnimation { get; private set; }
+
+        public PageInitializationParams(IDataAnimation dataAnimation)
+        {
+            DataAnimation = dataAnimation;
+        }
+
+        
+
+
+    }
 
 
 

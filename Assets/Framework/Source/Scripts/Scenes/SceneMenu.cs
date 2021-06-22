@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Core.Scene;
+using Source.Scene.Page;
 
 namespace Source.Scene
 {
@@ -9,11 +11,36 @@ namespace Source.Scene
         public static readonly string OBJECT_NAME = "Scene: Menu";
         public static readonly SceneIndex BUILD_ID = SceneIndex.Menu;
         
-        //[Header("Pages")]
-        //[SerializeField] private PageLoading pageLoading;
-        //[SerializeField] private PageLogin pageLogin;
-        //[SerializeField] private PageMenu pageMenu;
+        [Header("Pages")]
+        [SerializeField] private PageLoading pageLoading;
+        [SerializeField] private PageLogin pageLogin;
+        [SerializeField] private PageMenu pageMenu;
+         
+
+        protected override void OnAwake()
+        {
+            var sceneIndexes = new Dictionary<Type, SceneIndex>(4);
+            sceneIndexes.Add(typeof(SceneCore), SceneIndex.Core);
+            sceneIndexes.Add(typeof(SceneMenu), SceneIndex.Menu);
+            sceneIndexes.Add(typeof(SceneRunTime), SceneIndex.RunTime);
+            sceneIndexes.Add(typeof(SceneScore), SceneIndex.Score);
+
+            var sceneControllerParams = new SceneControllerInitializationParams(sceneIndexes);
+            var sceneController = new SceneControllerDefault(sceneControllerParams);
+            
+
+            var sceneParams = new SceneInitializationParams(sceneController);
+            
+            Initialize(sceneParams);
+
+        }
         
+        protected override void OnStart()
+        {
+
+        }
+
+
         /*
         public override void Init(IDataScene data)
         {

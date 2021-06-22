@@ -1,29 +1,32 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using Core.Scene.Page;
 using UnityEngine;
-//using Core.Page;
-/*
-namespace Source.Page
+
+
+namespace Source.Scene.Page
 {
     public class PageMenu : APage
     {
         public static readonly string OBJECT_NAME = "Page: Menu";
 
-        public override void Init()
+        protected override void OnAwake()
         {
-            SetParams(OBJECT_NAME);
+            var dataAnimation = new DataAnimation();
             
-            Stats.GUID = 2;
-            Stats.IsInitialized = true;
-            
-            Animation.UseAnimation = true;
-            Animation.Animator = GetComponent<Animator>();
-            Animation.CurrentState = ANIMATOR_STATE_NONE;
-            Animation.TargetState = ANIMATOR_STATE_NONE;
+            dataAnimation.UseAnimation = true;
+            dataAnimation.CurrentState = ANIMATOR_STATE_NONE;
+            dataAnimation.TargetState = ANIMATOR_STATE_NONE;
+            dataAnimation.Animator = GetComponent<Animator>();
 
-            Log(Label, "was sucsessfully initialized");
+            var pageParams = new PageInitializationParams(dataAnimation);
+            
+            Initialize(pageParams);
+
         }
+        
+        protected override void OnStart()
+        {
+            
+        }
+        
     } 
 }
-*/

@@ -26,4 +26,16 @@ namespace Source.Scene
         }
 
     }
+
+    public struct SceneInitializationParams: ISceneInitializationParams
+    { 
+        public ISceneController SceneController { get; private set; }
+    
+        public SceneInitializationParams(ISceneController sceneController)
+        {
+            SceneController = sceneController;
+        }
+
+    }
+
 }

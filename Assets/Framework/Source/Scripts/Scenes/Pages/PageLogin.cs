@@ -1,32 +1,31 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Core.Scene.Page;
 using UnityEngine;
-//using Core.Page;
-/*
-namespace Source.Page
+
+namespace Source.Scene.Page
 {
     public class PageLogin : APage
     {
-        public static readonly string OBJECT_NAME = "Page: Login";
+        private readonly string OBJECT_NAME = "Page: Login";
         
-        public override void Init()
+        protected override void OnAwake()
         {
-            SetParams(OBJECT_NAME);
+            var dataAnimation = new DataAnimation();
             
-            Stats.GUID = 1;
-            Stats.IsInitialized = true;
+            dataAnimation.UseAnimation = true;
+            dataAnimation.CurrentState = ANIMATOR_STATE_NONE;
+            dataAnimation.TargetState = ANIMATOR_STATE_NONE;
+            dataAnimation.Animator = GetComponent<Animator>();
 
-            Animation.UseAnimation = true;
-            Animation.Animator = GetComponent<Animator>();
-            Animation.CurrentState = ANIMATOR_STATE_NONE;
-            Animation.TargetState = ANIMATOR_STATE_NONE;
-
-
-            Stats.IsConfigerd = true;
-            Log(Label, "was sucsessfully initialized");
+            var pageParams = new PageInitializationParams(dataAnimation);
+            
+            Initialize(pageParams);
 
         }
+        
+        protected override void OnStart()
+        {
+            
+        }
+        
     } 
 }
-*/

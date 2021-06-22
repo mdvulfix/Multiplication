@@ -1,7 +1,8 @@
 ﻿using System;
+using Core.Data;
 using UnityEngine;
 
-namespace Core.Data.Scene
+namespace Core.Scene.Page
 {
     public interface IDataAnimation: IData
     {

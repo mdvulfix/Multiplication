@@ -1,18 +1,48 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Core.Scene;
+using Source.Scene.Page;
 
 namespace Source.Scene
 {
     public class SceneCore : AScene
     {
-        public static readonly string OBJECT_NAME = "Scene: Menu";
-        public static readonly SceneIndex BUILD_ID = SceneIndex.Core;
+        private readonly string OBJECT_NAME = "Scene: Menu";
+        private readonly SceneIndex BUILD_INDEX = SceneIndex.Core;
         
-        //[Header("Pages")]
-        //[SerializeField] private PageLoading pageLoading;
-        //[SerializeField] private PageLogin pageLogin;
-        //[SerializeField] private PageMenu pageMenu;
+        
+        [Header("Pages")]
+        [SerializeField] private PageLoading pageLoading;
+ 
+
+        protected override void OnAwake()
+        {
+            var sceneIndexes = new Dictionary<Type, SceneIndex>(4);
+            sceneIndexes.Add(typeof(SceneCore), SceneIndex.Core);
+            sceneIndexes.Add(typeof(SceneMenu), SceneIndex.Menu);
+            sceneIndexes.Add(typeof(SceneRunTime), SceneIndex.RunTime);
+            sceneIndexes.Add(typeof(SceneScore), SceneIndex.Score);
+
+            var sceneControllerParams = new SceneControllerInitializationParams(sceneIndexes);
+            var sceneController = new SceneControllerDefault(sceneControllerParams);
+            
+
+
+
+            var sceneParams = new SceneInitializationParams(sceneController);
+            
+            Initialize(sceneParams);
+
+        }
+        
+
+        protected override void OnStart()
+        {
+            pageLoading.Activate(true);
+        }
+        
+
         
         /*
         public override void Init(IDataScene data)

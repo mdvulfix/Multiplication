@@ -38,6 +38,8 @@ namespace Core.Scene
     [Serializable]
     public abstract class AScene : ASceneObject, IScene
     {
+        private readonly int PARAMS_INITIALIZATION = 0;
+        
         public event Action<IEventArgs<IScene>> StateUpdated;
         
         //public ISession     Session { get; private set; }
@@ -49,7 +51,6 @@ namespace Core.Scene
         //public IPage            PageStart { get; private set; }
         //public IPage            PageActive { get; private set; }
 
-        private IStateController    m_StateController;
         private ISceneController    m_SceneController;
         
         private void Awake()
@@ -77,6 +78,9 @@ namespace Core.Scene
         protected virtual void Initialize(params object[] args)
         {
             m_Pages = new Cache<IPage>();
+
+            var parametrs = (ISceneInitializationParams)args[PARAMS_INITIALIZATION];
+            m_SceneController = parametrs.SceneController;
 
         }
 
@@ -300,7 +304,10 @@ namespace Core.Scene
         }
     }
 
-
+    public interface ISceneInitializationParams
+    { 
+        ISceneController SceneController { get; }
+    }
 
 
 

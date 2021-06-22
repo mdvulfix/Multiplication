@@ -1,34 +1,37 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-//using Core.Page;
-/*
+﻿using UnityEngine;
+using Core.Scene.Page;
+
 namespace Source.Scene.Page
 {
 
     public class PageLoading : APage
     {
-        public static readonly string OBJECT_NAME = "Page: Loading";
+        private readonly string OBJECT_NAME = "Page: Loading";
         
-        public override void SetData()
+    
+        protected override void OnAwake()
         {
-            SetParams(OBJECT_NAME);
-        
-            Stats.GUID = 0;
-            Stats.IsInitialized = true;
+            var dataAnimation = new DataAnimation();
+            
+            dataAnimation.UseAnimation = true;
+            dataAnimation.CurrentState = ANIMATOR_STATE_NONE;
+            dataAnimation.TargetState = ANIMATOR_STATE_NONE;
+            dataAnimation.Animator = GetComponent<Animator>();
 
-            Animation.UseAnimation = true;
-            Animation.CurrentState = ANIMATOR_STATE_NONE;
-            Animation.TargetState = ANIMATOR_STATE_NONE;
+            var pageParams = new PageInitializationParams(dataAnimation);
             
-            Animation.Animator = GetComponent<Animator>();
-            
-            Stats.IsConfigerd = true;
-            Log(Label, "was sucsessfully initialized");
+            Initialize(pageParams);
 
         }
+        
+        protected override void OnStart()
+        {
+            
+        }
+        
+        
+        
+        
 
     }
 }
-*/
