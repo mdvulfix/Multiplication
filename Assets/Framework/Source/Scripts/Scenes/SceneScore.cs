@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Core.Scene;
+using Source.Scene.Page;
 
 namespace Source.Scene
 {
@@ -8,12 +9,29 @@ namespace Source.Scene
         public static readonly string OBJECT_NAME = "Scene: Score";
         public static readonly SceneIndex BUILD_ID = SceneIndex.Score;
         
-        /*
+        
         [Header("Pages")]
         [SerializeField] private PageLoading pageLoading;
-        [SerializeField] private PageScore pageScore;
+        //[SerializeField] private PageScore pageScore;
 
         
+        protected override void OnAwake()
+        {
+            var sceneController = new SceneControllerDefault();
+            var parametrs = new SceneInitializationParams(sceneController);
+            
+            Initialize(parametrs);
+
+        }
+        
+        protected override void OnStart()
+        {
+
+        }
+        
+        
+        
+        /*
         public override void Init()
         {
             SetParams(OBJECT_NAME);

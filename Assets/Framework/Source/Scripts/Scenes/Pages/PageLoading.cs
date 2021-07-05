@@ -18,9 +18,9 @@ namespace Source.Scene.Page
             dataAnimation.TargetState = ANIMATOR_STATE_NONE;
             dataAnimation.Animator = GetComponent<Animator>();
 
-            var pageParams = new PageInitializationParams(dataAnimation);
+            var parametrs = new PageInitializationParams(dataAnimation);
             
-            Initialize(pageParams);
+            Initialize(parametrs);
 
         }
         

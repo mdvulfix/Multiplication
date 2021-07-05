@@ -2925,9 +2925,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8bb9ec8984b4f946b304f248cfa8aed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pageLoading: {fileID: 0}
-  pageLogin: {fileID: 0}
-  pageMenu: {fileID: 0}
+  pageLoading: {fileID: 1703343079}
+  pageLogin: {fileID: 2121804668}
+  pageMenu: {fileID: 1621456041}
 --- !u!1 &1621456037
 GameObject:
   m_ObjectHideFlags: 0

@@ -46,7 +46,7 @@ namespace Core.State
             m_StateController = parametrs.StateController;
             m_SceneController = parametrs.SceneController;
 
-            Debug.Log("State was initialized!");
+            //Debug.Log("State was initialized!");
 
         }
         

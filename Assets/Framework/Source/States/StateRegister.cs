@@ -15,7 +15,7 @@ namespace Source.State
         public override void Execute()
         {
             
-            //m_SceneController.SceneEnter<SceneMenu>();
+            m_SceneController.SceneEnter<SceneMenu>();
             OnExecuted(this);
         
         }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Core.Scene;
+using Source.Scene.Page;
 
 namespace Source.Scene
 {
@@ -8,14 +9,33 @@ namespace Source.Scene
         public static readonly string OBJECT_NAME = "Scene: RunTime";
         public static readonly SceneIndex BUILD_ID = SceneIndex.RunTime;
         
-        /*
+
         [Header("Pages")]
         [SerializeField] private PageLoading pageLoading;
-        [SerializeField] private PageRunTime pageRunTime;
-        [SerializeField] private PagePause pagePause;
+        //[SerializeField] private PageRunTime pageRunTime;
+        //[SerializeField] private PagePause pagePause;
         
         
-        public override void Initialize()
+        protected override void OnAwake()
+        {
+            var sceneController = new SceneControllerDefault();
+            var parametrs = new SceneInitializationParams(sceneController);
+            
+            Initialize(parametrs);
+
+        }
+        
+        protected override void OnStart()
+        {
+
+        }
+        
+        
+        
+        
+        
+        /*
+        public override void Init()
         {
             SetParams(OBJECT_NAME);
             

@@ -15,22 +15,16 @@ namespace Source
         
         protected override void OnAwake()
         {
-            var sceneIndexes = new Dictionary<Type, SceneIndex>(4);
-            sceneIndexes.Add(typeof(SceneCore), SceneIndex.Core);
-            sceneIndexes.Add(typeof(SceneMenu), SceneIndex.Menu);
-            sceneIndexes.Add(typeof(SceneRunTime), SceneIndex.RunTime);
-            sceneIndexes.Add(typeof(SceneScore), SceneIndex.Score);
 
-            var sceneControllerParams = new SceneControllerInitializationParams(sceneIndexes);
-            var sceneController = new SceneControllerDefault(sceneControllerParams);
+            var sceneController = new SceneControllerDefault();
             
-            var stateControllerParams = new StateControllerInitializationParams(this, sceneController);
-            var stateController = new StateControllerDefault(stateControllerParams);
+            var stateControllerParametrs = new StateControllerInitializationParams(this, sceneController);
+            var stateController = new StateControllerDefault(stateControllerParametrs);
 
 
-            var sessionParams = new SessionInitializationParams(stateController, sceneController);
+            var sessionParametrs = new SessionInitializationParams(stateController, sceneController);
             
-            Initialize(sessionParams);
+            Initialize(sessionParametrs);
             
             SetState<StateInitialize>();
 
@@ -40,7 +34,7 @@ namespace Source
 
         protected override void OnStart()
         {
-            Load();
+            //Load();
         }
 
     }

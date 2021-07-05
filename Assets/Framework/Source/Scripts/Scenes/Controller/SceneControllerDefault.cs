@@ -9,6 +9,21 @@ namespace Source.Scene
 {
     public class SceneControllerDefault: ASceneController
     {  
+        
+        public SceneControllerDefault()
+        {
+            var sceneIndexes = new Dictionary<Type, SceneIndex>(4);
+            sceneIndexes.Add(typeof(SceneCore), SceneIndex.Core);
+            sceneIndexes.Add(typeof(SceneMenu), SceneIndex.Menu);
+            sceneIndexes.Add(typeof(SceneRunTime), SceneIndex.RunTime);
+            sceneIndexes.Add(typeof(SceneScore), SceneIndex.Score);
+
+            var parametrs = new SceneControllerInitializationParams(sceneIndexes);
+            
+            Initialize(parametrs);
+        }
+        
+        
         public SceneControllerDefault(ISceneControllerInitializationParams parametrs)
         {
             Initialize(parametrs);

@@ -52,7 +52,6 @@ namespace Core
         private void Start()
         {
             OnStart();
-            Load();
         }
 
         protected virtual void OnAwake()

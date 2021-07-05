@@ -290,6 +290,15 @@ namespace Core.Scene
 
 #endregion
     */
+    
+    
+        public void Activate(IPage page, bool activate)
+        {
+            page.Activate(activate);
+        }
+    
+    
+    
     }
     
     public class SceneEventArgs: EventArgs, IEventArgs<IScene>

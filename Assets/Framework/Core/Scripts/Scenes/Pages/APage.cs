@@ -9,7 +9,7 @@ namespace Core.Scene.Page
     {   
         //IDataAnimation  Animation   {get; set;}
         
-        //IPage Activate(bool active);
+        void Activate(bool active);
     }
 
 
@@ -38,6 +38,7 @@ namespace Core.Scene.Page
 
         private void Start()
         {
+
             OnStart();
         }
 
@@ -62,31 +63,17 @@ namespace Core.Scene.Page
 
         }
 
-        public IPage Activate(bool activate)
+
+        public void Activate(bool active)
         {
+            SetActvie(active);
             
             if(m_DataAnimation.UseAnimation)
-            {
-                if(activate)
-                {
-                    
-                    SetActvie(true);
-                    Log(Label, " was activated.");
-                    Animate(true);
-                }
-                else
-                {
-                    Animate(false);
-                }
-            }
+                Animate(true);
             else
-            {
-                Log(Label, "Animation is disabled on page [ " + Label + " ]");
-                SetActvie(activate);
-            }
-                
-            return this;
+                Animate(false);
         }
+
 
         private void Animate (bool animate)
         {
@@ -138,7 +125,7 @@ namespace Core.Scene.Page
             Log(Label, "Target state is ["  + m_DataAnimation.TargetState + "].");
             Log(Label, "was finised transition to " + (animate ? "On" : "Off") + " animation state!"); 
     
-    
+
             if(!animate)
             {
                 SetActvie(false);

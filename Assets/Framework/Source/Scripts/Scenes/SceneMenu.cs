@@ -19,19 +19,10 @@ namespace Source.Scene
 
         protected override void OnAwake()
         {
-            var sceneIndexes = new Dictionary<Type, SceneIndex>(4);
-            sceneIndexes.Add(typeof(SceneCore), SceneIndex.Core);
-            sceneIndexes.Add(typeof(SceneMenu), SceneIndex.Menu);
-            sceneIndexes.Add(typeof(SceneRunTime), SceneIndex.RunTime);
-            sceneIndexes.Add(typeof(SceneScore), SceneIndex.Score);
-
-            var sceneControllerParams = new SceneControllerInitializationParams(sceneIndexes);
-            var sceneController = new SceneControllerDefault(sceneControllerParams);
+            var sceneController = new SceneControllerDefault();
+            var parametrs = new SceneInitializationParams(sceneController);
             
-
-            var sceneParams = new SceneInitializationParams(sceneController);
-            
-            Initialize(sceneParams);
+            Initialize(parametrs);
 
         }
         
