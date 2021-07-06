@@ -13,6 +13,10 @@ namespace Source.State
     
     public class StateInitialize: AState, IStateInitialize
     {
+        public StateInitialize(IStateInitializationParams parametrs)
+        {
+            Initialize(parametrs);
+        }
 
         public override void Execute()
         {

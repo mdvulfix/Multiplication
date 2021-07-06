@@ -11,18 +11,36 @@ namespace Source
     [Serializable]
     public class SessionDefault : ASession
     {
-        
-        
         protected override void OnAwake()
         {
-
             var sceneController = new SceneControllerDefault();
+            var stateFactory = new StateFactoryDefault();
             
-            var stateControllerParametrs = new StateControllerInitializationParams(this, sceneController);
-            var stateController = new StateControllerDefault(stateControllerParametrs);
+            var stateInitializationParams = 
+                new StateInitializationParams(
+                    this, 
+                    sceneController
+                );
+
+            var stateControllerParametrs = 
+                new StateControllerInitializationParams(
+                    this, 
+                    sceneController, 
+                    stateFactory, 
+                    stateInitializationParams
+                );
+
+            var stateController = 
+                new StateControllerDefault(
+                    stateControllerParametrs
+                );
 
 
-            var sessionParametrs = new SessionInitializationParams(stateController, sceneController);
+            var sessionParametrs = 
+                new SessionInitializationParams(
+                    stateController, 
+                    sceneController
+                );
             
             Initialize(sessionParametrs);
             

@@ -20,7 +20,7 @@ namespace Core
 
 
         void SetState<TState>()
-            where TState : class, IState, new();
+            where TState : IState;
     }
 
     public abstract class ASession : ASceneObject, ISession
@@ -84,10 +84,6 @@ namespace Core
             OnDispose();
         }
 
-        protected virtual void OnInitialize()
-        {
-
-        }
 
         protected virtual void OnDispose()
         { 
@@ -126,7 +122,7 @@ namespace Core
         }
 
         public void SetState<TState>() 
-            where TState: class, IState, new()
+            where TState: IState
         {
             m_State = m_StateController.State<TState>();
             m_State.Execute();
@@ -138,7 +134,7 @@ namespace Core
 
 
         private bool SceneCheckState<TState>(IScene scene)
-            where TState: class, IState
+            where TState: IState
         {
             //if(scene.State is TState)
             //    return true;

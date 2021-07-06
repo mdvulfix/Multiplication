@@ -18,14 +18,6 @@ namespace Source.State
             State<StateWin>();
             State<StateDie>();
 
-            var stateParams = new StateInitializationParams(m_Session, this, m_SceneController);
-
-            foreach (var state in Cache.GetAll())
-            {
-                state.Initialize(stateParams);
-            }
-        
-        
         }
 
     }
@@ -34,11 +26,18 @@ namespace Source.State
     { 
         public ISession Session { get; private set; }
         public ISceneController SceneController { get; private set; }
+        public IStateFactory StateFactory { get; private set; }
+        public IStateInitializationParams StateInitializationParams { get; private set; }
 
-        public StateControllerInitializationParams(ISession session, ISceneController sceneController)
+        public StateControllerInitializationParams( ISession session, 
+                                                    ISceneController sceneController,
+                                                    IStateFactory stateFactory,
+                                                    IStateInitializationParams stateInitializationParams)
         {
             Session = session;
             SceneController = sceneController;
+            StateFactory = stateFactory;
+            StateInitializationParams = stateInitializationParams;
         }
 
     }
@@ -46,14 +45,12 @@ namespace Source.State
     public struct StateInitializationParams: IStateInitializationParams
     { 
         public ISession Session { get; private set; }     
-        public IStateController StateController { get; private set; }
         public ISceneController SceneController { get; private set; }
         
 
-        public StateInitializationParams(ISession session, IStateController stateController, ISceneController sceneController)
+        public StateInitializationParams(ISession session, ISceneController sceneController)
         {
             Session = session;
-            StateController = stateController;
             SceneController = sceneController;
         }
 

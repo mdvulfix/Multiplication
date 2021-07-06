@@ -9,8 +9,6 @@ namespace Core.State
     {
         event Action<IStateEventArgs> StateExecuted;
                 
-        void Initialize(params object[] args);
-        
         void Execute();
         
         void Load();
@@ -33,17 +31,10 @@ namespace Core.State
         protected IStateController m_StateController;
         protected ISceneController m_SceneController;
 
-        public AState()
-        { 
-
-        }
-
-
-        public virtual void Initialize(params object[] args)
+        protected virtual void Initialize(params object[] args)
         {
             var parametrs = (IStateInitializationParams)args[PARAMS_INITIALIZATION];
             m_Session = parametrs.Session;
-            m_StateController = parametrs.StateController;
             m_SceneController = parametrs.SceneController;
 
             //Debug.Log("State was initialized!");
@@ -91,7 +82,6 @@ namespace Core.State
     public interface IStateInitializationParams
     { 
         ISession Session { get; }
-        IStateController StateController { get; }
         ISceneController SceneController { get; }
         
     }

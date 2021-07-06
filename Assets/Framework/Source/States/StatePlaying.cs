@@ -13,6 +13,10 @@ namespace Source.State
     
     public class StatePlaying : AState, IStatePlaying
     {
+        public StatePlaying(IStateInitializationParams parametrs)
+        {
+            Initialize(parametrs);
+        }
 
         public override void Execute()
         {

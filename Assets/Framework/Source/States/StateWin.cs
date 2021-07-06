@@ -12,8 +12,11 @@ namespace Source.State
     
     public class StateWin : AState, IStateWin
     {
+        public StateWin(IStateInitializationParams parametrs)
+        {
+            Initialize(parametrs);
+        }
 
-    
         public override void Execute()
         {
             

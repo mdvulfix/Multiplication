@@ -11,8 +11,11 @@ namespace Source.State
 
     public class StateDie : AState, IStateDie
     {
+        public StateDie(IStateInitializationParams parametrs)
+        {
+            Initialize(parametrs);
+        }
 
-    
         public override void Execute()
         {
             

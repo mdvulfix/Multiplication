@@ -12,6 +12,11 @@ namespace Source.State
     
     public class StateRegister : AState, IStateRegister
     {
+        public StateRegister(IStateInitializationParams parametrs)
+        {
+            Initialize(parametrs);
+        }
+
         public override void Execute()
         {
             
